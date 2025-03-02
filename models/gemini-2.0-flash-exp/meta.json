@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gemini-2.0-flash-exp",
+  "name": "Gemini 2.0 Flash Exp",
+  "creator": ["GOOGLE"],
+  "published": "2024-11-11",
+  "states": {
+    "2024-11-11": ["EXPERIMENTAL"]
+  },
+  "lmarena_id": "gemini-2.0-flash-exp",
+  "cutoff_date": {
+    "value": "2024-06",
+    "sources": [
+      "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison"
+    ]
+  },
+  "tokens_limit": {
+    "input": 1048576,
+    "output": 8192
+  }
+}

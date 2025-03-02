@@ -1,0 +1,15 @@
+{
+  "tasks": {
+    "create:model": "deno run -R=./ -W=./ scripts/create-model.ts",
+    "create:provided": "deno run -R=./ -W=./ scripts/create-provided.ts",
+    "sync:lmarena": "deno run -R=./ -W=./ -N=raw.githubusercontent.com scripts/lmarena-sync.ts"
+  },
+  "imports": {
+    "@std/fs": "jsr:@std/fs@^1.0.13",
+    "@std/path": "jsr:@std/path@^1.0.8"
+  },
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true
+  }
+}

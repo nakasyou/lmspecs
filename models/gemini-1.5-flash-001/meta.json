@@ -1,0 +1,24 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gemini-1.5-flash-001",
+  "name": "Gemini 1.5 Flash 001",
+  "creator": ["GOOGLE"],
+  "published": "2024-05-24",
+  "states": {
+    "2024-05-24": ["STABLE"]
+  },
+  "lmarena_id": "gemini-1.5-flash-001",
+  "cutoff_date": {
+    "value": "2024-05",
+    "sources": [
+      "https://firebase.google.com/docs/vertex-ai/models?hl=ja#specs-and-limitations-comparison"
+    ]
+  },
+  "tokens_limit": {
+    "input": 1048576,
+    "output": 8192,
+    "sources": [
+      "https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gemini-2.0-flash-thinking-exp-01-21",
+  "name": "Gemini 2.0 Flash Thinking Exp 0121",
+  "creator": ["GOOGLE"],
+  "published": "2025-01-21",
+  "states": {
+    "2025-01-21": [
+      "EXPERIMENTAL"
+    ]
+  },
+  "lmarena_id": "gemini-2.0-flash-thinking-exp-01-21",
+  "cutoff_date": {
+    "value": "2024-06"
+  },
+  "tokens_limit": {
+    "input": 1000000,
+    "output": 64000
+  },
+  "prev": "gemini-2.0-flash-thinking-exp-1219"
+}

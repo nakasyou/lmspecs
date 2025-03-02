@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "grok-3",
+  "name": "Grok 3",
+  "creator": ["xAI"],
+  "published": "2025-02-17",
+  "states": {
+    "2025-02-17": ["EXPERIMENTAL"]
+  },
+  "lmarena_id": "early-grok-3",
+  "cutoff_date": {
+    "value": "2024-10-31",
+    "sources": ["https://www.reddit.com/r/grok/comments/1iubkvu/grok_3s_actual_knowledge_cutoff_date_is_october/"]
+  },
+  "tokens_limit": {}
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../schema/meta-provided.json",
+  "model_id": "deepseek-r1",
+  "provider": "DeepSeek",
+  "provided_at": "2025-01-20",
+  "tokens_limit": {
+    "output": 64000
+  }
+}
