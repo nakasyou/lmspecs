@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-2.0-flash-001",
   "name": "Gemini 2.0 Flash 001",
-  "creator": ["GOOGLE"],
+  "creator": ["Google"],
   "lmarena_id": "gemini-2.0-flash-001",
   "cutoff_date": {
     "value": "2024-06",

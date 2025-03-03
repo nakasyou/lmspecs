@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-2.0-flash-lite-001",
   "name": "Gemini 2.0 Flash Lite 001",
-  "creator": ["GOOGLE"],
+  "creator": ["Google"],
   "published": "2025-02-25",
   "states": {
     "2024-02-25": ["STABLE"]

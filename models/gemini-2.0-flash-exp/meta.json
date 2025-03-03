@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-2.0-flash-exp",
   "name": "Gemini 2.0 Flash Exp",
-  "creator": ["GOOGLE"],
+  "creator": ["Google"],
   "published": "2024-11-11",
   "states": {
     "2024-11-11": ["EXPERIMENTAL"]

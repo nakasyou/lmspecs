@@ -10,7 +10,9 @@
   "lmarena_id": "early-grok-3",
   "cutoff_date": {
     "value": "2024-10-31",
-    "sources": ["https://www.reddit.com/r/grok/comments/1iubkvu/grok_3s_actual_knowledge_cutoff_date_is_october/"]
+    "sources": [
+      "https://www.reddit.com/r/grok/comments/1iubkvu/grok_3s_actual_knowledge_cutoff_date_is_october/"
+    ]
   },
   "tokens_limit": {}
 }

@@ -18,8 +18,8 @@
     "tokens_limit": {
       "type": "object",
       "properties": {
-        "output": {"type": "number"},
-        "sources": {"type": "array", "items": {"type": "string"}}
+        "output": { "type": "number" },
+        "sources": { "type": "array", "items": { "type": "string" } }
       }
     }
   },
