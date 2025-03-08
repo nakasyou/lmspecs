@@ -114,7 +114,31 @@ export default function ValueSelect(props: {
                     'text_spanish': 'text: Spanish',
                     'text_russian': 'text: Russian',
                     'text_japanese': 'text: Japanese',
-                    'text_korean': 'text: Korean'
+                    'text_korean': 'text: Korean',
+                    "vision_creative_writing": 'vision: Creative Writing',
+                    "vision_creative_writing_style_control": 'vision: Creative Writing (style controlled)',
+                    "vision_overall_style_control": 'vision: Overall (style controlled)',
+                    "vision_overall": 'vision: Overall',
+                    "vision_coding": 'vision: Coding',
+                    "vision_coding_style_control": 'vision: Coding (style controlled)',
+                    "vision_if": 'vision: If',
+                    "vision_math": 'vision: Math',
+                    "vision_hard_6_style_control": 'vision: Hard (style controlled)',
+                    "vision_hard_6": 'vision: Hard',
+                    "vision_hard_english_6": 'vision: Hard English',
+                    "vision_english": 'vision: English',
+                    "vision_chinese": 'vision: Chinese',
+                    "vision_multiturn": 'vision: Multiturn',
+                    "vision_long_user": 'vision: Long User',
+                    "vision_german": 'vision: German',
+                    "vision_french": 'vision: French',
+                    "vision_spanish": 'vision: Spanish',
+                    "vision_russian": 'vision: Russian',
+                    "vision_japanese": 'vision: Japanese',
+                    "vision_korean": 'vision: Korean',
+                    "vision_no_tie": 'vision: No Tie',
+                    "vision_no_short": 'vision: No Short',
+                    "vision_no_refusal": 'vision: No Refusal'
                   }} value={getLMArenaType()} onChange={setLMArenaType} class='w-80 h-40' selectClass='h-50 overflow-y-auto' />
                 </div>
               </Match>

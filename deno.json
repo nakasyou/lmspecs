@@ -31,5 +31,8 @@
       "deno.window",
       "dom"
     ]
-  }
+  },
+  "unstable": [
+    "detect-cjs"
+  ]
 }
