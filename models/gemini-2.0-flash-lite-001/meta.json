@@ -7,6 +7,9 @@
   "states": {
     "2024-02-25": ["STABLE"]
   },
+  "mmlu_pro_ids": [
+    "Gemini-2.0-Flash-Lite"
+  ],
   "cutoff_date": {
     "value": "2024-06",
     "sources": [

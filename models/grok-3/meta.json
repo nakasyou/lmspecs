@@ -7,6 +7,9 @@
   "states": {
     "2025-02-17": ["EXPERIMENTAL"]
   },
+  "mmlu_pro_ids": [
+    "Grok3-Beta"
+  ],
   "lmarena_id": "early-grok-3",
   "cutoff_date": {
     "value": "2024-10-31",

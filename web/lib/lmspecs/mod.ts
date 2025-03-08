@@ -6,7 +6,9 @@ export interface Model {
 
 const MODEL_META_IMPORTS = import.meta.glob('../../../models/*/meta.json')
 
-const MODEL_LMARENA_IMPORTS = import.meta.glob('../../../models/*/score-lmarena.json')
+const MODEL_LMARENA_IMPORTS = import.meta.glob(
+  '../../../models/*/score-lmarena.json',
+)
 
 export const getLMs = async (): Promise<Record<string, Model>> => {
   const models = Object.fromEntries(((await Promise.all(
@@ -27,7 +29,44 @@ export const getLMArenaScores = async (targetModelIds: string[]) => {
   for (const modelId of targetModelIds) {
     const path = `../../../models/${modelId}/score-lmarena.json`
     if (path in MODEL_LMARENA_IMPORTS) {
-      promises.push(MODEL_LMARENA_IMPORTS[path]().then(m => [modelId, (m as {default:LMArenaScore}).default as LMArenaScore]))
+      promises.push(
+        MODEL_LMARENA_IMPORTS[path]().then(
+          (m) => [
+            modelId,
+            (m as { default: LMArenaScore }).default as LMArenaScore,
+          ]
+        ),
+      )
+    } else {
+      promises.push(Promise.resolve([modelId, null]))
+    }
+  }
+  return Object.fromEntries(await Promise.all(promises))
+}
+
+const MODEL_MMLUPRO_IMPORTS = import.meta.glob(
+  '../../../models/*/score-mmlu-pro.json',
+)
+export interface MMLUProScores {
+  scores: {
+    [date: string]: {
+      [title: string]: number
+    }
+  }
+}
+export const getMMLUProScores = async (targetModelIds: string[]) => {
+  const promises: Promise<[string, MMLUProScores | null]>[] = []
+  for (const modelId of targetModelIds) {
+    const path = `../../../models/${modelId}/score-mmlu-pro.json`
+    if (path in MODEL_MMLUPRO_IMPORTS) {
+      promises.push(
+        MODEL_MMLUPRO_IMPORTS[path]().then(
+          (m) => [
+            modelId,
+            (m as { default: MMLUProScores }).default as LMArenaScore,
+          ]
+        ),
+      )
     } else {
       promises.push(Promise.resolve([modelId, null]))
     }

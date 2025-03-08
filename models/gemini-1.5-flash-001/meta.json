@@ -8,6 +8,9 @@
     "2024-05-24": ["STABLE"]
   },
   "lmarena_id": "gemini-1.5-flash-001",
+  "mmlu_pro_ids": [
+    "Gemini-1.5-Flash"
+  ],
   "cutoff_date": {
     "value": "2024-05",
     "sources": [

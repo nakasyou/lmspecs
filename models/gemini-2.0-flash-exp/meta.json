@@ -8,6 +8,9 @@
     "2024-11-11": ["EXPERIMENTAL"]
   },
   "lmarena_id": "gemini-2.0-flash-exp",
+  "mmlu_pro_ids": [
+    "Gemini-2.0-Flash-exp"
+  ],
   "cutoff_date": {
     "value": "2024-06",
     "sources": [

@@ -4,6 +4,7 @@
   "name": "Gemini 2.0 Flash 001",
   "creator": ["Google"],
   "lmarena_id": "gemini-2.0-flash-001",
+  "mmlu_pro_ids": ["Gemini-2.0-Flash"],
   "cutoff_date": {
     "value": "2024-06",
     "sources": [

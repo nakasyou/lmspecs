@@ -53,6 +53,12 @@
     "lmarena_id": {
       "type": "string"
     },
+    "mmlu_pro_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "cutoff_date": {
       "type": "object",
       "properties": {

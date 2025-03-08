@@ -8,7 +8,7 @@ import {
 } from '../../components/Dialog.tsx'
 import ModelSelect from './ModelSelect.tsx'
 import { createStore } from 'solid-js/store'
-import { getLMArenaScores, type Model } from '../../lib/lmspecs/mod.ts'
+import { getLMArenaScores, getMMLUProScores, type Model } from '../../lib/lmspecs/mod.ts'
 import ValueSelect, { ValueTypeData } from './ValueSelect.tsx'
 import { createEffect } from 'solid-js'
 import { createSignal } from 'solid-js'
@@ -90,6 +90,16 @@ export default function Hero() {
           const ids = selectedModels.map(m => m.id)
           getLMArenaScores(selectedModels.map(m => m.id)).then(scores => {
             chart!.data.labels = selectedModels.map(m => m.id)
+            chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
+            chart?.update()
+          })
+          break
+        }
+        case 'mmlu_pro': {
+          const ids = selectedModels.map(m => m.id)
+          getMMLUProScores(ids).then(scores => {
+            console.log(scores)
+            chart!.data.labels = ids
             chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
             chart?.update()
           })

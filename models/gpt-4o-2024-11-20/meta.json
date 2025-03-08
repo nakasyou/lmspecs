@@ -8,6 +8,9 @@
     "2024-11-20": ["STABLE"]
   },
   "lmarena_id": "chatgpt-4o-latest-20241120",
+  "mmlu_pro_ids": [
+    "GPT-4o (2024-11-20)"
+  ],
   "cutoff_date": {
     "value": "2023-10"
   },

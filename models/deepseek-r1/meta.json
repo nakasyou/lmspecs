@@ -8,6 +8,7 @@
     "2025-01-20": ["STABLE"]
   },
   "lmarena_id": "deepseek-r1",
+  "mmlu_pro_ids": ["DeepSeek-R1"],
   "cutoff_date": {
     "value": "2024-10"
   },
