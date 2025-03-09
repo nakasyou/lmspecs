@@ -16,6 +16,7 @@ export interface ValueType<T extends ValueTypeData[0] = ValueTypeData[0]> {
   image: JSX.Element
   description: string
   initData: () => GetValueFromKey<ValueTypeData, T>
+  formatData: (data: GetValueFromKey<ValueTypeData, T>) => string
 }
 
 const VALUE_TYPES: {
@@ -26,7 +27,8 @@ const VALUE_TYPES: {
     image: <img src={lmarena} alt='Chatbot Arena' />,
     description:
       'Chatbot Arena is a crowdsourced platform for benchmarking LLMs. It uses side-by-side comparisons and user votes to rank models fairly. With over 240,000 votes in 100 languages, it offers real-time, human-centric evaluations.',
-    initData: initLmarenaData
+    initData: initLmarenaData,
+    formatData: (data) => data
   },
   mmlu_pro: {
     title: 'MMLU Pro',
@@ -38,7 +40,8 @@ const VALUE_TYPES: {
     ),
     description:
       'MMLU Pro is an advanced benchmark for evaluating AI models, featuring challenging questions across 57 subjects, designed to test reasoning, knowledge, and problem-solving beyond standard datasets.',
-    initData: initMMLUProData
+    initData: initMMLUProData,
+    formatData: (data) => data
   },
 }
 
@@ -112,7 +115,8 @@ export default function ValueSelect(props: {
   return (
     <Dialog>
       <DialogOpener class='text-left text-uchu-purple-6 font-bold'>
-        {VALUE_TYPES[getType()[0]].title}
+        <div>{VALUE_TYPES[getType()[0]].title}</div>
+        <div class="text-sm text-uchu-purple-5">({VALUE_TYPES[getType()[0]].formatData(getType()[1] as never)})</div>
       </DialogOpener>
       <DialogContent>
         <div class='w-150 p-3'>
