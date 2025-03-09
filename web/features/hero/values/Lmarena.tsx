@@ -1,7 +1,7 @@
 import { createEffect } from 'solid-js'
 import { Select } from '../../../components/Select.tsx'
 
-const titles: Record<string, string> = {
+const titles = {
   'text_overall': 'text: Overall',
   'text_overall_style_control': 'text: Overall (style controlled)',
   'text_math': 'text: Math',
@@ -53,8 +53,10 @@ const titles: Record<string, string> = {
   'vision_no_refusal': 'vision: No Refusal',
 }
 
+export type Data = keyof typeof titles
+
 export function LMArena(props: {
-  value?: string
+  value?: Data
   onChange(id: keyof typeof titles): void
 }) {
   createEffect(() => {
@@ -72,3 +74,4 @@ export function LMArena(props: {
     />
   )
 }
+export const initData = (): Data => 'text_overall'

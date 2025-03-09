@@ -29,6 +29,7 @@ export function DialogOpener(
   setStore(
     'opener',
     <button
+      type="button"
       {...props}
       onClick={() => {
         store.open()
@@ -43,7 +44,7 @@ export function DialogCloseButton(
   props: JSX.ButtonHTMLAttributes<HTMLButtonElement>,
 ) {
   const [store] = useContext(context)!
-  return <button {...props} onClick={() => store.close()}></button>
+  return <button type="button" {...props} onClick={() => store.close()}></button>
 }
 
 export function Dialog(props: {

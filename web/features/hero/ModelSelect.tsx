@@ -51,7 +51,7 @@ export default function ModelSelect(props: {
         </div>
         <div class="grid grid-cols-2 gap-2">
           <Show when={getFilteredModels()}>{models => <For each={[...models()]}>{modelId => <div class="flex items-center gap-1">
-            <button onClick={() => {
+            <button type="button" onClick={() => {
               setSelectedModels((cur) => new Set([...cur, modelId]))
             }} class='i-tabler-circle-plus w-5 h-5' />
             <div>{getModels()![modelId].name}</div>
@@ -68,7 +68,7 @@ export default function ModelSelect(props: {
               <For each={[...models()]}>
                 {(model) => (
                   <div class='flex items-center gap-2'>
-                    <button onClick={() => {
+                    <button type='button' onClick={() => {
                       setSelectedModels((cur) => {
                         const newer = new Set([...cur])
                         newer.delete(model)

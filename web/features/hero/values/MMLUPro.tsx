@@ -1,7 +1,7 @@
 import { createEffect } from 'solid-js'
 import { Select } from '../../../components/Select.tsx'
 
-const titles: Record<string, string> = {
+const titles = {
   "overall": "Overall",
   "biology": "Biology",
   "business": "Business",
@@ -19,8 +19,10 @@ const titles: Record<string, string> = {
   "other": "Other"
 }
 
+export type Data = keyof typeof titles
+
 export function MMLUPro(props: {
-  value?: string
+  value?: Data
   onChange(id: keyof typeof titles): void
 }) {
   createEffect(() => {
@@ -38,3 +40,4 @@ export function MMLUPro(props: {
     />
   )
 }
+export const initData = (): Data => 'overall'

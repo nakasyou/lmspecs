@@ -7,18 +7,17 @@ import {
   DialogOpener,
 } from '../../components/Dialog.tsx'
 import ModelSelect from './ModelSelect.tsx'
-import { createStore } from 'solid-js/store'
 import { getLMArenaScores, getMMLUProScores, type Model } from '../../lib/lmspecs/mod.ts'
 import ValueSelect, { ValueTypeData } from './ValueSelect.tsx'
 import { createEffect } from 'solid-js'
 import { createSignal } from 'solid-js'
 
 const [getSelectedModels, setSelectedModels] = createSignal<Model[]>([])
-const [getYAxis, setYAxis] = createSignal<ValueTypeData>(['lmarena', 'text_overview'])
+const [getYAxis, setYAxis] = createSignal<ValueTypeData>(['lmarena', 'text_overall'])
 
 function Settings() {
   return (
-    <div class='w-30 p-2 flex flex-col gap-2'>
+    <div class='w-50 p-2 flex flex-col gap-2'>
       <div>
         <div class='font-bold'>Type</div>
         <Select
@@ -88,8 +87,8 @@ export default function Hero() {
       switch (yAxis[0]) {
         case 'lmarena': {
           const ids = selectedModels.map(m => m.id)
-          getLMArenaScores(selectedModels.map(m => m.id)).then(scores => {
-            chart!.data.labels = selectedModels.map(m => m.id)
+          getLMArenaScores(ids).then(scores => {
+            chart!.data.labels = ids
             chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
             chart?.update()
           })
