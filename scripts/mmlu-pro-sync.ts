@@ -64,7 +64,7 @@ if (await exists('tmp/mmlu-pro-cached.json')) {
     }
     modelMaps.set(meta.lmarena_id, entry.path)
   }
-  
+
   await Deno.writeTextFile(
     './tmp/mmlu-pro-cached.json', 
     JSON.stringify(data, null, 2)
@@ -82,7 +82,7 @@ for await (const entry of expandGlob('models/*/meta.json')) {
     }
   } = {}
 
-  for (const [date, models] of Object.entries(data)) {
+  for (const [date, models] of Object.entries(data).reverse()) {
     for (const id of meta.mmlu_pro_ids) {
       if (id in models) {
         scoreData[date] = models[id]

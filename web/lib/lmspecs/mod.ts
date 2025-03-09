@@ -24,7 +24,9 @@ export interface LMArenaScore {
     }
   }
 }
-export const getLMArenaScores = async (targetModelIds: string[]) => {
+export const getLMArenaScores = async (targetModelIds: string[]): Promise<{
+  [model: string]: LMArenaScore | null
+}> => {
   const promises: Promise<[string, LMArenaScore | null]>[] = []
   for (const modelId of targetModelIds) {
     const path = `../../../models/${modelId}/score-lmarena.json`

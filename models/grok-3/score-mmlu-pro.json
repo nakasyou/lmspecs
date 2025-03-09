@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/score.json",
   "scores": {
-    "2025-02-28": {
+    "2025-02-20": {
       "overall": 0.799,
       "biology": null,
       "business": null,
@@ -18,7 +18,7 @@
       "psychology": null,
       "other": null
     },
-    "2025-02-20": {
+    "2025-02-28": {
       "overall": 0.799,
       "biology": null,
       "business": null,

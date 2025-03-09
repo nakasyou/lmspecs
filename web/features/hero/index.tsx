@@ -14,6 +14,7 @@ import { createSignal } from 'solid-js'
 
 const [getSelectedModels, setSelectedModels] = createSignal<Model[]>([])
 const [getYAxis, setYAxis] = createSignal<ValueTypeData>(['lmarena', 'text_overall'])
+const [getChartType, setChartType] = createSignal<'bar' | 'date'>('date')
 
 function Settings() {
   return (
@@ -33,8 +34,9 @@ function Settings() {
               </div>
             ),
           }}
-          value='bar'
+          value={getChartType()}
           class='w-full'
+          onChange={(v) => setChartType(v)}
         />
       </div>
       <div>
@@ -61,16 +63,24 @@ function Settings() {
 export default function Hero() {
   let canvas!: HTMLCanvasElement
 
-  let chart: Chart | null = null
+  let chart: Chart<'bar' | 'line', ({
+    x: string
+    y: number
+  } | number | never)[]> | null = null
   onMount(() => {
     Chart.register(...registerables)
+  })
+
+  createEffect(() => {
+    const chartType = getChartType()
+    chart?.destroy()
     chart = new Chart(canvas, {
-      type: 'bar',
+      type: chartType === 'bar' ? 'bar' : 'line',
       data: {
         labels: [],
         datasets: [
           {
-            label: 'lmarena.ai (text_overall)',
+            label: 'Score',
             data: []
           }
         ]
@@ -83,27 +93,67 @@ export default function Hero() {
   createEffect(() => {
     const selectedModels = getSelectedModels()
     const yAxis = getYAxis()
-    if (chart) {
-      switch (yAxis[0]) {
-        case 'lmarena': {
-          const ids = selectedModels.map(m => m.id)
-          getLMArenaScores(ids).then(scores => {
-            chart!.data.labels = ids
-            chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
-            chart?.update()
-          })
-          break
+    const chartType = getChartType()
+
+    if (!chart) {
+      return
+    }
+    switch (chartType) {
+      case 'bar': {
+        switch (yAxis[0]) {
+          case 'lmarena': {
+            const ids = selectedModels.map(m => m.id)
+            getLMArenaScores(ids).then(scores => {
+              chart!.data.labels = ids
+              chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
+            })
+            break
+          }
+          case 'mmlu_pro': {
+            const ids = selectedModels.map(m => m.id)
+            getMMLUProScores(ids).then(scores => {
+              chart!.data.labels = ids
+              chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
+            })
+            break
+          }
         }
-        case 'mmlu_pro': {
-          const ids = selectedModels.map(m => m.id)
-          getMMLUProScores(ids).then(scores => {
-            console.log(scores)
-            chart!.data.labels = ids
-            chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
-            chart?.update()
-          })
-          break
+        chart?.update()
+        break
+      }
+      case 'date': {
+        switch (yAxis[0]) {
+          case 'lmarena':
+          case 'mmlu_pro': {
+            const ids = selectedModels.map(m => m.id)
+            ;(yAxis[0] === 'lmarena' ? getLMArenaScores : getMMLUProScores)(ids).then(scores => {
+              let labels: string[] = []
+              for (const modelId in scores) {
+                const dates = Object.keys(scores[modelId]?.scores ?? {})
+                if (labels.length < dates.length) {
+                  labels = dates
+                }
+              }
+              chart!.data.datasets = Object.entries(scores).map(([model, scores]) => {
+                return {
+                  label: model,
+                  data: scores ? Object.entries(scores.scores)
+                    .map(([date, score], i) => {
+                      return {
+                        x: date,
+                        y: score ? score[yAxis[1]] : 0
+                      }
+                    }) : []
+                }
+              })
+              chart!.data.labels = [...labels]
+              console.log(chart?.data.datasets)
+              chart?.update()
+            })
+            break
+          }
         }
+        break
       }
     }
   })
