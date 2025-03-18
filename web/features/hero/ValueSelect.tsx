@@ -19,7 +19,7 @@ export interface ValueType<T extends ValueTypeData[0] = ValueTypeData[0]> {
   formatData: (data: GetValueFromKey<ValueTypeData, T>) => string
 }
 
-const VALUE_TYPES: {
+export const VALUE_TYPES: {
   [key in ValueTypeData[0]]: ValueType<key>
 } = {
   lmarena: {

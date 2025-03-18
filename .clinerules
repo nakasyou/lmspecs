@@ -14,3 +14,8 @@
 - schema/: 以上の JSON の型を定義する JSON Schema。
 - scripts/: JSON の自動生成スクリプトなど。
 - web/: Solid.js で作られた Web ビューワー
+
+## 環境
+
+JavaScript ランタイム/パッケージマネージャーには、Deno を用いています。
+npm からインストールする場合、`deno add npm:<package>`のようにします。
