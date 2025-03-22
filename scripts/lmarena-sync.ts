@@ -47,7 +47,7 @@ for (const yyyymmdd in data) {
       modelData[model][convertYYYYMMDD(yyyymmdd)][`text_${title}`] = score
     }
   }
-  for (const [title, scores] of Object.entries(col.text)) {
+  for (const [title, scores] of Object.entries(col.vision ?? {})) {
     for (const [model, score] of Object.entries(scores)) {
       if (!modelMaps.has(model)) {
         continue
