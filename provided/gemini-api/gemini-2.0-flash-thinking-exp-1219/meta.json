@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schema/meta-provided.json",
   "model_id": "gemini-2.0-flash-thinking-exp-12-19",
-  "provider": "Gemini API",
+  "provider": "gemini_api",
   "provided_at": "2025-12-19"
 }

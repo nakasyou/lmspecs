@@ -1,5 +1,5 @@
 import { Chart, registerables } from 'chart.js'
-import { onMount, Show, Match, Switch } from 'solid-js'
+import { Match, onMount, Show, Switch } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
 import {
   Dialog,
@@ -7,19 +7,37 @@ import {
   DialogOpener,
 } from '../../components/Dialog.tsx'
 import ModelSelect from './ModelSelect.tsx'
-import { getLMArenaScores, getMMLUProScores, type Model } from '../../lib/lmspecs/mod.ts'
-import ValueSelect, { ValueTypeData, VALUE_TYPES, ValueType } from './ValueSelect.tsx'
+import {
+  getLMArenaScores,
+  getMMLUProScores,
+  type Model,
+} from '../../lib/lmspecs/mod.ts'
+import ValueSelect, {
+  VALUE_TYPES,
+  ValueType,
+  ValueTypeData,
+} from './ValueSelect.tsx'
 import { createEffect } from 'solid-js'
 import { createSignal } from 'solid-js'
 
 const [getSelectedModels, setSelectedModels] = createSignal<Model[]>([])
-const [getYAxis, setYAxis] = createSignal<ValueTypeData>(['lmarena', 'text_overall'])
-const [getXAxis, setXAxis] = createSignal<ValueTypeData>(['lmarena', 'text_overall'])
-const [getChartType, setChartType] = createSignal<'bar' | 'date' | 'scatter'>('date')
+const [getYAxis, setYAxis] = createSignal<ValueTypeData>([
+  'lmarena',
+  'text_overall',
+])
+const [getXAxis, setXAxis] = createSignal<ValueTypeData>([
+  'lmarena',
+  'text_overall',
+])
+const [getChartType, setChartType] = createSignal<'bar' | 'date' | 'scatter'>(
+  'date',
+)
 
-function getAxisLabel<T extends ValueTypeData[0]>(axis: [T, Parameters<ValueType<T>['formatData']>[0]]): string {
+function getAxisLabel(axis: ValueTypeData): string {
   const [type, value] = axis
-  return `${VALUE_TYPES[type].title} - ${VALUE_TYPES[type].formatData(value)}`
+  return `${VALUE_TYPES[type].title} - ${
+    VALUE_TYPES[type].formatParams(value as never)
+  }`
 }
 
 function Settings() {
@@ -54,13 +72,18 @@ function Settings() {
         <div class='font-bold'>Models</div>
         <Dialog>
           <DialogOpener>
-            <div class='text-uchu-purple-6 font-bold'>{getSelectedModels().length} Selected</div>
+            <div class='text-uchu-purple-6 font-bold'>
+              {getSelectedModels().length} Selected
+            </div>
           </DialogOpener>
           <DialogContent>
             <div class='font-bold text-xl'>Select Models</div>
-            <ModelSelect onChange={(v) => {
-              setSelectedModels(v)
-            }} />
+            <ModelSelect
+              onChange={(v) => {
+                setSelectedModels(v)
+              }}
+              mode='provided'
+            />
           </DialogContent>
         </Dialog>
       </div>
@@ -81,10 +104,16 @@ function Settings() {
 export default function Hero() {
   let canvas!: HTMLCanvasElement
 
-  let chart: Chart<'bar' | 'line' | 'scatter', ({
-    x: string | number
-    y: number
-  } | number | never)[]> | null = null
+  let chart:
+    | Chart<'bar' | 'line' | 'scatter', (
+      | {
+        x: string | number
+        y: number
+      }
+      | number
+      | never
+    )[]>
+    | null = null
 
   onMount(() => {
     Chart.register(...registerables)
@@ -99,9 +128,12 @@ export default function Hero() {
     chart = new Chart(canvas, {
       type: (() => {
         switch (chartType) {
-          case 'bar': return 'bar'
-          case 'scatter': return 'scatter'
-          default: return 'line'
+          case 'bar':
+            return 'bar'
+          case 'scatter':
+            return 'scatter'
+          default:
+            return 'line'
         }
       })(),
       data: {
@@ -109,9 +141,9 @@ export default function Hero() {
         datasets: [
           {
             label: 'Score',
-            data: []
-          }
-        ]
+            data: [],
+          },
+        ],
       },
       options: {
         scales: (() => {
@@ -123,21 +155,21 @@ export default function Hero() {
                   position: 'bottom',
                   title: {
                     display: true,
-                    text: getAxisLabel(xAxis)
-                  }
+                    text: getAxisLabel(xAxis),
+                  },
                 },
                 y: {
                   type: 'linear',
                   title: {
                     display: true,
-                    text: getAxisLabel(yAxis)
-                  }
-                }
+                    text: getAxisLabel(yAxis),
+                  },
+                },
               }
             default:
               return undefined
           }
-        })()
+        })(),
       },
     })
   })
@@ -154,75 +186,73 @@ export default function Hero() {
 
     switch (chartType) {
       case 'scatter': {
-        const ids = selectedModels.map(m => m.id)
+        const ids = selectedModels.map((m) => m.id)
         Promise.all([
-          xAxis[0] === 'lmarena' ? getLMArenaScores(ids) : getMMLUProScores(ids),
-          yAxis[0] === 'lmarena' ? getLMArenaScores(ids) : getMMLUProScores(ids)
+          VALUE_TYPES[xAxis[0]].getData(xAxis[1] as never, ids),
+          VALUE_TYPES[yAxis[0]].getData(yAxis[1] as never, ids),
         ]).then(([xScores, yScores]) => {
-          chart!.data.datasets = ids.map(id => ({
-            label: id,
-            data: [{
-              x: xScores[id]?.scores[Object.keys(xScores[id]?.scores || {}).at(-1) || '']?.[xAxis[1]] || 0,
-              y: yScores[id]?.scores[Object.keys(yScores[id]?.scores || {}).at(-1) || '']?.[yAxis[1]] || 0
-            }]
-          }))
+          chart!.data.datasets = ids.flatMap((id) => {
+            const x = xScores[id].at(-1)?.[1]
+            const y = yScores[id].at(-1)?.[1]
+            if (!x || !y) {
+              return []
+            }
+            return {
+              label: id,
+              data: [{
+                x,
+                y
+              }]
+            }
+          })
           chart?.update()
         })
         break
       }
       case 'bar': {
-        const ids = selectedModels.map(m => m.id)
-        switch (yAxis[0]) {
-          case 'lmarena': {
-            getLMArenaScores(ids).then(scores => {
-              chart!.data.labels = ids
-              chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
-              chart?.update()
-            })
-            break
-          }
-          case 'mmlu_pro': {
-            getMMLUProScores(ids).then(scores => {
-              chart!.data.labels = ids
-              chart!.data.datasets[0].data = Object.values(scores).map(score => score ? Object.values(score.scores).at(-1)![yAxis[1]] : 0)
-              chart?.update()
-            })
-            break
-          }
-        }
+        const ids = selectedModels.map((m) => m.id)
+        VALUE_TYPES[yAxis[0]].getData(yAxis[1] as never, ids)
+          .then((scores) => {
+            chart!.data.labels = ids
+            chart!.data.datasets[0].data = Object.values(scores).flatMap((
+              score,
+            ) => (score ? score.at(-1)?.[1] : 0) ?? 0)
+            chart?.update()
+          })
         break
       }
       case 'date': {
-        const ids = selectedModels.map(m => m.id)
-        switch (yAxis[0]) {
-          case 'lmarena':
-          case 'mmlu_pro': {
-            ;(yAxis[0] === 'lmarena' ? getLMArenaScores : getMMLUProScores)(ids).then(scores => {
-              let labels: string[] = []
-              for (const modelId in scores) {
-                const dates = Object.keys(scores[modelId]?.scores ?? {})
-                if (labels.length < dates.length) {
-                  labels = dates
-                }
+        const ids = selectedModels.map((m) => m.id)
+        VALUE_TYPES[yAxis[0]].getData(yAxis[1] as never, ids)
+          .then((scores) => {
+            let labels: string[] = []
+            for (const modelId in scores) {
+              const dates = scores[modelId]
+              if (labels.length < dates.length) {
+                labels = dates.map((d) => d[0])
               }
-              chart!.data.datasets = Object.entries(scores).map(([model, scores]) => {
+            }
+            chart!.data.datasets = Object.entries(scores).map(
+              ([model, scores]) => {
                 return {
                   label: model,
-                  data: scores ? Object.entries(scores.scores)
-                    .map(([date, score], i) => {
-                      return {
-                        x: date,
-                        y: score ? score[yAxis[1]] : 0
-                      }
-                    }) : []
+                  data: scores
+                    ? scores
+                      .flatMap(([date, score]) => {
+                        return score
+                          ? {
+                            x: date,
+                            y: score,
+                          }
+                          : []
+                      })
+                    : [],
                 }
-              })
-              chart!.data.labels = [...labels]
-              chart?.update()
-            })
-            break
-          }
-        }
+              },
+            )
+            chart!.data.labels = [...labels]
+            chart?.update()
+          })
         break
       }
     }

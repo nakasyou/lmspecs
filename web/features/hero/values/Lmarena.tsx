@@ -1,5 +1,7 @@
 import { createEffect } from 'solid-js'
 import { Select } from '../../../components/Select.tsx'
+import { ValueType } from '../ValueSelect.tsx'
+import lmarena from '../../../assets/brand-images/lmarena.jpg'
 
 const titles = {
   'text_overall': 'text: Overall',
@@ -53,10 +55,10 @@ const titles = {
   'vision_no_refusal': 'vision: No Refusal',
 }
 
-export type Data = keyof typeof titles
+export type LMArenaParams = keyof typeof titles
 
-export function LMArena(props: {
-  value?: Data
+function LMArena(props: {
+  value?: LMArenaParams
   onChange(id: keyof typeof titles): void
 }) {
   createEffect(() => {
@@ -74,4 +76,40 @@ export function LMArena(props: {
     />
   )
 }
-export const initData = (): Data => 'text_overall'
+
+const MODEL_LMARENA_IMPORTS = import.meta.glob(
+  '../../../../models/*/score-lmarena.json',
+)
+interface LMArenaScore {
+  scores: {
+    [date: string]: {
+      [title: string]: number
+    }
+  }
+}
+
+export default {
+  title: 'Chatbot Arena',
+  image: <img src={lmarena} alt='Chatbot Arena' />,
+  description:
+    'Chatbot Arena is a crowdsourced platform for benchmarking LLMs. It uses side-by-side comparisons and user votes to rank models fairly. With over 240,000 votes in 100 languages, it offers real-time, human-centric evaluations.',
+  initParams: () => 'text_overall',
+  formatParams: (params) => params,
+  Setting: LMArena,
+  getData: async (params, modelIds) => {
+    const promises: Promise<[modelId: string, [date: string, val: number | null][]]>[] = []
+    for (const modelId of modelIds) {
+      const path = `../../../../models/${modelId}/score-lmarena.json`
+      if (path in MODEL_LMARENA_IMPORTS) {
+        promises.push((async () => {
+          const imported = ((await MODEL_LMARENA_IMPORTS[path]()) as { default: LMArenaScore }).default
+          
+          return [modelId, Object.entries(imported.scores).map(([date, scores]) => [date, scores[params]])]
+        })())
+      } else {
+        promises.push(Promise.resolve([modelId, []]))
+      }
+    }
+    return Object.fromEntries(await Promise.all(promises))
+  }
+} satisfies ValueType<LMArenaParams>

@@ -4,7 +4,7 @@
   "properties": {
     "provider": {
       "type": "string",
-      "enum": ["Gemini API", "OpenAI", "DeepSeek", "Groq"]
+      "enum": ["gemini_api", "OpenAI", "DeepSeek", "Groq"]
     },
     "model_id": {
       "type": "string",

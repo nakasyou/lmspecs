@@ -52,6 +52,7 @@ for (const yyyymmdd in data) {
       if (!modelMaps.has(model)) {
         continue
       }
+      modelData[model][convertYYYYMMDD(yyyymmdd)] ??= {}
       modelData[model][convertYYYYMMDD(yyyymmdd)][`vision_${title}`] = score
     }
   }

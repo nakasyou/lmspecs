@@ -3,14 +3,35 @@ export interface Model {
   creator: string[]
   id: string
 }
+export interface Provided {
+  model_id: string
+  provider: string
+}
 
 const MODEL_META_IMPORTS = import.meta.glob('../../../models/*/meta.json')
+const PROVIDED_META_IMPORTS = import.meta.glob('../../../provided/*/*/meta.json')
 
 const MODEL_LMARENA_IMPORTS = import.meta.glob(
   '../../../models/*/score-lmarena.json',
 )
-
+export const getProvideds = async ()=> {
+  const models: {
+    [model: string]: {
+      [provider: string]: Provided
+    }
+  } = {}
+  await Promise.all(
+    Object.values(PROVIDED_META_IMPORTS)
+      .map(async (v) => {
+        const meta = await v() as Provided
+        models[meta.model_id] ??= {}
+        models[meta.model_id][meta.provider] = meta
+      }),
+  )
+  return models
+}
 export const getLMs = async (): Promise<Record<string, Model>> => {
+  getProvideds().then(console.log)
   const models = Object.fromEntries(((await Promise.all(
     Object.values(MODEL_META_IMPORTS)
       .map((v) => v()),

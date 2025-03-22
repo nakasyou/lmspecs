@@ -7,6 +7,8 @@ import { createEffect } from 'solid-js'
 
 export default function ModelSelect(props: {
   onChange: (models: Model[]) => void
+
+  mode: 'model' | 'provided'
 }) {
   const [getModels, setModels] = createSignal<Record<string, Model>>()
   const [getSelectedModels, setSelectedModels] = createSignal<Set<string>>(
@@ -58,27 +60,26 @@ export default function ModelSelect(props: {
           </div>}</For>}</Show>
         </div>
       </div>
-      <div>
+      <div class="h-full flex flex-col">
         <div class='font-bold'>
           Selected Models ({getSelectedModels().size})
         </div>
-        <div class="w-70">
+        <div class="w-70 grow overflow-y-auto">
           <Show when={getSelectedModels()}>
             {(models) => (
               <For each={[...models()]}>
                 {(model) => (
-                  <div class='flex items-center gap-2'>
-                    <button type='button' onClick={() => {
-                      setSelectedModels((cur) => {
-                        const newer = new Set([...cur])
-                        newer.delete(model)
-                        return newer
-                      })
-                    }} class='i-tabler-circle-minus w-5 h-5 flex-none' />
-                    <div class='flex justify-between items-center gap-2 grow'>
-                      <div>{getModels()![model].name}</div>
-                      <div class='text-sm text-uchu-gray-8'>
-                        {getModels()![model].creator.join('/')}
+                  <div>
+                    <div class='flex items-center gap-2'>
+                      <button type='button' onClick={() => {
+                        setSelectedModels((cur) => {
+                          const newer = new Set([...cur])
+                          newer.delete(model)
+                          return newer
+                        })
+                      }} class='i-tabler-circle-minus w-5 h-5 flex-none' />
+                      <div class='flex justify-between items-center gap-2 grow'>
+                        <div>{getModels()![model].name}</div>
                       </div>
                     </div>
                   </div>
