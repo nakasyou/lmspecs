@@ -1,5 +1,5 @@
 import { Chart, registerables } from 'chart.js'
-import 'chartjs-adapter-intl';
+import 'chartjs-adapter-intl'
 import { Match, onMount, Show, Switch } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
 import {
@@ -47,7 +47,31 @@ function getAxisLabel(axis: ValueTypeData): string {
   }`
 }
 
-function Settings() {
+function Toolbox(props: {
+  getChart: () => LMSpecsChart
+}) {
+  return (
+    <div>
+      <button
+        type='button'
+        class='p-1 rounded border w-8 h-8 border-uchu-gray-5 hover:bg-uchu-gray-1'
+        title='Download Chart as PNG'
+        onClick={() => {
+          const a = document.createElement('a')
+          a.download = 'chart.png'
+          a.href = props.getChart().toBase64Image('image/png')
+          a.click()
+          a.remove()
+        }}
+      >
+        <div class='w-4 h-4 i-tabler-download' />
+      </button>
+    </div>
+  )
+}
+function Settings(props: {
+  getChart: () => LMSpecsChart
+}) {
   const getShouldAskProvider = createMemo(() => {
     const xlabel = getXAxis()?.[0]
     const ylabel = getYAxis()?.[0]
@@ -63,83 +87,101 @@ function Settings() {
   })
 
   return (
-    <div class='w-full ms:w-50 p-2 flex flex-row gap-2 sm:flex-col justify-between sm:justify-start'>
+    <div class='w-full ms:w-50 p-2 flex flex-col h-full justify-between'>
       <div>
-        <div class='font-bold'>Type</div>
-        <Select
-          titles={{
-            bar: (
-              <div class='flex items-center gap-1'>
-                <div class='i-tabler-chart-bar w-4 h-4' />Bar
-              </div>
-            ),
-            date: (
-              <div class='flex items-center gap-1'>
-                <div class='i-tabler-chart-line w-4 h-4' />Date
-              </div>
-            ),
-            scatter: (
-              <div class='flex items-center gap-1'>
-                <div class='i-tabler-chart-dots w-4 h-4' />Scatter
-              </div>
-            ),
-          }}
-          value={getChartType()}
-          class='w-full'
-          onChange={(v) => setChartType(v)}
-        />
-      </div>
-      <div>
-        <div class='font-bold'>Models</div>
-        <Dialog>
-          <DialogOpener>
-            <div class='text-uchu-purple-6 font-bold'>
-              {getSelectedModelIds().length} Selected
+        <div>
+          <div class='font-bold'>Type</div>
+          <div class='flex justify-between'>
+            <div>
+              <Select
+                titles={{
+                  bar: (
+                    <div class='flex items-center gap-1'>
+                      <div class='i-tabler-chart-bar w-4 h-4' />Bar
+                    </div>
+                  ),
+                  date: (
+                    <div class='flex items-center gap-1'>
+                      <div class='i-tabler-chart-line w-4 h-4' />Date
+                    </div>
+                  ),
+                  scatter: (
+                    <div class='flex items-center gap-1'>
+                      <div class='i-tabler-chart-dots w-4 h-4' />Scatter
+                    </div>
+                  ),
+                }}
+                value={getChartType()}
+                class='w-full'
+                onChange={(v) => setChartType(v)}
+              />
             </div>
-          </DialogOpener>
-          <DialogContent>
-            <div class='font-bold text-xl'>Select Models</div>
-            <ModelSelect
-              onChange={(v) => {
-                setSelectedModelIds(v.map((m) => m.id))
-              }}
-              mode='provided'
-            />
-          </DialogContent>
-        </Dialog>
+
+            <div class='block sm:hidden'>
+              <Toolbox getChart={props.getChart} />
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row sm:flex-col w-full justify-between">
+          <div>
+            <div class='font-bold'>Models</div>
+            <Dialog>
+              <DialogOpener>
+                <div class='text-uchu-purple-6 font-bold'>
+                  {getSelectedModelIds().length} Selected
+                </div>
+              </DialogOpener>
+              <DialogContent>
+                <div class='font-bold text-xl'>Select Models</div>
+                <ModelSelect
+                  onChange={(v) => {
+                    setSelectedModelIds(v.map((m) => m.id))
+                  }}
+                  mode='provided'
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+          <Show when={getShouldAskProvider()}>
+            <div>
+              <div class='font-bold'>Provider</div>
+              <ProviderSelect
+                onChange={(v) => setSelectedProviderIds([...v])}
+              />
+            </div>
+          </Show>
+          <Show when={getChartType() === 'scatter'}>
+            <div>
+              <div class='font-bold'>X Axis</div>
+              <ValueSelect value={getXAxis()} onChange={setXAxis} />
+            </div>
+          </Show>
+          <div>
+            <div class='font-bold'>Y Axis</div>
+            <ValueSelect value={getYAxis()} onChange={setYAxis} />
+          </div>
+        </div>
       </div>
-      <Show when={getShouldAskProvider()}>
-        <div>
-          <div class='font-bold'>Provider</div>
-          <ProviderSelect onChange={(v) => setSelectedProviderIds([...v])} />
-        </div>
-      </Show>
-      <Show when={getChartType() === 'scatter'}>
-        <div>
-          <div class='font-bold'>X Axis</div>
-          <ValueSelect value={getXAxis()} onChange={setXAxis} />
-        </div>
-      </Show>
-      <div>
-        <div class='font-bold'>Y Axis</div>
-        <ValueSelect value={getYAxis()} onChange={setYAxis} />
+      <div class='hidden sm:block'>
+        <Toolbox getChart={props.getChart} />
       </div>
     </div>
   )
 }
+type LMSpecsChart = Chart<'bar' | 'line' | 'scatter', (
+  | {
+    x: string | number | Date
+    y: number
+  }
+  | number
+  | never
+)[]>
 
 export default function Hero() {
   let canvas!: HTMLCanvasElement
 
   let chart:
-    | Chart<'bar' | 'line' | 'scatter', (
-      | {
-        x: string | number | Date
-        y: number
-      }
-      | number
-      | never
-    )[]>
+    | LMSpecsChart
     | null = null
 
   onMount(() => {
@@ -199,8 +241,8 @@ export default function Hero() {
                   type: 'timeseries',
                 }*/
                 x: {
-                  type: 'time'
-                }
+                  type: 'time',
+                },
               }
             }
             default:
@@ -208,8 +250,21 @@ export default function Hero() {
           }
         })(),
         responsive: true,
-        maintainAspectRatio: false
-      }
+        maintainAspectRatio: false,
+      },
+      plugins: [
+        {
+          id: 'custom_canvas_background_color',
+          beforeDraw: (chart) => {
+            const ctx = chart.canvas.getContext('2d')!
+            ctx.save()
+            ctx.globalCompositeOperation = 'destination-over'
+            ctx.fillStyle = 'white'
+            ctx.fillRect(0, 0, chart.canvas.width, chart.canvas.height)
+            ctx.restore()
+          },
+        },
+      ],
     })
   })
 
@@ -327,11 +382,11 @@ export default function Hero() {
 
   return (
     <div class='h-dvh flex flex-col sm:flex-row'>
-      <div class='grow h-full overflow-hidden'>
+      <div class='grow h-full overflow-hidden p-1'>
         <canvas ref={canvas} />
       </div>
-      <div>
-        <Settings />
+      <div class='h-auto sm:h-full'>
+        <Settings getChart={() => chart!} />
       </div>
     </div>
   )
