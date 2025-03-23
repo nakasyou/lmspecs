@@ -1,4 +1,5 @@
 import { Chart, registerables } from 'chart.js'
+import 'chartjs-adapter-intl';
 import { Match, onMount, Show, Switch } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
 import {
@@ -133,7 +134,7 @@ export default function Hero() {
   let chart:
     | Chart<'bar' | 'line' | 'scatter', (
       | {
-        x: string | number
+        x: string | number | Date
         y: number
       }
       | number
@@ -192,6 +193,16 @@ export default function Hero() {
                   },
                 },
               }
+            case 'date': {
+              return {
+                /*x: {
+                  type: 'timeseries',
+                }*/
+                x: {
+                  type: 'time'
+                }
+              }
+            }
             default:
               return undefined
           }
@@ -289,6 +300,7 @@ export default function Hero() {
               ([model, scores]) => {
                 return {
                   label: model,
+                  stepped: 'before',
                   data: scores
                     ? scores
                       .flatMap(([date, score]) => {
@@ -303,6 +315,7 @@ export default function Hero() {
                 }
               },
             )
+            console.log(chart!.data.datasets)
             chart!.data.labels = [...labels]
             chart?.update()
           })

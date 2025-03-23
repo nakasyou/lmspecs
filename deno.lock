@@ -18,6 +18,9 @@
     "npm:@tailwindcss/vite@^4.0.9": "4.0.9_vite@6.2.0__lightningcss@1.29.1_lightningcss@1.29.1",
     "npm:@types/node@*": "22.5.4",
     "npm:chart.js@^4.4.8": "4.4.8",
+    "npm:chartjs-adapter-date-fns@3": "3.0.0_chart.js@4.4.8_date-fns@4.1.0",
+    "npm:chartjs-adapter-intl@0.1": "0.1.0_chart.js@4.4.8",
+    "npm:date-fns@^4.1.0": "4.1.0",
     "npm:fuse.js@^7.1.0": "7.1.0",
     "npm:solid-js@^1.9.5": "1.9.5_seroval@1.2.1",
     "npm:tailwindcss@^4.0.9": "4.0.9",
@@ -564,6 +567,19 @@
         "@kurkle/color"
       ]
     },
+    "chartjs-adapter-date-fns@3.0.0_chart.js@4.4.8_date-fns@4.1.0": {
+      "integrity": "sha512-Rs3iEB3Q5pJ973J93OBTpnP7qoGwvq3nUnoMdtxO+9aoJof7UFcRbWcIDteXuYd1fgAvct/32T9qaLyLuZVwCg==",
+      "dependencies": [
+        "chart.js",
+        "date-fns"
+      ]
+    },
+    "chartjs-adapter-intl@0.1.0_chart.js@4.4.8": {
+      "integrity": "sha512-oMXAAXcSPgpB1XYjmTMkm+xvql5YiDp9TtF2Vw+ud0oP89SUMR1znNBgFVSD4oJOR50yQgXe5NbwGayv42oyPQ==",
+      "dependencies": [
+        "chart.js"
+      ]
+    },
     "confbox@0.1.8": {
       "integrity": "sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w=="
     },
@@ -572,6 +588,9 @@
     },
     "csstype@3.1.3": {
       "integrity": "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="
+    },
+    "date-fns@4.1.0": {
+      "integrity": "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg=="
     },
     "debug@4.4.0": {
       "integrity": "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==",
@@ -936,6 +955,9 @@
       "npm:@iconify-json/tabler@^1.2.16",
       "npm:@tailwindcss/vite@^4.0.9",
       "npm:chart.js@^4.4.8",
+      "npm:chartjs-adapter-date-fns@3",
+      "npm:chartjs-adapter-intl@0.1",
+      "npm:date-fns@^4.1.0",
       "npm:fuse.js@^7.1.0",
       "npm:solid-js@^1.9.5",
       "npm:tailwindcss@^4.0.9",

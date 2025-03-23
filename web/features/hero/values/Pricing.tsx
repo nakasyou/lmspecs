@@ -108,27 +108,28 @@ export default {
             const imported =
               ((await MODEL_PRICING_IMPORTS[path]()) as { default: Pricing })
                 .default
-
+            let last = 0
+            const value: [string, number | null][] = Object.entries(imported.pricing).map((
+              [date, pricings],
+            ) => {
+              const inputCost = pricings.input ? calculateCost(pricings.input, {
+                inputTokens: params.inputTokens,
+              }).USD * params.inputTokens / 1000000 : 0
+              const cachedInputCost = pricings.cachedInput ? calculateCost(pricings.cachedInput, {
+                inputTokens: params.inputTokens,
+              }).USD * params.cachedInputTokens / 1000000 : 0
+              const outputCost = pricings.output ? calculateCost(pricings.output, {
+                inputTokens: params.inputTokens,
+              }).USD * params.outputTokens / 1000000 : 0
+              last = inputCost + cachedInputCost + outputCost
+              return [
+                date,
+                last
+              ]
+            })
             return [
               `${providerId}/${modelId}`,
-              Object.entries(imported.pricing).map((
-                [date, pricings],
-              ) => {
-                const inputCost = pricings.input ? calculateCost(pricings.input, {
-                  inputTokens: params.inputTokens,
-                }).USD * params.inputTokens / 1000000 : 0
-                const cachedInputCost = pricings.cachedInput ? calculateCost(pricings.cachedInput, {
-                  inputTokens: params.inputTokens,
-                }).USD * params.cachedInputTokens / 1000000 : 0
-                const outputCost = pricings.output ? calculateCost(pricings.output, {
-                  inputTokens: params.inputTokens,
-                }).USD * params.outputTokens / 1000000 : 0
-
-                return [
-                  date,
-                  inputCost + cachedInputCost + outputCost,
-                ]
-              }),
+              [...value, [new Date().toISOString().slice(0, 10), last]]
             ]
           })())
         }
