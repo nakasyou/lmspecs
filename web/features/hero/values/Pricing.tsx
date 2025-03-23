@@ -1,5 +1,4 @@
 import { createEffect } from 'solid-js'
-import { Select } from '../../../components/Select.tsx'
 import { ValueType } from '../ValueSelect.tsx'
 
 export type PricingParams = {
@@ -22,7 +21,49 @@ function Setting(props: {
     }
   })
   return (
-    <div>
+    <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <label>
+        <div class="font-bold">Input Tokens</div>
+        <input
+          type="number"
+          value={props.value?.inputTokens ?? 32}
+          onInput={(e) => {
+            props.onChange({
+              ...props.value!,
+              inputTokens: parseInt(e.target.value),
+            })
+          }}
+          class="border border-uchu-gray-5 p-1 rounded-full"
+        />
+      </label>
+      <label>
+        <div class="font-bold">Cached Input Tokens</div>
+        <input
+          type="number"
+          value={props.value?.cachedInputTokens ?? 0}
+          onInput={(e) => {
+        props.onChange({
+          ...props.value!,
+          cachedInputTokens: parseInt(e.target.value),
+        })
+          }}
+          class="border border-uchu-gray-5 p-1 rounded-full"
+        />
+      </label>
+      <label>
+        <div class="font-bold">Output Tokens</div>
+        <input
+          type="number"
+          value={props.value?.outputTokens ?? 32}
+          onInput={(e) => {
+        props.onChange({
+          ...props.value!,
+          outputTokens: parseInt(e.target.value),
+        })
+          }}
+          class="border border-uchu-gray-5 p-1 rounded-full"
+        />
+      </label>
     </div>
   )
 }

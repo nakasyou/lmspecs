@@ -122,7 +122,7 @@ export default function ValueSelect(props: {
         <div class="text-sm text-uchu-purple-5">({VALUE_TYPES[getType()[0]].formatParams(getType()[1] as never)})</div>
       </DialogOpener>
       <DialogContent>
-        <div class='w-150 p-3'>
+        <div class='p-3'>
           <div class='text-xl font-bold'>Axis Selector</div>
           <Show
             when={!getIsShownTypeChanger()}

@@ -63,7 +63,7 @@ function Settings() {
   })
 
   return (
-    <div class='w-50 p-2 flex flex-col gap-2'>
+    <div class='w-full ms:w-50 p-2 flex flex-row gap-2 sm:flex-col justify-between sm:justify-start'>
       <div>
         <div class='font-bold'>Type</div>
         <Select
@@ -207,7 +207,9 @@ export default function Hero() {
               return undefined
           }
         })(),
-      },
+        responsive: true,
+        maintainAspectRatio: false
+      }
     })
   })
 
@@ -315,7 +317,6 @@ export default function Hero() {
                 }
               },
             )
-            console.log(chart!.data.datasets)
             chart!.data.labels = [...labels]
             chart?.update()
           })
@@ -325,8 +326,8 @@ export default function Hero() {
   })
 
   return (
-    <div class='h-dvh flex'>
-      <div class='grow h-full'>
+    <div class='h-dvh flex flex-col sm:flex-row'>
+      <div class='grow h-full overflow-hidden'>
         <canvas ref={canvas} />
       </div>
       <div>

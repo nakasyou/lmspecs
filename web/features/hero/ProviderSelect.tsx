@@ -55,6 +55,11 @@ export default function ProviderSelect(props: {
   })
 
   createEffect(() => {
+    const providers = getProviders()
+    providers && setSelectedProviders(new Set(Object.keys(providers)))
+  })
+
+  createEffect(() => {
     props.onChange(getSelectedProviders())
   })
 
