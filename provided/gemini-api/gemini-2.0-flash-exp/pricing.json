@@ -1,7 +1,9 @@
 {
   "$schema": "../../../schema/pricing.json",
-  "2024-11-11": {
-    "input": [{ "cost": { "USD": 0 } }],
-    "output": [{ "cost": { "USD": 0 } }]
+  "pricing": {
+    "2024-11-11": {
+      "input": [{ "cost": { "USD": 0 } }],
+      "output": [{ "cost": { "USD": 0 } }]
+    }
   }
 }

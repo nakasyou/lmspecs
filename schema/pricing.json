@@ -1,28 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "patternProperties": {
-    "[0-9]{4}-[0-9]{2}-[0-9]{2}": {
-      "type": "object",
-      "properties": {
-        "input": {
-          "description": "Cost peer 1M input tokens",
-          "type": "array",
-          "items": { "$ref": "#/$defs/cost" }
+  "properties": {
+    "pricing": {
+      "patternProperties": {
+        "[0-9]{4}-[0-9]{2}-[0-9]{2}": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "description": "Cost peer 1M input tokens",
+              "type": "array",
+              "items": { "$ref": "#/$defs/cost" }
+            },
+            "output": {
+              "description": "Cost peer 1M output tokens",
+              "type": "array",
+              "items": { "$ref": "#/$defs/cost" }
+            },
+            "cachedInput": {
+              "description": "Cost peer 1M cached input tokens",
+              "type": "array",
+              "items": { "$ref": "#/$defs/cost" }
+            }
+          }
         },
-        "output": {
-          "description": "Cost peer 1M output tokens",
-          "type": "array",
-          "items": { "$ref": "#/$defs/cost" }
-        },
-        "cachedInput": {
-          "description": "Cost peer 1M cached input tokens",
-          "type": "array",
-          "items": { "$ref": "#/$defs/cost" }
+        "\\$schema": {
+          "type": "string"
         }
       }
     },
-    "\\$schema": {
+    "$schema": {
       "type": "string"
     }
   },

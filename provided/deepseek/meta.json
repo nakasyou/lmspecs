@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schema/meta-provider.json",
+
+  "id": "deepseek",
+  "name": "DeepSeek"
+}

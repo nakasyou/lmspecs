@@ -1,15 +1,14 @@
-import { createSignal, For, JSX, Match, Show, Switch } from 'solid-js'
+import { createSignal, For, JSX, Match, Show, Switch, createEffect, createMemo } from 'solid-js'
 import {
   Dialog,
   DialogContent,
   DialogOpener,
 } from '../../components/Dialog.tsx'
-import { createEffect } from 'solid-js'
+import { Dynamic } from 'solid-js/web'
 
 import lmarena, { LMArenaParams } from './values/Lmarena.tsx'
 import mmlu_pro, { MMLUProParams } from './values/MMLUPro.tsx'
-import { createMemo } from 'solid-js'
-import { Dynamic } from 'solid-js/web'
+import pricing, { PricingParams } from './values/Pricing.tsx'
 
 type GetValueFromKey<T extends [unknown, unknown], K> = T extends [K, infer V] ? V : never
 
@@ -32,7 +31,7 @@ export interface ValueType<Params> {
 
   Setting: SettingComponent<Params>
 
-  getData: (params: Params, modelIds: string[]) => Promise<{
+  getData: (params: Params, modelIds: string[], providerIds: string[]) => Promise<{
     [modelId: string]: [date: string, data: number | null][]
   }>
 }
@@ -41,10 +40,11 @@ export const VALUE_TYPES: {
   [K in ValueTypeData[0]]: ValueType<GetValueFromKey<ValueTypeData, K>>
 } = {
   lmarena,
-  mmlu_pro
+  mmlu_pro,
+  pricing,
 }
 
-export type ValueTypeData = ['lmarena', LMArenaParams] | ['mmlu_pro', MMLUProParams]
+export type ValueTypeData = ['lmarena', LMArenaParams] | ['mmlu_pro', MMLUProParams] | ['pricing', PricingParams]
 
 function TypeCard(props: {
   value: ValueType<unknown>

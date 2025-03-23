@@ -19,8 +19,14 @@ import ValueSelect, {
 } from './ValueSelect.tsx'
 import { createEffect } from 'solid-js'
 import { createSignal } from 'solid-js'
+import { createMemo } from 'solid-js'
+import ProviderSelect from './ProviderSelect.tsx'
 
-const [getSelectedModels, setSelectedModels] = createSignal<Model[]>([])
+const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>([])
+const [getSelectedProviderIds, setSelectedProviderIds] = createSignal<string[]>(
+  [],
+)
+
 const [getYAxis, setYAxis] = createSignal<ValueTypeData>([
   'lmarena',
   'text_overall',
@@ -41,6 +47,20 @@ function getAxisLabel(axis: ValueTypeData): string {
 }
 
 function Settings() {
+  const getShouldAskProvider = createMemo(() => {
+    const xlabel = getXAxis()?.[0]
+    const ylabel = getYAxis()?.[0]
+
+    if (xlabel && VALUE_TYPES[xlabel].isProvidedOnly) {
+      return true
+    }
+    if (ylabel && VALUE_TYPES[ylabel].isProvidedOnly) {
+      return true
+    }
+
+    return false
+  })
+
   return (
     <div class='w-50 p-2 flex flex-col gap-2'>
       <div>
@@ -73,20 +93,26 @@ function Settings() {
         <Dialog>
           <DialogOpener>
             <div class='text-uchu-purple-6 font-bold'>
-              {getSelectedModels().length} Selected
+              {getSelectedModelIds().length} Selected
             </div>
           </DialogOpener>
           <DialogContent>
             <div class='font-bold text-xl'>Select Models</div>
             <ModelSelect
               onChange={(v) => {
-                setSelectedModels(v)
+                setSelectedModelIds(v.map((m) => m.id))
               }}
               mode='provided'
             />
           </DialogContent>
         </Dialog>
       </div>
+      <Show when={getShouldAskProvider()}>
+        <div>
+          <div class='font-bold'>Provider</div>
+          <ProviderSelect onChange={(v) => setSelectedProviderIds([...v])} />
+        </div>
+      </Show>
       <Show when={getChartType() === 'scatter'}>
         <div>
           <div class='font-bold'>X Axis</div>
@@ -175,10 +201,11 @@ export default function Hero() {
   })
 
   createEffect(() => {
-    const selectedModels = getSelectedModels()
+    const selectedModels = getSelectedModelIds()
     const yAxis = getYAxis()
     const xAxis = getXAxis()
     const chartType = getChartType()
+    const selectedProviders = getSelectedProviderIds()
 
     if (!chart) {
       return
@@ -186,34 +213,57 @@ export default function Hero() {
 
     switch (chartType) {
       case 'scatter': {
-        const ids = selectedModels.map((m) => m.id)
         Promise.all([
-          VALUE_TYPES[xAxis[0]].getData(xAxis[1] as never, ids),
-          VALUE_TYPES[yAxis[0]].getData(yAxis[1] as never, ids),
+          VALUE_TYPES[xAxis[0]].getData(
+            xAxis[1] as never,
+            selectedModels,
+            selectedProviders,
+          ),
+          VALUE_TYPES[yAxis[0]].getData(
+            yAxis[1] as never,
+            selectedModels,
+            selectedProviders,
+          ),
         ]).then(([xScores, yScores]) => {
-          chart!.data.datasets = ids.flatMap((id) => {
-            const x = xScores[id].at(-1)?.[1]
-            const y = yScores[id].at(-1)?.[1]
-            if (!x || !y) {
-              return []
+          const result = []
+          for (const xId in xScores) {
+            for (const yId in yScores) {
+              if (
+                xId !== yId &&
+                !xId.endsWith('/' + yId) &&
+                !yId.endsWith('/' + xId)
+              ) {
+                continue
+              }
+              const x = xScores[xId].at(-1)?.[1]
+              const y = yScores[yId].at(-1)?.[1]
+              if (!x || !y) {
+                continue
+              }
+              result.push({
+                label: xId.includes('/') ? xId : yId,
+                data: [{
+                  x,
+                  y,
+                }],
+              })
             }
-            return {
-              label: id,
-              data: [{
-                x,
-                y
-              }]
-            }
-          })
+          }
+
+          chart!.data.datasets = result
           chart?.update()
         })
         break
       }
       case 'bar': {
-        const ids = selectedModels.map((m) => m.id)
-        VALUE_TYPES[yAxis[0]].getData(yAxis[1] as never, ids)
+        VALUE_TYPES[yAxis[0]].getData(
+          yAxis[1] as never,
+          selectedModels,
+          selectedProviders,
+        )
           .then((scores) => {
-            chart!.data.labels = ids
+            chart!.data.labels = Object.keys(scores)
+            chart!.data.datasets[0].label = getAxisLabel(yAxis)
             chart!.data.datasets[0].data = Object.values(scores).flatMap((
               score,
             ) => (score ? score.at(-1)?.[1] : 0) ?? 0)
@@ -222,8 +272,11 @@ export default function Hero() {
         break
       }
       case 'date': {
-        const ids = selectedModels.map((m) => m.id)
-        VALUE_TYPES[yAxis[0]].getData(yAxis[1] as never, ids)
+        VALUE_TYPES[yAxis[0]].getData(
+          yAxis[1] as never,
+          selectedModels,
+          selectedProviders,
+        )
           .then((scores) => {
             let labels: string[] = []
             for (const modelId in scores) {

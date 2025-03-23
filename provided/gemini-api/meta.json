@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schema/meta-provider.json",
+
+  "id": "gemini-api",
+  "name": "Gemini API"
+}
