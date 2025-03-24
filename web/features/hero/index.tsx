@@ -1,6 +1,14 @@
 import { Chart, registerables } from 'chart.js'
 import 'chartjs-adapter-intl'
-import { Match, onMount, Show, Switch, createEffect, createSignal, createMemo } from 'solid-js'
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  Match,
+  onMount,
+  Show,
+  Switch,
+} from 'solid-js'
 import { Select } from '../../components/Select.tsx'
 import {
   Dialog,
@@ -32,7 +40,7 @@ interface State {
   chartType: ChartType
 }
 
-async function encodeState (state: State) {
+async function encodeState(state: State) {
   const json = JSON.stringify(state)
   const jsonStream = new Blob([json], { type: 'application/json' }).stream()
   const compressedStream = jsonStream.pipeThrough(new CompressionStream('gzip'))
@@ -40,10 +48,14 @@ async function encodeState (state: State) {
   const compressedBase64 = arrayBuffer_base64(compressed)
   return compressedBase64
 }
-async function decodeState (hash: string) {
+async function decodeState(hash: string) {
   const compressed = base64_arrayBuffer(hash)
-  const compressedStream = new Blob([compressed], { type: 'application/octet-stream' }).stream()
-  const decompressedStream = compressedStream.pipeThrough(new DecompressionStream('gzip'))
+  const compressedStream = new Blob([compressed], {
+    type: 'application/octet-stream',
+  }).stream()
+  const decompressedStream = compressedStream.pipeThrough(
+    new DecompressionStream('gzip'),
+  )
   const jsonText = await new Response(decompressedStream).text()
   return JSON.parse(jsonText) as State
 }
@@ -54,7 +66,7 @@ const getState = (): State => {
     providers: getSelectedProviderIds(),
     yAxis: getYAxis(),
     xAxis: getXAxis(),
-    chartType: getChartType()
+    chartType: getChartType(),
   }
 }
 
@@ -63,19 +75,24 @@ let initialState: State = {
   providers: [],
   yAxis: ['lmarena', 'text_overall'] as ValueTypeData,
   xAxis: ['lmarena', 'text_overall'] as ValueTypeData,
-  chartType: 'date' as const
+  chartType: 'date' as const,
 }
 if (location.hash.startsWith('#')) {
   const hash = location.hash.slice(1)
   initialState = await decodeState(hash)
 }
 
-const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>(initialState.models)
-const [getSelectedProviderIds, setSelectedProviderIds] = createSignal<string[]>(initialState.providers)
+const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>(
+  initialState.models,
+)
+const [getSelectedProviderIds, setSelectedProviderIds] = createSignal<string[]>(
+  initialState.providers,
+)
 const [getYAxis, setYAxis] = createSignal<ValueTypeData>(initialState.yAxis)
 const [getXAxis, setXAxis] = createSignal<ValueTypeData>(initialState.xAxis)
-const [getChartType, setChartType] = createSignal<ChartType>(initialState.chartType)
-
+const [getChartType, setChartType] = createSignal<ChartType>(
+  initialState.chartType,
+)
 
 function getAxisLabel(axis: ValueTypeData): string {
   const [type, value] = axis
@@ -88,7 +105,7 @@ function Toolbox(props: {
   getChart: () => LMSpecsChart
 }) {
   return (
-    <div class="flex gap-2">
+    <div class='flex gap-2'>
       <button
         type='button'
         class='p-1 rounded border w-8 h-8 border-uchu-gray-5 hover:bg-uchu-gray-1'
@@ -111,9 +128,9 @@ function Toolbox(props: {
           const url = new URL(location.href)
           url.hash = await encodeState(getState())
           const shareData = {
-            title: 'LM Specs Chart',
+            title: 'LMSpecs Chart',
             text: 'Language Model Comparison Chart',
-            url: url.toString()
+            url: url.toString(),
           }
 
           try {
@@ -151,27 +168,27 @@ function Settings(props: {
   })
 
   return (
-    <div class='w-full ms:w-50 p-2 flex flex-col h-full justify-between'>
+    <div class='w-full sm:w-32 p-2 flex flex-col h-full justify-between'>
       <div>
         <div>
           <div class='font-bold'>Type</div>
           <div class='flex justify-between'>
-            <div>
+            <div class="w-30 sm:w-full">
               <Select
                 titles={{
                   bar: (
                     <div class='flex items-center gap-1'>
-                      <div class='i-tabler-chart-bar w-4 h-4' />Bar
+                      <div class='i-tabler-chart-bar w-4 h-4 flex-none' />Bar
                     </div>
                   ),
                   date: (
                     <div class='flex items-center gap-1'>
-                      <div class='i-tabler-chart-line w-4 h-4' />Date
+                      <div class='i-tabler-chart-line w-4 h-4 flex-none' />Date
                     </div>
                   ),
                   scatter: (
                     <div class='flex items-center gap-1'>
-                      <div class='i-tabler-chart-dots w-4 h-4' />Scatter
+                      <div class='i-tabler-chart-dots w-4 h-4 flex-none' />Scatter
                     </div>
                   ),
                 }}
@@ -186,25 +203,16 @@ function Settings(props: {
             </div>
           </div>
         </div>
-        <div class="flex flex-row sm:flex-col w-full justify-between">
+        <div class='flex flex-row sm:flex-col w-full justify-between'>
           <div>
             <div class='font-bold'>Models</div>
-            <Dialog>
-              <DialogOpener>
-                <div class='text-uchu-purple-6 font-bold'>
-                  {getSelectedModelIds().length} Selected
-                </div>
-              </DialogOpener>
-              <DialogContent>
-                <div class='font-bold text-xl'>Select Models</div>
-                <ModelSelect
-                  onChange={(v) => {
-                    setSelectedModelIds(v.map((m) => m.id))
-                  }}
-                  mode='provided'
-                />
-              </DialogContent>
-            </Dialog>
+            <ModelSelect
+              onChange={(v) => {
+                setSelectedModelIds(v.map((m) => m.id))
+              }}
+              mode='provided'
+              value={getSelectedModelIds()}
+            />
           </div>
           <Show when={getShouldAskProvider()}>
             <div>
@@ -241,6 +249,11 @@ type LMSpecsChart = Chart<'bar' | 'line' | 'scatter', (
   | never
 )[]>
 
+const [getIsSm, setIsSm] = createSignal(innerWidth < 640)
+addEventListener('resize', () => {
+  setIsSm(innerWidth < 640)
+})
+
 export default function Hero() {
   let canvas!: HTMLCanvasElement
 
@@ -256,6 +269,7 @@ export default function Hero() {
     const chartType = getChartType()
     const xAxis = getXAxis()
     const yAxis = getYAxis()
+    const isSm = getIsSm()
 
     chart?.destroy()
     chart = new Chart(canvas, {
@@ -315,6 +329,12 @@ export default function Hero() {
         })(),
         responsive: true,
         maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: (chartType === 'bar' || isSm) ? 'bottom' : 'right',
+            display: chartType === 'bar' || !isSm,
+          },
+        }
       },
       plugins: [
         {
@@ -330,9 +350,10 @@ export default function Hero() {
         },
       ],
     })
+    requestAnimationFrame(() => update())
   })
 
-  createEffect(() => {
+  const update = () => {
     const selectedModels = getSelectedModelIds()
     const yAxis = getYAxis()
     const xAxis = getXAxis()
@@ -442,7 +463,9 @@ export default function Hero() {
         break
       }
     }
-  })
+  }
+
+  createEffect(() => update())
 
   return (
     <div class='h-dvh flex flex-col sm:flex-row'>

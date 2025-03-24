@@ -15,6 +15,31 @@ export function Select<T extends string>(props: {
   createEffect(() => setValue(() => props.value))
   createEffect(() => props.onChange?.(getValue()))
   let ref!: HTMLDivElement
+  const [shouldShowUp, setShouldShowUp] = createSignal(false)
+
+  const checkPosition = () => {
+    if (!ref) return
+    const rect = ref.getBoundingClientRect()
+    const listbox = ref.querySelector('[role="listbox"]')
+    if (!listbox) return
+
+    const menuHeight = listbox.getBoundingClientRect().height
+    const spaceBelow = globalThis.innerHeight - rect.bottom
+    const spaceAbove = rect.top
+
+    setShouldShowUp(spaceBelow < menuHeight && spaceAbove > spaceBelow)
+  }
+
+  createEffect(() => {
+    if (getIsShown()) {
+      checkPosition()
+      globalThis.addEventListener('scroll', checkPosition, { passive: true })
+      globalThis.addEventListener('resize', checkPosition, { passive: true })
+    } else {
+      globalThis.removeEventListener('scroll', checkPosition)
+      globalThis.removeEventListener('resize', checkPosition)
+    }
+  })
 
   let closeTimeout: number
   const documentClick = (evt: MouseEvent) => {
@@ -26,7 +51,12 @@ export function Select<T extends string>(props: {
     document.addEventListener('click', documentClick)
     clearTimeout(closeTimeout)
     setIsShown(true)
-    requestAnimationFrame(() => setIsRealShown(true))
+    requestAnimationFrame(() => {
+      setIsRealShown(true)
+      requestAnimationFrame(() => {
+        checkPosition()
+      })
+    })
   }
   const close = () => {
     document.removeEventListener('click', documentClick)
@@ -39,7 +69,10 @@ export function Select<T extends string>(props: {
         onClick={() => {
           ;(getIsRealShown() ? close : open)()
         }}
-        class='w-full border p-1 rounded-md border-gray-400 flex justify-between items-center'
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={getIsRealShown()}
+        class='w-full border p-1 rounded-md border-gray-400 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors'
       >
         <div>{props.titles[getValue()]}</div>
         <div
@@ -52,23 +85,27 @@ export function Select<T extends string>(props: {
       </div>
       <Show when={getIsShown()}>
         <div
-          class='absolute transition-all bg-white w-full h-full'
+          class='absolute transition-all bg-white w-full z-10'
           classList={{
             'opacity-100': getIsRealShown(),
             'opacity-0': !getIsRealShown(),
+            'bottom-full mb-2': shouldShowUp(),
+            'top-full mt-2': !shouldShowUp(),
             [props.selectClass ?? '']: true
           }}
         >
-          <div class='bg-white border border-gray-400'>
+          <div class='bg-white border border-gray-400 rounded-md shadow-lg' role="listbox">
             <For
               each={Object.entries(props.titles) as [T, string | JSX.Element][]}
             >
               {([id, title]) => (
                 <div
+                  role="option"
+                  aria-selected={getValue() === id}
                   classList={{
-                    'bg-uchu-purple-1': getValue() === id,
+                    'bg-uchu-purple-1 hover:bg-uchu-purple-2': getValue() === id,
                   }}
-                  class='transition-colors p-1'
+                  class='transition-colors p-1 first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-gray-100'
                   onClick={() =>
                     getValue() === id ? close() : setValue(() => id)}
                 >

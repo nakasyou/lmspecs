@@ -67,13 +67,16 @@ function LMArena(props: {
     }
   })
   return (
-    <Select
-      titles={titles}
-      value={props.value ?? 'text_overall'}
-      onChange={(v) => props.onChange(v)}
-      class='w-80 h-40'
-      selectClass='h-50 overflow-y-auto'
-    />
+    <label>
+      <div class="text-lg font-bold">Select a subject:</div>
+      <Select
+        titles={titles}
+        value={props.value ?? 'text_overall'}
+        onChange={(v) => props.onChange(v)}
+        class='w-full'
+        selectClass='h-50 overflow-y-auto'
+      />
+    </label>
   )
 }
 
@@ -92,7 +95,7 @@ export default {
   title: 'Chatbot Arena',
   image: <img src={lmarena} alt='Chatbot Arena' />,
   description:
-    'Chatbot Arena is a crowdsourced platform for benchmarking LLMs. It uses side-by-side comparisons and user votes to rank models fairly. With over 240,000 votes in 100 languages, it offers real-time, human-centric evaluations.',
+    'Chatbot Arena is a platform for benchmarking LLMs, that uses side-by-side comparisons and user votes to rank models fairly.',
   initParams: () => 'text_overall',
   formatParams: (params) => params,
   Setting: LMArena,

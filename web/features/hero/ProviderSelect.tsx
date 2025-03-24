@@ -66,24 +66,26 @@ export default function ProviderSelect(props: {
   return (
     <Dialog>
       <DialogOpener class='text-left text-uchu-purple-6 font-bold'>
-        {getSelectedProviders().size} selected
+        <div>Providers</div>
+        <div class="text-sm text-uchu-purple-5">({getSelectedProviders().size} selected)</div>
       </DialogOpener>
       <DialogContent>
-        <div class='max-w-screen max-h-screen h-60 w-96'>
-          <div class='flex gap-4'>
-            <div class='w-1/2 h-full'>
-              <div class='font-bold mb-2'>
+        <div class='p-3'>
+          <div class='text-xl font-bold mb-4'>Provider Selector</div>
+          <div class='grid md:grid-cols-2 gap-4'>
+            <div class='border border-uchu-gray-5 rounded-md p-3'>
+              <div class='font-bold text-lg mb-2'>
                 Available Providers
               </div>
-              <div class='flex my-2'>
+              <div class='mb-3'>
                 <input
                   value={getSearchQuery()}
                   onInput={(e) => setSearchQuery(e.target.value)}
                   placeholder='Search providers'
-                  class='border border-uchu-gray-5 p-1 rounded-full w-full'
+                  class='border border-uchu-gray-5 p-2 rounded-md w-full focus:outline-none focus:border-uchu-purple-6 transition-colors'
                 />
               </div>
-              <div class='grid grid-cols-1 gap-2 overflow-y-auto'>
+              <div class='space-y-2 max-h-[40vh] overflow-y-auto'>
                 <Show
                   when={!getProviders.loading}
                   fallback={<div>Loading...</div>}
@@ -99,9 +101,9 @@ export default function ProviderSelect(props: {
                                 new Set([...cur, providerId])
                               )
                             }}
-                            class='i-tabler-circle-plus w-5 h-5'
+                            class='i-tabler-circle-plus w-5 h-5 text-uchu-purple-6 hover:text-uchu-purple-7 transition-colors'
                           />
-                          <div>{getProviders()![providerId].name}</div>
+                          <div class="text-uchu-gray-9">{getProviders()![providerId].name}</div>
                         </div>
                       )}
                     </For>
@@ -109,11 +111,11 @@ export default function ProviderSelect(props: {
                 </Show>
               </div>
             </div>
-            <div class='w-1/2'>
-              <div class='font-bold'>
+            <div class='border border-uchu-gray-5 rounded-md p-3'>
+              <div class='font-bold text-lg mb-2'>
                 Selected Providers ({getSelectedProviders().size})
               </div>
-              <div class='grid grid-cols-1 gap-2 overflow-y-auto'>
+              <div class='space-y-2 max-h-[40vh] overflow-y-auto'>
                 <Show when={getSelectedProviders().size > 0} fallback='No providers selected'>
                   <For each={[...getSelectedProviders()]}>
                     {(providerId: string) => (
@@ -127,9 +129,9 @@ export default function ProviderSelect(props: {
                               return newer
                             })
                           }}
-                          class='i-tabler-circle-minus w-5 h-5 flex-none'
-                        />
-                        <div>{getProviders()![providerId].name}</div>
+                          class='i-tabler-circle-minus w-5 h-5 flex-none text-uchu-red-6 hover:text-uchu-red-7 transition-colors'
+                          />
+                        <div class="text-uchu-gray-9">{getProviders()![providerId].name}</div>
                       </div>
                     )}
                   </For>

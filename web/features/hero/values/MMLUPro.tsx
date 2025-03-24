@@ -32,13 +32,16 @@ function MMLUPro(props: {
     }
   })
   return (
-    <Select
-      titles={titles}
-      value={props.value ?? 'overall'}
-      onChange={(v) => props.onChange(v)}
-      class='w-80 h-40'
-      selectClass='h-50 overflow-y-auto'
-    />
+    <label>
+      <div class='font-bold text-lg'>Select a subject:</div>
+      <Select
+        titles={titles}
+        value={props.value ?? 'overall'}
+        onChange={(v) => props.onChange(v)}
+        class='w-full'
+        selectClass='max-h-60 overflow-y-auto'
+      />
+    </label>
   )
 }
 
@@ -61,31 +64,40 @@ export default {
     />
   ),
   description:
-    'MMLU Pro is an advanced benchmark for evaluating AI models, featuring challenging questions across 57 subjects, designed to test reasoning, knowledge, and problem-solving beyond standard datasets.',
+    'Featuring challenging questions across 57 subjects, designed to test reasoning, knowledge, and problem-solving beyond standard datasets.',
   Setting: MMLUPro,
   initParams: () => 'overall',
   formatParams: (p) => p,
   getData: async (params, modelIds) => {
     const promises: Promise<
-      [modelId: string, [date: string, val: number | null][]]
+      [modelId: string, [date: string, val: number | null][]] | null
     >[] = []
     for (const modelId of modelIds) {
-      const path = `../../../../models/${modelId}/score-lmarena.json`
+      const path = `../../../../models/${modelId}/score-mmlu-pro.json`
+
       if (path in MODEL_MMLUPRO_IMPORTS) {
         promises.push((async () => {
-          const imported = ((await MODEL_MMLUPRO_IMPORTS[path]()) as { default: MMLUProScores }).default
+          const imported =
+            ((await MODEL_MMLUPRO_IMPORTS[path]()) as {
+              default: MMLUProScores
+            }).default
 
+          const values: [date: string, val: number | null][] = Object.entries(
+            imported.scores,
+          ).flatMap((
+            [date, scores],
+          ) => scores[params] ? [[date, scores[params]]] : [])
+
+          if (!values.length) {
+            return null
+          }
           return [
             modelId,
-            Object.entries(imported.scores).map((
-              [date, scores],
-            ) => [date, scores[params]]),
+            values,
           ]
         })())
-      } else {
-        promises.push(Promise.resolve([modelId, []]))
       }
     }
-    return Object.fromEntries(await Promise.all(promises))
+    return Object.fromEntries((await Promise.all(promises)).filter((v) => !!v) )
   },
 } satisfies ValueType<MMLUProParams>

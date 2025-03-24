@@ -31,7 +31,6 @@ export const getProvideds = async ()=> {
   return models
 }
 export const getLMs = async (): Promise<Record<string, Model>> => {
-  getProvideds().then(console.log)
   const models = Object.fromEntries(((await Promise.all(
     Object.values(MODEL_META_IMPORTS)
       .map((v) => v()),

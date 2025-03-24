@@ -4,9 +4,15 @@ import { createSignal } from 'solid-js'
 import Fuse from 'fuse.js'
 import { createMemo } from 'solid-js'
 import { createEffect } from 'solid-js'
+import {
+  Dialog,
+  DialogContent,
+  DialogOpener,
+} from '../../components/Dialog.tsx'
 
 export default function ModelSelect(props: {
   onChange: (models: Model[]) => void
+  value: string[]
 
   mode: 'model' | 'provided'
 }) {
@@ -21,7 +27,7 @@ export default function ModelSelect(props: {
     const models = await getLMs()
     setModels(models)
     fuse = new Fuse(Object.values(models), {
-      keys: ['id', 'name']
+      keys: ['id', 'name'],
     })
   })
   const getFilteredModels = createMemo(() => {
@@ -33,7 +39,7 @@ export default function ModelSelect(props: {
     }
     let result = new Set(Object.keys(getModels()!))
     if (fuse && searchQuery) {
-      result = new Set(fuse.search(searchQuery).map(m => m.item.id))
+      result = new Set(fuse.search(searchQuery).map((m) => m.item.id))
     }
     for (const selected of selectedModels) {
       result.delete(selected)
@@ -42,53 +48,85 @@ export default function ModelSelect(props: {
   })
 
   createEffect(() => {
-    props.onChange([...getSelectedModels()].map(id => getModels()![id]))
+    props.onChange([...getSelectedModels()].map((id) => getModels()![id]))
   })
 
   return (
-    <div class='flex gap-2 max-h-dvh h-100'>
-      <div class="w-150">
-        <div class="flex my-2">
-          <input value={getSearchQuery()} onInput={(e) => setSearchQuery(e.target.value)} placeholder='Search query' class="border border-uchu-gray-5 p-1 rounded-full" />
+    <Dialog>
+      <DialogOpener>
+        <div class='text-uchu-purple-6 font-bold'>
+          {props.value.length} Selected
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <Show when={getFilteredModels()}>{models => <For each={[...models()]}>{modelId => <div class="flex items-center gap-1">
-            <button type="button" onClick={() => {
-              setSelectedModels((cur) => new Set([...cur, modelId]))
-            }} class='i-tabler-circle-plus w-5 h-5' />
-            <div>{getModels()![modelId].name}</div>
-          </div>}</For>}</Show>
+      </DialogOpener>
+      <DialogContent>
+        <div class='flex flex-col h-full min-h-0'>
+          <div class='font-bold text-xl'>Select Models</div>
+          <div class='flex my-2'>
+            <input
+              value={getSearchQuery()}
+              onInput={(e) => setSearchQuery(e.target.value)}
+              placeholder='Search query'
+              class='border border-uchu-gray-5 p-1 rounded-full'
+            />
+          </div>
+          <div class='grow flex gap-2 w-full min-h-0'>
+            <div class='flex-1 overflow-y-auto'>
+              <div class='grid grid-cols-1 sm:grid-cols-2 gap-1'>
+                <Show when={getSelectedModels()}>
+                  {(models) => (
+                    <For each={[...models()]}>
+                      {(model) => (
+                        <div>
+                          <div class='flex items-center gap-1'>
+                            <button
+                              type='button'
+                              onClick={() => {
+                                setSelectedModels((cur) => {
+                                  const newer = new Set([...cur])
+                                  newer.delete(model)
+                                  return newer
+                                })
+                              }}
+                              class='i-tabler-circle-minus w-5 h-5 flex-none'
+                            />
+                            <div class='flex justify-between items-center gap-2 grow text-uchu-green-7'>
+                              <div>{getModels()![model].name}</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </For>
+                  )}
+                </Show>
+                <Show when={getFilteredModels()}>
+                  {(models) => (
+                    <For each={[...models()]}>
+                      {(modelId) => (
+                        <div>
+                          <div class='flex items-center gap-1'>
+                            <button
+                              type='button'
+                              onClick={() => {
+                                setSelectedModels((cur) =>
+                                  new Set([...cur, modelId])
+                                )
+                              }}
+                              class='i-tabler-circle-plus w-5 h-5 flex-none'
+                            />
+                            <div class='flex justify-between items-center gap-2 grow'>
+                              <div>{getModels()![modelId].name}</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </For>
+                  )}
+                </Show>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="h-full flex flex-col">
-        <div class='font-bold'>
-          Selected Models ({getSelectedModels().size})
-        </div>
-        <div class="w-70 grow overflow-y-auto">
-          <Show when={getSelectedModels()}>
-            {(models) => (
-              <For each={[...models()]}>
-                {(model) => (
-                  <div>
-                    <div class='flex items-center gap-2'>
-                      <button type='button' onClick={() => {
-                        setSelectedModels((cur) => {
-                          const newer = new Set([...cur])
-                          newer.delete(model)
-                          return newer
-                        })
-                      }} class='i-tabler-circle-minus w-5 h-5 flex-none' />
-                      <div class='flex justify-between items-center gap-2 grow'>
-                        <div>{getModels()![model].name}</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </For>
-            )}
-          </Show>
-        </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }

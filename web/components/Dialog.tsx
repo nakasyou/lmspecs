@@ -87,7 +87,7 @@ export function Dialog(props: {
           }}
         >
           <div
-            class='bg-white p-2 border border-gray-300 rounded-md transition-transform'
+            class='w-3xl max-w-[90dvw] h-96 max-h-[95dvh] bg-white p-2 border border-gray-300 rounded-md transition-transform'
             classList={{
               'scale-100': getIsRealShown(),
               'scale-0': !getIsRealShown(),

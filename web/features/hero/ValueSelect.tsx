@@ -1,6 +1,16 @@
-import { createSignal, For, JSX, Match, Show, Switch, createEffect, createMemo } from 'solid-js'
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  JSX,
+  Match,
+  Show,
+  Switch,
+} from 'solid-js'
 import {
   Dialog,
+  DialogCloseButton,
   DialogContent,
   DialogOpener,
 } from '../../components/Dialog.tsx'
@@ -10,7 +20,9 @@ import lmarena, { LMArenaParams } from './values/Lmarena.tsx'
 import mmlu_pro, { MMLUProParams } from './values/MMLUPro.tsx'
 import pricing, { PricingParams } from './values/Pricing.tsx'
 
-type GetValueFromKey<T extends [unknown, unknown], K> = T extends [K, infer V] ? V : never
+type GetValueFromKey<T extends [unknown, unknown], K> = T extends [K, infer V]
+  ? V
+  : never
 
 export type SettingComponent<Params> = (props: {
   value: Params
@@ -31,7 +43,11 @@ export interface ValueType<Params> {
 
   Setting: SettingComponent<Params>
 
-  getData: (params: Params, modelIds: string[], providerIds: string[]) => Promise<{
+  getData: (
+    params: Params,
+    modelIds: string[],
+    providerIds: string[],
+  ) => Promise<{
     [modelId: string]: [date: string, data: number | null][]
   }>
 }
@@ -39,12 +55,15 @@ export interface ValueType<Params> {
 export const VALUE_TYPES: {
   [K in ValueTypeData[0]]: ValueType<GetValueFromKey<ValueTypeData, K>>
 } = {
+  pricing,
   lmarena,
   mmlu_pro,
-  pricing,
 }
 
-export type ValueTypeData = ['lmarena', LMArenaParams] | ['mmlu_pro', MMLUProParams] | ['pricing', PricingParams]
+export type ValueTypeData = ['lmarena', LMArenaParams] | [
+  'mmlu_pro',
+  MMLUProParams,
+] | ['pricing', PricingParams]
 
 function TypeCard(props: {
   value: ValueType<unknown>
@@ -75,11 +94,13 @@ function TypeChanger(props: {
   const [getSelected, setSelected] = createSignal(props.value)
   createEffect(() => {
     const selected = getSelected()
-    props.onChange?.([selected, VALUE_TYPES[selected].initParams()] as ValueTypeData)
+    props.onChange?.(
+      [selected, VALUE_TYPES[selected].initParams()] as ValueTypeData,
+    )
   })
 
   return (
-    <div class='grid grid-cols-3 gap-2'>
+    <div class='overflow-y-auto grow grid grid-cols-2 sm:grid-cols-3 gap-2'>
       {
         <For each={Object.entries(VALUE_TYPES)}>
           {([id, data]) => (
@@ -102,10 +123,12 @@ export default function ValueSelect(props: {
   onChange?: (v: ValueTypeData) => void
 }) {
   const [getIsShownTypeChanger, setIsShownTypeChanger] = createSignal(false)
-  const [getType, setType] = createSignal<ValueTypeData>(props.value ?? [
-    'lmarena',
-    'text_overall',
-  ])
+  const [getType, setType] = createSignal<ValueTypeData>(
+    props.value ?? [
+      'lmarena',
+      'text_overall',
+    ],
+  )
 
   createEffect(() => {
     props.onChange?.(getType())
@@ -119,49 +142,63 @@ export default function ValueSelect(props: {
     <Dialog>
       <DialogOpener class='text-left text-uchu-purple-6 font-bold'>
         <div>{VALUE_TYPES[getType()[0]].title}</div>
-        <div class="text-sm text-uchu-purple-5">({VALUE_TYPES[getType()[0]].formatParams(getType()[1] as never)})</div>
+        <div class='text-sm text-uchu-purple-5'>
+          ({VALUE_TYPES[getType()[0]].formatParams(getType()[1] as never)})
+        </div>
       </DialogOpener>
       <DialogContent>
-        <div class='p-3'>
-          <div class='text-xl font-bold'>Axis Selector</div>
+        <div class='p-3 h-full'>
           <Show
             when={!getIsShownTypeChanger()}
             fallback={
-              <div class='flex'>
+              <div class='flex flex-col gap-1 h-full'>
+                <div class='flex items-center justify-between'>
+                  <div class='font-bold text-lg'>Select Dataset:</div>
+                  <div class='items-end'>
+                    <button
+                      type='button'
+                      onClick={() => setIsShownTypeChanger(false)}
+                      class='bg-uchu-yellow-9 text-white p-1 rounded-md'
+                    >
+                      OK
+                    </button>
+                  </div>
+                </div>
                 <TypeChanger
                   value={getType()[0]}
                   onChange={(v) => {
                     setType(v)
                   }}
                 />
-                <div class='items-end'>
-                  <button
-                    type="button"
-                    onClick={() => setIsShownTypeChanger(false)}
-                    class='bg-uchu-yellow-9 text-white p-1 rounded-md'
-                  >
-                    OK
-                  </button>
-                </div>
               </div>
             }
           >
-            <div>
-              <div class='flex gap-1 items-center'>
-                <button
-                  type='button'
-                  onClick={() => setIsShownTypeChanger(true)}
-                  class='text-uchu-purple-6 font-bold flex items-center gap-1'
-                >
-                  <div>
-                    Dataset: {VALUE_TYPES[getType()[0]].title}
-                  </div>
-                  <div class='i-tabler-transfer w-4 h-4' />
-                </button>
+            <div class='h-full flex flex-col'>
+              <div>
+                <div class='flex gap-1 items-center justify-between'>
+                  <button
+                    type='button'
+                    onClick={() => setIsShownTypeChanger(true)}
+                    class='text-uchu-purple-6 font-bold flex items-center gap-1 text-xl'
+                  >
+                    <div>
+                      Dataset: {VALUE_TYPES[getType()[0]].title}
+                    </div>
+                    <div class='i-tabler-transfer w-4 h-4' />
+                  </button>
+                  <DialogCloseButton class='i-tabler-x w-6 h-6' />
+                </div>
+                <hr class='my-1 text-uchu-gray-3' />
               </div>
-              <Dynamic component={SettingsComponent()} value={getType()[1] as any} onChange={(v: unknown) => {
-                setType(c => [c[0], v as never])
-              }} />
+              <div class='grow'>
+                <Dynamic
+                  component={SettingsComponent()}
+                  value={getType()[1] as any}
+                  onChange={(v: unknown) => {
+                    setType((c) => [c[0], v as never])
+                  }}
+                />
+              </div>
             </div>
           </Show>
         </div>
