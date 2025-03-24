@@ -16,6 +16,7 @@
     "chart.js": "npm:chart.js@^4.4.8",
     "chartjs-adapter-intl": "npm:chartjs-adapter-intl@^0.1.0",
     "fuse.js": "npm:fuse.js@^7.1.0",
+    "ikox": "npm:ikox@^0.2.3",
     "solid-js": "npm:solid-js@^1.9.5",
     "tailwindcss": "npm:tailwindcss@^4.0.9",
     "uchu-tailwind": "npm:uchu-tailwind@^0.1.3",

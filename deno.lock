@@ -22,6 +22,7 @@
     "npm:chartjs-adapter-intl@0.1": "0.1.0_chart.js@4.4.8",
     "npm:date-fns@^4.1.0": "4.1.0",
     "npm:fuse.js@^7.1.0": "7.1.0",
+    "npm:ikox@~0.2.3": "0.2.3",
     "npm:solid-js@^1.9.5": "1.9.5_seroval@1.2.1",
     "npm:tailwindcss@^4.0.9": "4.0.9",
     "npm:uchu-tailwind@~0.1.3": "0.1.3",
@@ -668,6 +669,9 @@
     "html-entities@2.3.3": {
       "integrity": "sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA=="
     },
+    "ikox@0.2.3": {
+      "integrity": "sha512-ySG/LGHR7oTg/fwnEti+VYmoe1vuxNw/ifL/5xFohxJrdIJQHpkZrv7WJooGsJ3ZTzu/addIQxYmUes/va21UA=="
+    },
     "is-what@4.1.16": {
       "integrity": "sha512-ZhMwEosbFJkA0YhFnNDgTM4ZxDRsS6HqTo7qsZM08fehyRYIYa0yHu5R6mgo1n/8MgaPBXiPimPD77baVFYg+A=="
     },
@@ -957,6 +961,7 @@
       "npm:chart.js@^4.4.8",
       "npm:chartjs-adapter-intl@0.1",
       "npm:fuse.js@^7.1.0",
+      "npm:ikox@~0.2.3",
       "npm:solid-js@^1.9.5",
       "npm:tailwindcss@^4.0.9",
       "npm:uchu-tailwind@~0.1.3",

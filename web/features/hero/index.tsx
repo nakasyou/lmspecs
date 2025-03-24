@@ -1,6 +1,6 @@
 import { Chart, registerables } from 'chart.js'
 import 'chartjs-adapter-intl'
-import { Match, onMount, Show, Switch } from 'solid-js'
+import { Match, onMount, Show, Switch, createEffect, createSignal, createMemo } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
 import {
   Dialog,
@@ -18,27 +18,64 @@ import ValueSelect, {
   ValueType,
   ValueTypeData,
 } from './ValueSelect.tsx'
-import { createEffect } from 'solid-js'
-import { createSignal } from 'solid-js'
-import { createMemo } from 'solid-js'
 import ProviderSelect from './ProviderSelect.tsx'
+import arrayBuffer_base64 from 'ikox/arraybuffer-base64'
+import base64_arrayBuffer from 'ikox/base64-arraybuffer'
 
-const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>([])
-const [getSelectedProviderIds, setSelectedProviderIds] = createSignal<string[]>(
-  [],
-)
+type ChartType = 'bar' | 'date' | 'scatter'
 
-const [getYAxis, setYAxis] = createSignal<ValueTypeData>([
-  'lmarena',
-  'text_overall',
-])
-const [getXAxis, setXAxis] = createSignal<ValueTypeData>([
-  'lmarena',
-  'text_overall',
-])
-const [getChartType, setChartType] = createSignal<'bar' | 'date' | 'scatter'>(
-  'date',
-)
+interface State {
+  models: string[]
+  providers: string[]
+  yAxis: ValueTypeData
+  xAxis: ValueTypeData
+  chartType: ChartType
+}
+
+async function encodeState (state: State) {
+  const json = JSON.stringify(state)
+  const jsonStream = new Blob([json], { type: 'application/json' }).stream()
+  const compressedStream = jsonStream.pipeThrough(new CompressionStream('gzip'))
+  const compressed = await new Response(compressedStream).arrayBuffer()
+  const compressedBase64 = arrayBuffer_base64(compressed)
+  return compressedBase64
+}
+async function decodeState (hash: string) {
+  const compressed = base64_arrayBuffer(hash)
+  const compressedStream = new Blob([compressed], { type: 'application/octet-stream' }).stream()
+  const decompressedStream = compressedStream.pipeThrough(new DecompressionStream('gzip'))
+  const jsonText = await new Response(decompressedStream).text()
+  return JSON.parse(jsonText) as State
+}
+
+const getState = (): State => {
+  return {
+    models: getSelectedModelIds(),
+    providers: getSelectedProviderIds(),
+    yAxis: getYAxis(),
+    xAxis: getXAxis(),
+    chartType: getChartType()
+  }
+}
+
+let initialState: State = {
+  models: [],
+  providers: [],
+  yAxis: ['lmarena', 'text_overall'] as ValueTypeData,
+  xAxis: ['lmarena', 'text_overall'] as ValueTypeData,
+  chartType: 'date' as const
+}
+if (location.hash.startsWith('#')) {
+  const hash = location.hash.slice(1)
+  initialState = await decodeState(hash)
+}
+
+const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>(initialState.models)
+const [getSelectedProviderIds, setSelectedProviderIds] = createSignal<string[]>(initialState.providers)
+const [getYAxis, setYAxis] = createSignal<ValueTypeData>(initialState.yAxis)
+const [getXAxis, setXAxis] = createSignal<ValueTypeData>(initialState.xAxis)
+const [getChartType, setChartType] = createSignal<ChartType>(initialState.chartType)
+
 
 function getAxisLabel(axis: ValueTypeData): string {
   const [type, value] = axis
@@ -51,7 +88,7 @@ function Toolbox(props: {
   getChart: () => LMSpecsChart
 }) {
   return (
-    <div>
+    <div class="flex gap-2">
       <button
         type='button'
         class='p-1 rounded border w-8 h-8 border-uchu-gray-5 hover:bg-uchu-gray-1'
@@ -65,6 +102,33 @@ function Toolbox(props: {
         }}
       >
         <div class='w-4 h-4 i-tabler-download' />
+      </button>
+      <button
+        type='button'
+        class='p-1 rounded border w-8 h-8 border-uchu-gray-5 hover:bg-uchu-gray-1'
+        title='Share Chart'
+        onClick={async () => {
+          const url = new URL(location.href)
+          url.hash = await encodeState(getState())
+          const shareData = {
+            title: 'LM Specs Chart',
+            text: 'Language Model Comparison Chart',
+            url: url.toString()
+          }
+
+          try {
+            if (navigator.share) {
+              await navigator.share(shareData)
+            } else {
+              await navigator.clipboard.writeText(url.toString())
+              alert('Copied a link to share.')
+            }
+          } catch (err) {
+            console.error('共有に失敗しました:', err)
+          }
+        }}
+      >
+        <div class='w-4 h-4 i-tabler-share' />
       </button>
     </div>
   )
