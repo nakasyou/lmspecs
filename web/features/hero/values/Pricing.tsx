@@ -69,7 +69,7 @@ function Setting(props: {
 }
 
 const MODEL_PRICING_IMPORTS = import.meta.glob(
-  '../../../../provided/*/*/pricing.json',
+  '../../../../models/*/providers/*/pricing.json',
 )
 
 const formatTokenUnit = (val: number) => {
@@ -145,7 +145,7 @@ export default {
     for (const providerId of providerIds) {
       for (const modelId of modelIds) {
         const path =
-          `../../../../provided/${providerId}/${modelId}/pricing.json`
+          `../../../../models/${modelId}/providers/${providerId}/pricing.json`
         if (path in MODEL_PRICING_IMPORTS) {
           promises.push((async () => {
             const imported =

@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/meta-provided.json",
   "model_id": "gemini-1.5-flash-001",
   "provider": "gemini-api",
   "provided_at": "2024-05-24"

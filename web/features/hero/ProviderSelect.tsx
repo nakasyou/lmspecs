@@ -14,7 +14,7 @@ import {
   DialogOpener,
 } from '../../components/Dialog.tsx'
 
-const PROVIDER_IMPORTS = import.meta.glob('../../../provided/*/meta.json')
+const PROVIDER_IMPORTS = import.meta.glob('../../../providers/*/meta.json')
 
 interface Provider {
   id: string

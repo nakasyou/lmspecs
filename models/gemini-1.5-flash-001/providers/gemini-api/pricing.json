@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../schema/pricing.json",
+  "$schema": "../../../../schema/pricing.json",
   "pricing": {
     "2024-05-24": {
       "input": [
