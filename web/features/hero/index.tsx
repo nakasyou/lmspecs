@@ -293,6 +293,10 @@ export default function Hero() {
         ],
       },
       options: {
+        interaction: {
+          mode: 'x',
+          intersect: true,
+        },
         scales: (() => {
           switch (chartType) {
             case 'scatter':
@@ -320,6 +324,9 @@ export default function Hero() {
                 }*/
                 x: {
                   type: 'time',
+                  time: {
+                    unit: 'day',
+                  }
                 },
               }
             }
