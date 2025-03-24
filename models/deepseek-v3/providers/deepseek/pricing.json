@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../../schema/pricing.json",
+  "pricing": {
+    "2024-12-08": {
+      "input": [{ "cost": { "USD": 0.14 } }],
+      "cachedInput": [{ "cost": { "USD": 0.0014 } }],
+      "output": [{ "cost": { "USD": 0.28 } }]
+    },
+    "2025-02-09": {
+      "input": [{ "cost": { "USD": 0.27 } }],
+      "cachedInput": [{ "cost": { "USD": 0.07 } }],
+      "output": [{ "cost": { "USD": 1.10 } }]
+    }
+  }
+}

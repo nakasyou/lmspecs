@@ -297,10 +297,10 @@ export default function Hero() {
         ],
       },
       options: {
-        interaction: {
+        interaction: chartType === 'date' ? {
           mode: 'x',
           intersect: true,
-        },
+        } : undefined,
         scales: {
           ...(() => {
             switch (chartType) {

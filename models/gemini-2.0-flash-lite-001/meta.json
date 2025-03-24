@@ -11,7 +11,7 @@
     "Gemini-2.0-Flash-Lite"
   ],
   "cutoff_date": {
-    "value": "2024-06",
+    "value": "2024-08",
     "sources": [
       "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison"
     ]

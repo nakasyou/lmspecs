@@ -20,3 +20,7 @@
 
 JavaScript ランタイム/パッケージマネージャーには、Deno を用いています。
 npm からインストールする場合、`deno add npm:<package>`のようにします。
+
+## コマンド
+
+* `deno task sync:lmarena`: Chatbot Arena から情報を取得する

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../../schema/pricing.json",
+  "pricing": {
+    "2024-10-23": {
+      "input": [
+        { "cost": { "USD": 1.25 }, "cond": { "maxInputTokens": 128000 } },
+        { "cost": { "USD": 2.50 }, "cond": { "minInputTokens": 128000 } }
+      ],
+      "cachedInput": [
+        { "cost": { "USD": 0.3125 }, "cond": { "maxInputTokens": 128000 } },
+        { "cost": { "USD": 0.625 }, "cond": { "minInputTokens": 128000 } }
+      ],
+      "output": [
+        { "cost": { "USD": 5.00 }, "cond": { "maxInputTokens": 128000 } },
+        { "cost": { "USD": 10.00 }, "cond": { "minInputTokens": 128000 } }
+      ]
+    }
+  }
+}

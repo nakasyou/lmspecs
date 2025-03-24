@@ -21,7 +21,8 @@
           "Google",
           "xAI",
           "OpenAI",
-          "DeepSeek"
+          "DeepSeek",
+          "Anthropic"
         ]
       }
     },

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "claude-3-5-haiku-20241022",
+  "name": "Claude 3.5 Sonnet 2024-10-22",
+  "creator": ["Anthropic"],
+  "published": "2025-10-22",
+  "states": {
+    "2025-10-22": ["STABLE"]
+  },
+  "lmarena_id": "claude-3-5-haiku-20241022",
+  "mmlu_pro_ids": ["Claude-3-5-Haiku (2024-10-22)"],
+  "cutoff_date": {
+    "value": "2024-04"
+  },
+  "tokens_limit": {
+    "input": 200000,
+    "output": 8192
+  }
+}

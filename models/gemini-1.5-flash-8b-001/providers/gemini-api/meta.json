@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../../schema/meta-provided.json",
+  "model_id": "gemini-1.5-flash-8b",
+  "provider": "gemini-api",
+  "provided_at": "2024-10-23"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gemini-1.5-pro-001",
+  "name": "Gemini 1.5 Pro 001",
+  "creator": ["Google"],
+  "published": "2024-02-15",
+  "states": {
+    "2024-02-15": ["STABLE"]
+  },
+  "lmarena_id": "gemini-1.5-pro-001",
+  "mmlu_pro_ids": ["Gemini-1.5-Pro"],
+  "cutoff_date": {
+    "value": "2024-05",
+    "sources": [
+      "https://firebase.google.com/docs/vertex-ai/models?hl=ja#specs-and-limitations-comparison"
+    ]
+  },
+  "tokens_limit": {
+    "input": 2097152,
+    "output": 8192,
+    "sources": [
+      "https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "deepseek-v3",
+  "name": "DeepSeek V3",
+  "creator": ["DeepSeek"],
+  "published": "2025-12-26",
+  "states": {
+    "2025-12-26": ["STABLE"]
+  },
+  "lmarena_id": "deepseek-v3",
+  "mmlu_pro_ids": ["DeepSeek-V3"],
+  "cutoff_date": {
+    "value": "2024-10"
+  },
+  "tokens_limit": {
+    "input": 128000
+  }
+}

@@ -1,8 +1,6 @@
 {
   "tasks": {
     "dev": "deno --unstable-detect-cjs -A npm:vite",
-    "create:model": "deno run -R=./ -W=./ scripts/create-model.ts",
-    "create:provided": "deno run -R=./ -W=./ scripts/create-provided.ts",
     "sync:lmarena": "deno run -R=./ -W=./ -N=raw.githubusercontent.com scripts/lmarena-sync.ts",
     "sync:mmlu-pro": "deno run -A scripts/mmlu-pro-sync.ts"
   },

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "claude-3-7-sonnet-20250219",
+  "name": "Claude 3.7 Sonnet 2025-02-19",
+  "creator": ["Anthropic"],
+  "published": "2025-02-19",
+  "states": {
+    "2025-02-19": ["STABLE"]
+  },
+  "lmarena_id": "claude-3-7-sonnet-20250219",
+  "mmlu_pro_ids": [],
+  "cutoff_date": {
+    "value": "2024-11"
+  },
+  "tokens_limit": {
+    "input": 200000,
+    "output": 8192
+  }
+}
