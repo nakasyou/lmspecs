@@ -87,9 +87,9 @@ export default function ModelSelect(props: {
                                   return newer
                                 })
                               }}
-                              class='i-tabler-circle-minus w-5 h-5 flex-none'
+                              class='i-tabler-circle-minus w-5 h-5 flex-none text-uchu-red-6 hover:text-uchu-red-7 transition-colors'
                             />
-                            <div class='flex justify-between items-center gap-2 grow text-uchu-green-7'>
+                            <div class='flex justify-between items-center gap-2 grow'>
                               <div>{getModels()![model].name}</div>
                             </div>
                           </div>
@@ -111,7 +111,7 @@ export default function ModelSelect(props: {
                                   new Set([...cur, modelId])
                                 )
                               }}
-                              class='i-tabler-circle-plus w-5 h-5 flex-none'
+                              class='i-tabler-circle-plus w-5 h-5 flex-none text-uchu-purple-6 dark:text-uchu-purple-2 hover:text-uchu-purple-7 transition-colors'
                             />
                             <div class='flex justify-between items-center gap-2 grow'>
                               <div>{getModels()![modelId].name}</div>

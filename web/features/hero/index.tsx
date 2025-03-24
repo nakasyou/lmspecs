@@ -315,7 +315,7 @@ export default function Hero() {
                     },
                     grid: {
                       color: getIsDarkmode()
-                        ? 'oklch(0.872 0.01 258.338)'
+                        ? 'oklch(0.707 0.022 261.325)'
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
@@ -330,7 +330,7 @@ export default function Hero() {
                     },
                     grid: {
                       color: getIsDarkmode()
-                        ? 'oklch(0.872 0.01 258.338)'
+                        ? 'oklch(0.707 0.022 261.325)'
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
@@ -350,7 +350,7 @@ export default function Hero() {
                     },
                     grid: {
                       color: getIsDarkmode()
-                        ? 'oklch(0.872 0.01 258.338)'
+                        ? 'oklch(0.707 0.022 261.325)'
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
@@ -360,7 +360,7 @@ export default function Hero() {
                   y: {
                     grid: {
                       color: getIsDarkmode()
-                        ? 'oklch(0.872 0.01 258.338)'
+                        ? 'oklch(0.707 0.022 261.325)'
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
@@ -374,7 +374,7 @@ export default function Hero() {
                   x: {
                     grid: {
                       color: getIsDarkmode()
-                        ? 'oklch(0.872 0.01 258.338)'
+                        ? 'oklch(0.707 0.022 261.325)'
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
@@ -384,7 +384,7 @@ export default function Hero() {
                   y: {
                     grid: {
                       color: getIsDarkmode()
-                        ? 'oklch(0.872 0.01 258.338)'
+                        ? 'oklch(0.707 0.022 261.325)'
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
