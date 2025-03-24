@@ -142,9 +142,9 @@ export default function ValueSelect(props: {
 
   return (
     <Dialog>
-      <DialogOpener class='text-left text-uchu-purple-6 font-bold'>
+      <DialogOpener class='text-left text-uchu-purple-6 dark:text-uchu-purple-2 font-bold'>
         <div>{VALUE_TYPES[getType()[0]].title}</div>
-        <div class='text-sm text-uchu-purple-5'>
+        <div class='text-sm text-uchu-purple-5 dark:text-uchu-purple-3 break-all'>
           ({VALUE_TYPES[getType()[0]].formatParams(getType()[1] as never)})
         </div>
       </DialogOpener>
@@ -181,7 +181,7 @@ export default function ValueSelect(props: {
                   <button
                     type='button'
                     onClick={() => setIsShownTypeChanger(true)}
-                    class='text-uchu-purple-6 font-bold flex items-center gap-1 text-xl'
+                    class='text-uchu-purple-6 dark:text-uchu-purple-2 font-bold flex items-center gap-1 text-xl'
                   >
                     <div>
                       Dataset: {VALUE_TYPES[getType()[0]].title}

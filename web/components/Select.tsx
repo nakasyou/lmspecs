@@ -85,7 +85,7 @@ export function Select<T extends string>(props: {
       </div>
       <Show when={getIsShown()}>
         <div
-          class='absolute transition-all bg-white w-full z-10'
+          class='absolute transition-all bg-white dark:bg-slate-900 dark:text-white w-full z-10'
           classList={{
             'opacity-100': getIsRealShown(),
             'opacity-0': !getIsRealShown(),
@@ -94,7 +94,7 @@ export function Select<T extends string>(props: {
             [props.selectClass ?? '']: true
           }}
         >
-          <div class='bg-white border border-gray-400 rounded-md shadow-lg' role="listbox">
+          <div class='bg-white dark:bg-slate-900 dark:text-white border border-gray-400 rounded-md shadow-lg' role="listbox">
             <For
               each={Object.entries(props.titles) as [T, string | JSX.Element][]}
             >
@@ -103,9 +103,9 @@ export function Select<T extends string>(props: {
                   role="option"
                   aria-selected={getValue() === id}
                   classList={{
-                    'bg-uchu-purple-1 hover:bg-uchu-purple-2': getValue() === id,
+                    'bg-uchu-purple-1 dark:bg-uchu-purple-7 hover:bg-uchu-purple-2 dark:hover:bg-uchu-purple-9': getValue() === id,
                   }}
-                  class='transition-colors p-1 first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-gray-100'
+                  class='transition-colors p-1 first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-uchu-gray-1 dark:hover:bg-uchu-gray-9'
                   onClick={() =>
                     getValue() === id ? close() : setValue(() => id)}
                 >

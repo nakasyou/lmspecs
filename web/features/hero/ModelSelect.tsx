@@ -54,7 +54,7 @@ export default function ModelSelect(props: {
   return (
     <Dialog>
       <DialogOpener>
-        <div class='text-uchu-purple-6 font-bold'>
+        <div class='text-uchu-purple-6 dark:text-uchu-purple-2 dark:text-uchu-purple-2 font-bold'>
           {props.value.length} Selected
         </div>
       </DialogOpener>

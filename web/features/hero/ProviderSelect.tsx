@@ -65,9 +65,9 @@ export default function ProviderSelect(props: {
 
   return (
     <Dialog>
-      <DialogOpener class='text-left text-uchu-purple-6 font-bold'>
+      <DialogOpener class='text-left text-uchu-purple-6 dark:text-uchu-purple-2 font-bold'>
         <div>Providers</div>
-        <div class="text-sm text-uchu-purple-5">({getSelectedProviders().size} selected)</div>
+        <div class="text-sm text-uchu-purple-5 dark:text-uchu-purple-3">({getSelectedProviders().size} selected)</div>
       </DialogOpener>
       <DialogContent>
         <div class='p-3'>
@@ -101,7 +101,7 @@ export default function ProviderSelect(props: {
                                 new Set([...cur, providerId])
                               )
                             }}
-                            class='i-tabler-circle-plus w-5 h-5 text-uchu-purple-6 hover:text-uchu-purple-7 transition-colors'
+                            class='i-tabler-circle-plus w-5 h-5 text-uchu-purple-6 dark:text-uchu-purple-2 hover:text-uchu-purple-7 transition-colors'
                           />
                           <div class="text-uchu-gray-9">{getProviders()![providerId].name}</div>
                         </div>

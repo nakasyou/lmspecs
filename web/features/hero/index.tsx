@@ -93,6 +93,10 @@ const [getXAxis, setXAxis] = createSignal<ValueTypeData>(initialState.xAxis)
 const [getChartType, setChartType] = createSignal<ChartType>(
   initialState.chartType,
 )
+const [getIsDarkmode, setIsDarkmode] = createSignal(
+  window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches,
+)
 
 function getAxisLabel(axis: ValueTypeData): string {
   const [type, value] = axis
@@ -108,7 +112,7 @@ function Toolbox(props: {
     <div class='flex gap-2'>
       <button
         type='button'
-        class='p-1 rounded border w-8 h-8 border-uchu-gray-5 hover:bg-uchu-gray-1'
+        class='p-1 rounded border w-8 h-8 border-uchu-gray-5 dark:hover:bg-uchu-gray-9 hover:bg-uchu-gray-1'
         title='Download Chart as PNG'
         onClick={() => {
           const a = document.createElement('a')
@@ -122,7 +126,7 @@ function Toolbox(props: {
       </button>
       <button
         type='button'
-        class='p-1 rounded border w-8 h-8 border-uchu-gray-5 hover:bg-uchu-gray-1'
+        class='p-1 rounded border w-8 h-8 border-uchu-gray-5 dark:hover:bg-uchu-gray-9 hover:bg-uchu-gray-1'
         title='Share Chart'
         onClick={async () => {
           const url = new URL(location.href)
@@ -173,7 +177,7 @@ function Settings(props: {
         <div>
           <div class='font-bold'>Type</div>
           <div class='flex justify-between'>
-            <div class="w-30 sm:w-full">
+            <div class='w-30 sm:w-full'>
               <Select
                 titles={{
                   bar: (
@@ -297,51 +301,111 @@ export default function Hero() {
           mode: 'x',
           intersect: true,
         },
-        scales: (() => {
-          switch (chartType) {
-            case 'scatter':
-              return {
-                x: {
-                  type: 'linear',
-                  position: 'bottom',
-                  title: {
-                    display: true,
-                    text: getAxisLabel(xAxis),
+        scales: {
+          ...(() => {
+            switch (chartType) {
+              case 'scatter':
+                return {
+                  x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                      display: true,
+                      text: getAxisLabel(xAxis),
+                    },
+                    grid: {
+                      color: getIsDarkmode()
+                        ? 'oklch(0.872 0.01 258.338)'
+                        : 'oklch(0.869 0.005 56.366)',
+                    },
+                    ticks: {
+                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
+                    }
                   },
-                },
-                y: {
-                  type: 'linear',
-                  title: {
-                    display: true,
-                    text: getAxisLabel(yAxis),
+                  y: {
+                    type: 'linear',
+                    title: {
+                      display: true,
+                      text: getAxisLabel(yAxis),
+                    },
+                    grid: {
+                      color: getIsDarkmode()
+                        ? 'oklch(0.872 0.01 258.338)'
+                        : 'oklch(0.869 0.005 56.366)',
+                    },
+                    ticks: {
+                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
+                    }
                   },
-                },
-              }
-            case 'date': {
-              return {
-                /*x: {
+                }
+              case 'date': {
+                return {
+                  /*x: {
                   type: 'timeseries',
                 }*/
-                x: {
-                  type: 'time',
-                  time: {
-                    unit: 'day',
-                  }
-                },
+                  x: {
+                    type: 'time',
+                    time: {
+                      unit: 'day',
+                    },
+                    grid: {
+                      color: getIsDarkmode()
+                        ? 'oklch(0.872 0.01 258.338)'
+                        : 'oklch(0.869 0.005 56.366)',
+                    },
+                    ticks: {
+                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
+                    }
+                  },
+                  y: {
+                    grid: {
+                      color: getIsDarkmode()
+                        ? 'oklch(0.872 0.01 258.338)'
+                        : 'oklch(0.869 0.005 56.366)',
+                    },
+                    ticks: {
+                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
+                    }
+                  },
+                }
               }
+              default:
+                return {
+                  x: {
+                    grid: {
+                      color: getIsDarkmode()
+                        ? 'oklch(0.872 0.01 258.338)'
+                        : 'oklch(0.869 0.005 56.366)',
+                    },
+                    ticks: {
+                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
+                    }
+                  },
+                  y: {
+                    grid: {
+                      color: getIsDarkmode()
+                        ? 'oklch(0.872 0.01 258.338)'
+                        : 'oklch(0.869 0.005 56.366)',
+                    },
+                    ticks: {
+                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
+                    }
+                  },
+                }
             }
-            default:
-              return undefined
-          }
-        })(),
+          })(),
+        },
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: {
             position: (chartType === 'bar' || isSm) ? 'bottom' : 'left',
             display: chartType === 'bar' || !isSm,
+            labels: {
+              color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)',
+            },
           },
-        }
+        },
       },
       plugins: [
         {
@@ -350,7 +414,9 @@ export default function Hero() {
             const ctx = chart.canvas.getContext('2d')!
             ctx.save()
             ctx.globalCompositeOperation = 'destination-over'
-            ctx.fillStyle = 'white'
+            ctx.fillStyle = getIsDarkmode()
+              ? 'oklch(0.208 0.042 265.755)'
+              : 'white'
             ctx.fillRect(0, 0, chart.canvas.width, chart.canvas.height)
             ctx.restore()
           },
