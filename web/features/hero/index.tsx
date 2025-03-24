@@ -331,7 +331,7 @@ export default function Hero() {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: (chartType === 'bar' || isSm) ? 'bottom' : 'right',
+            position: (chartType === 'bar' || isSm) ? 'bottom' : 'left',
             display: chartType === 'bar' || !isSm,
           },
         }
@@ -442,7 +442,7 @@ export default function Hero() {
               ([model, scores]) => {
                 return {
                   label: model,
-                  stepped: 'before',
+                  stepped: VALUE_TYPES[yAxis[0]].isStepwise ? 'before' : false,
                   data: scores
                     ? scores
                       .flatMap(([date, score]) => {

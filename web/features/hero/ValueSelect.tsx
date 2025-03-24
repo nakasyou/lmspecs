@@ -33,7 +33,9 @@ export interface ValueType<Params> {
   title: string
   image: JSX.Element
   description: string
+
   isProvidedOnly?: boolean
+  isStepwise?: boolean
 
   /** Init Params */
   initParams: () => Params

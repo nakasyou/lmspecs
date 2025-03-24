@@ -189,4 +189,5 @@ export default {
     return Object.fromEntries(await Promise.all(promises))
   },
   isProvidedOnly: true,
+  isStepwise: true
 } satisfies ValueType<PricingParams>
