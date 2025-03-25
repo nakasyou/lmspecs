@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gpt-4o-2024-05-13",
+  "name": "GPT-4o (2024-05-13)",
+  "creator": ["OpenAI"],
+  "published": "2024-05-13",
+  "states": {
+    "2024-05-13": ["STABLE"]
+  },
+  "lmarena_id": "gpt-4o-2024-05-13",
+  "mmlu_pro_ids": [
+    "GPT-4o (2024-05-13)"
+  ],
+  "cutoff_date": {
+    "value": "2023-10"
+  },
+  "tokens_limit": {
+    "input": 128000,
+    "output": 16384
+  }
+}

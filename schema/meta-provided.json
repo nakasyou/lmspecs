@@ -4,7 +4,15 @@
   "properties": {
     "provider": {
       "type": "string",
-      "enum": ["gemini-api", "OpenAI", "DeepSeek", "Groq", "anthropic"]
+      "enum": [
+        "gemini-api",
+        "OpenAI",
+        "DeepSeek",
+        "Groq",
+        "anthropic",
+        "cohere",
+        "xAI"
+      ]
     },
     "model_id": {
       "type": "string",
@@ -14,14 +22,27 @@
       "type": "string",
       "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
     },
-    "prev": { "type": "string" },
+    "prev": {
+      "type": "string"
+    },
     "tokens_limit": {
       "type": "object",
       "properties": {
-        "output": { "type": "number" },
-        "sources": { "type": "array", "items": { "type": "string" } }
+        "output": {
+          "type": "number"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     }
   },
-  "required": ["provider", "provided_at", "model_id"]
+  "required": [
+    "provider",
+    "provided_at",
+    "model_id"
+  ]
 }

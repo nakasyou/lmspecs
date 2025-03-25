@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "command-r7b-12-2024",
+  "name": "Command R7B 12 2024",
+  "creator": ["Cohere"],
+  "published": "2024-12-14",
+  "states": {
+    "2024-12-14": ["STABLE"]
+  },
+  "mmlu_pro_ids": [],
+  "tokens_limit": {
+    "input": 128000,
+    "output": 4000
+  },
+  "license": {
+    "value": "cc-by-nc-4.0"
+  },
+  "links": {
+    "huggingface": "https://huggingface.co/CohereForAI/c4ai-command-r7b-12-2024"
+  }
+}

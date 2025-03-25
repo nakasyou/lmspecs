@@ -22,7 +22,9 @@
           "xAI",
           "OpenAI",
           "DeepSeek",
-          "Anthropic"
+          "Anthropic",
+          "Cohere",
+          "CohereForAI"
         ]
       }
     },
@@ -83,9 +85,30 @@
       "properties": {
         "value": {
           "type": "string",
-          "enum": ["Proprietary", "MIT"]
+          "enum": ["Proprietary", "MIT", "CC-BY-NC-4.0", "Apache-2.0"]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "value",
+        "sources"
+      ]
+    },
+    "links": {
+      "properties": {
+        "github": {
+          "type": "string"
+        },
+        "huggingface": {
+          "type": "string"
         }
       }
     }
-  }
+  },
+  "required": ["name", "id", "creator", "published", "states", "license"]
 }

@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../../schema/meta-provided.json",
+  "model_id": "claude-3-haiku-20240307",
+  "provider": "anthropic",
+  "provided_at": "2024-03-07"
+}

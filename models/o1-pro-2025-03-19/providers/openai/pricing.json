@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../../schema/pricing.json",
+  "pricing": {
+    "2025-03-19": {
+      "input": [{ "cost": { "USD": 150.00 } }],
+      "output": [{ "cost": { "USD": 600.00 } }]
+    }
+  }
+}

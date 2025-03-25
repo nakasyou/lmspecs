@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../../schema/pricing.json",
+  "pricing": {
+    "2023-03-14": {
+      "input": [{ "cost": { "USD": 30 } }],
+      "cachedInput": [{ "cost": { "USD": 0 } }],
+      "output": [{ "cost": { "USD": 60 } }]
+    }
+  }
+}

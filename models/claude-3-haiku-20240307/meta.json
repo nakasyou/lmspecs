@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "claude-3-haiku-20240307",
+  "name": "Claude 3 Haiku 2024-03-07",
+  "creator": ["Anthropic"],
+  "published": "2024-03-07",
+  "states": {
+    "2024-03-07": ["STABLE"]
+  },
+  "lmarena_id": "claude-3-haiku-20240307",
+  "mmlu_pro_ids": ["Claude-3-Haiku (2024-03-07)"],
+  "cutoff_date": {
+    "value": "2023-09",
+    "sources": ["https://docs.anthropic.com/en/docs/about-claude/models/all-models#"]
+  },
+  "tokens_limit": {
+    "input": 200000,
+    "output": 4096
+  }
+}

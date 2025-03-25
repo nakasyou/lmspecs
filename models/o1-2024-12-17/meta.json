@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "o1-2024-12-17",
+  "name": "o1 (2024-12-17)",
+  "creator": ["OpenAI"],
+  "published": "2024-12-17",
+  "states": {
+    "2024-12-17": ["STABLE"]
+  },
+  "cutoff_date": {
+    "value": "2023-10"
+  },
+  "tokens_limit": {
+    "input": 200000,
+    "output": 100000
+  },
+  "mmlu_pro_ids": ["GPT-o1"]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "o3-mini",
+  "name": "o3-mini",
+  "creator": ["OpenAI"],
+  "published": "2025-01-31",
+  "states": {
+    "2025-01-31": ["STABLE"]
+  },
+  "cutoff_date": {
+    "value": "2023-10"
+  },
+  "tokens_limit": {
+    "input": 200000,
+    "output": 100000
+  }
+}

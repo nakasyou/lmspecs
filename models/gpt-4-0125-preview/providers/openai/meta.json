@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../../schema/meta-provided.json",
+  "model_id": "gpt-4-0125-preview",
+  "provider": "OpenAI",
+  "provided_at": "2024-01-25"
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../../schema/meta-provided.json",
+  "model_id": "o3-mini",
+  "provider": "OpenAI",
+  "provided_at": "2025-01-31"
+}

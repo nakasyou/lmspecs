@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "o1-preview",
+  "name": "o1 preview",
+  "creator": ["OpenAI"],
+  "published": "2024-09-12",
+  "states": {
+    "2024-09-12": ["EXPERIMENTAL"]
+  },
+  "cutoff_date": {
+    "value": "2023-10"
+  },
+  "tokens_limit": {
+    "input": 128000,
+    "output": 32768
+  },
+  "lmarena_id": "o1-preview",
+  "mmlu_pro_ids": ["GPT-o1"]
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "../../../../schema/meta-provided.json",
+  "model_id": "command-a-03-2025",
+  "provider": "cohere",
+  "provided_at": "2025-03-13"
+}

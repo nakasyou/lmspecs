@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "grok-2-1212",
+  "name": "Grok-2 1212",
+  "creator": ["xAI"],
+  "published": "2024-12-12",
+  "states": {
+    "2024-12-12": ["STABLE"]
+  },
+  "mmlu_pro_ids": ["Grok-2"],
+  "license": {
+    "value": "Proprietary",
+    "sources": ["https://github.com/xai-org/grok-1/issues/355"]
+  },
+  "tokens_limit": {
+    "input": 131072
+  },
+  "cutoff_date": {
+    "value": "2024-06-17",
+    "sources": ["https://docs.x.ai/docs/models?cluster=us-east-1#model-constraints"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "grok-1",
+  "name": "Grok-1",
+  "creator": ["xAI"],
+  "published": "2024-03-27",
+  "states": {
+    "2024-03-27": ["STABLE"]
+  },
+  "license": {
+    "value": "Apache-2.0",
+    "sources": ["https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md"]
+  },
+  "links": {
+    "github": "https://github.com/xai-org/grok-1",
+    "huggingface": "https://huggingface.co/xai-org/grok-1"
+  },
+  "tokens_limit": {
+    "input": 8000
+  }
+}

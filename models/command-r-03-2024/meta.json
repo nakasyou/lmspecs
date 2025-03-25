@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "command-r-03-2024",
+  "name": "Command R 03 2024",
+  "creator": ["Cohere"],
+  "published": "2024-03-12",
+  "states": {
+    "2024-03-12": ["STABLE"]
+  },
+  "mmlu_pro_ids": ["c4ai-command-r-v01"],
+  "tokens_limit": {
+    "input": 128000,
+    "output": 4000
+  },
+  "license": {
+    "value": "cc-by-nc-4.0"
+  },
+  "links": {
+    "huggingface": "https://huggingface.co/CohereForAI/c4ai-command-r-v01"
+  }
+}

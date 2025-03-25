@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gpt-4-turbo-2024-04-09",
+  "name": "GPT-4 Turbo 2024-04-09",
+  "creator": ["OpenAI"],
+  "published": "2024-04-09",
+  "states": {
+    "2024-04-09": ["STABLE"]
+  },
+  "lmarena_id": "gpt-4-turbo-2024-04-09",
+  "mmlu_pro_ids": ["GPT-4-Turbo"],
+  "cutoff_date": {
+    "value": "2023-12-01",
+    "sources": ["https://platform.openai.com/docs/models/gpt-4-turbo"]
+  },
+  "tokens_limit": {
+    "input": 128000,
+    "output": 8192
+  }
+}

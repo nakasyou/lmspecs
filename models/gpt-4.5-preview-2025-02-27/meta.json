@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gpt-4.5-preview-2025-02-27",
+  "name": "GPT-4.5 Preview (2025-02-27)",
+  "creator": ["OpenAI"],
+  "published": "2025-02-27",
+  "states": {
+    "2025-02-27": ["EXPERIMENTAL"]
+  },
+  "cutoff_date": {
+    "value": "2023-10"
+  },
+  "tokens_limit": {
+    "input": 128000,
+    "output": 16384
+  }
+}

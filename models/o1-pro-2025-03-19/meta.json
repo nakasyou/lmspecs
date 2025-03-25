@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "o1-pro-2025-03-19",
+  "name": "o1-pro (2025-03-19)",
+  "creator": ["OpenAI"],
+  "published": "2025-03-19",
+  "states": {
+    "2025-03-19": ["STABLE"]
+  },
+  "cutoff_date": {
+    "value": "2023-10"
+  },
+  "tokens_limit": {
+    "input": 200000,
+    "output": 100000
+  }
+}

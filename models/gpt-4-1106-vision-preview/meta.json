@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schema/meta-models.json",
+  "id": "gpt-4-1106-vision-preview",
+  "name": "GPT-4 1106 Vision Preview",
+  "creator": ["OpenAI"],
+  "published": "2023-11-06",
+  "states": {
+    "2023-11-06": ["EXPERIMENTAL"]
+  },
+  "mmlu_pro_ids": [],
+  "cutoff_date": {
+    "value": "2023-12-01",
+    "sources": ["https://platform.openai.com/docs/models/gpt-4-turbo"]
+  },
+  "tokens_limit": {
+    "input": 128000,
+    "output": 8192
+  }
+}
