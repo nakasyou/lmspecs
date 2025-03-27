@@ -37,5 +37,9 @@
   },
   "links": {
     "huggingface": "https://huggingface.co/CohereForAI/c4ai-command-a-03-2025"
+  },
+  "features": {
+    "value": [],
+    "references": []
   }
 }

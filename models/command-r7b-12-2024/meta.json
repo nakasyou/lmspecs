@@ -35,5 +35,9 @@
   },
   "links": {
     "huggingface": "https://huggingface.co/CohereForAI/c4ai-command-r7b-12-2024"
+  },
+  "features": {
+    "value": [],
+    "references": []
   }
 }

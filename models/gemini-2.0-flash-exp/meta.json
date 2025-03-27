@@ -45,5 +45,9 @@
   "cutoff_date": {
     "value": "2024-06",
     "references": []
+  },
+  "features": {
+    "value": [],
+    "references": []
   }
 }

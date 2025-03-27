@@ -26,10 +26,12 @@
   "token_limit": {
     "input": 1000000,
     "output": null,
-    "references": [{
-      "url": "https://x.ai/news/grok-3",
-      "retrieved": "2025-03-27T06:55:32.158Z"
-    }]
+    "references": [
+      {
+        "url": "https://x.ai/news/grok-3",
+        "retrieved": "2025-03-27T06:55:32.158Z"
+      }
+    ]
   },
   "identifiers": {
     "lmarena": "early-grok-3"
@@ -45,6 +47,10 @@
     "output": [
       "text"
     ],
+    "references": []
+  },
+  "features": {
+    "value": ["REASONING"],
     "references": []
   }
 }

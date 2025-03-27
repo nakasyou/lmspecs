@@ -219,6 +219,9 @@
     "links": {
       "type": "object",
       "properties": {
+        "website": {
+          "type": "string"
+        },
         "github": {
           "type": "string"
         },
@@ -340,6 +343,46 @@
         "references",
         "trustability"
       ]
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "REASONING"
+              },
+              {
+                "const": "FUNCTION_CALLING"
+              }
+            ]
+          }
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "value",
+        "references"
+      ]
     }
   },
   "required": [
@@ -351,6 +394,7 @@
     "states",
     "identifiers",
     "license",
-    "multimodalities"
+    "multimodalities",
+    "features"
   ]
 }

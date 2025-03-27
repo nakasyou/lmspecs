@@ -49,6 +49,7 @@ export default v.object({
     references: v.array(reference()),
   }),
   links: v.optional(v.object({
+    website: v.optional(v.string()),
     github: v.optional(v.string()),
     huggingface: v.optional(v.string()),
   })),
@@ -72,5 +73,12 @@ export default v.object({
     value: v.number(),
     references: v.array(reference()),
     trustability: trustability()
-  }))
+  })),
+  features: v.object({
+    value: v.array(v.union([
+      v.literal('REASONING'),
+      v.literal('FUNCTION_CALLING')
+    ])),
+    references: v.array(reference()),
+  })
 })

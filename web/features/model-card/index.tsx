@@ -8,10 +8,17 @@ import { formatTokenUnit } from '../../lib/math.ts'
 import { For } from 'solid-js'
 import { InferOutput } from 'valibot'
 import modelMetaSchema from '../../../schema/models/meta.ts'
+import pricingSchema from '../../../schema/provided/pricing.ts'
+import providedMetaSchema from '../../../schema/provided/meta.ts'
 import CopyButton from '../../components/CopyButton.tsx'
 import { createMemo } from 'solid-js'
+import { Select } from '../../components/Select.tsx'
+import { createSignal } from 'solid-js'
+import { createEffect } from 'solid-js'
 
 type ModelMeta = InferOutput<typeof modelMetaSchema>
+type ProvidedMeta = InferOutput<typeof providedMetaSchema>
+type Pricing = InferOutput<typeof pricingSchema>
 
 const MODEL_INFO = import.meta.glob('../../../models/**/*')
 const ASSETS = import.meta.glob('../../../assets/*/*')
@@ -26,6 +33,40 @@ const getAssetURL = async (assetId: string): Promise<string> => {
     default: string
   }
   return mod.default as string
+}
+const fetchProviderIds = (modelId: string) => {
+  return [
+    ...new Set(
+      Object.keys(MODEL_INFO).flatMap((path) => {
+        if (!path.startsWith(`../../../models/${modelId}/providers`)) {
+          return []
+        }
+        return path.split('/')[6]
+      }),
+    ),
+  ]
+}
+const fetchProviderMeta = async (
+  modelId: string,
+  providerId: string,
+): Promise<ProvidedMeta> => {
+  const metaPath =
+    `../../../models/${modelId}/providers/${providerId}/meta.json`
+  const mod = await MODEL_INFO[metaPath]() as { default: ProvidedMeta }
+
+  return mod.default
+}
+const fetchPricing = async (
+  modelId: string,
+  providerId: string,
+): Promise<Pricing | null> => {
+  const path = `../../../models/${modelId}/providers/${providerId}/pricing.json`
+  if (!(path in MODEL_INFO)) {
+    return null
+  }
+  const mod = await MODEL_INFO[path]() as { default: Pricing }
+
+  return mod.default
 }
 
 const COMPANY_IMAGES = {
@@ -56,7 +97,7 @@ function CreatedBy(props: {
           <For each={getCreatorImages() ?? []}>
             {(image) => (
               <div>
-                <img class='w-8 h-8' src={image} />
+                <img class='w-6 h-6' src={image} />
               </div>
             )}
           </For>
@@ -65,14 +106,56 @@ function CreatedBy(props: {
     </div>
   )
 }
+
+function Links(props: {
+  modelMeta: ModelMeta
+}) {
+  return (
+    <div class='flex flex-col gap-1'>
+      <div class='text-slate-500 text-sm flex gap-1 items-center'>
+        <div>Links</div>
+        <CopyButton
+          content={JSON.stringify(props.modelMeta.creators)}
+          class='w-4 h-4 bg-slate-500'
+        />
+      </div>
+      <Suspense>
+        <div class='flex gap-2'>
+          <Show when={props.modelMeta.links?.website}>
+            {(link) => (
+              <a
+                href={link()}
+                rel='norefferer noopener'
+                target='_blank'
+                class='i-tabler-world w-6 h-6 bg-gray-700 hover:bg-gray-600'
+              />
+            )}
+          </Show>
+          <Show when={props.modelMeta.links?.github}>
+            {(link) => (
+              <a
+                href={link()}
+                rel='norefferer noopener'
+                target='_blank'
+                class='i-tabler-brand-github w-6 h-6 bg-gray-700 hover:bg-gray-600'
+              />
+            )}
+          </Show>
+        </div>
+      </Suspense>
+    </div>
+  )
+}
 function ModelTitle(props: {
   modelMeta: ModelMeta
 }) {
+  const getProviderIds = createMemo(() => fetchProviderIds(props.modelMeta.id))
   const [getModelLogo] = createResource(() => {
     const id = props.modelMeta.logos?.[0]
     if (!id) return ''
     return getAssetURL(id)
   })
+
   return (
     <div class='flex gap-4 flex-col sm:flex-row'>
       <div class='flex flex-col gap-2'>
@@ -103,6 +186,12 @@ function ModelTitle(props: {
       <div class='flex items-center'>
         <CreatedBy modelMeta={props.modelMeta} />
       </div>
+      <Show when={Object.keys(props.modelMeta.links ?? {}).length > 0}>
+        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+        <div class='flex items-center'>
+          <Links modelMeta={props.modelMeta} />
+        </div>
+      </Show>
     </div>
   )
 }
@@ -303,24 +392,42 @@ function MultimodalityCard(props: {
   })
   const getIsOn = createMemo(() => props.input || props.output)
   return (
+    <AbilityCard
+      onIcon={props.onIcon}
+      offIcon={props.offIcon}
+      name={props.name}
+      text={getText()}
+      enabled={getIsOn()}
+    />
+  )
+}
+
+function AbilityCard(props: {
+  onIcon: string
+  offIcon: string
+
+  name: string
+  text: string
+  enabled: boolean
+}) {
+  return (
     <div
       class='flex items-center gap-2'
       classList={{
-        'opacity-70': !getIsOn(),
+        'opacity-70': !props.enabled,
       }}
     >
       <div>
         <div
           class='w-6 h-6 items-center bg-gray-800'
           classList={{
-            [props.offIcon]: !getIsOn(),
-            [props.onIcon]: getIsOn(),
+            [props.enabled ? props.onIcon : props.offIcon]: true,
           }}
         />
       </div>
       <div>
         <div class='font-bold text-sm text-gray-800'>{props.name}</div>
-        <div class='text-gray-700 text-xs'>{getText()}</div>
+        <div class='text-gray-700 text-xs'>{props.text}</div>
       </div>
     </div>
   )
@@ -364,7 +471,7 @@ function ModelSpecs(props: {
           </ModelSpec>
           <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
           <ModelSpec
-            iconClass='i-tabler-pencil'
+            iconClass='i-tabler-weight'
             key='Model Size'
             references={props.modelMeta.model_parameters?.references ?? []}
             contentToCopy={props.modelMeta.model_parameters?.value.toString() ??
@@ -402,7 +509,10 @@ function ModelSpecs(props: {
             contentToCopy={props.modelMeta.token_limit?.output?.toString() ??
               ''}
           >
-            <Show when={props.modelMeta.token_limit?.output} fallback='Unknown or not specified'>
+            <Show
+              when={props.modelMeta.token_limit?.output}
+              fallback='Unknown or not specified'
+            >
               {props.modelMeta.token_limit?.output} Tokens
             </Show>
           </ModelSpec>
@@ -444,7 +554,128 @@ function ModelSpecs(props: {
             />
           </div>
         </div>
+        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='flex flex-col sm:flex-row gap-2'>
+          <div class='flex gap-1 w-60'>
+            <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-sparkles' />
+            <div class='font-bold text-slate-800'>Features</div>
+          </div>
+          <div class='grow grid grid-cols-2 gap-2'>
+            <AbilityCard
+              onIcon='i-tabler-brain'
+              offIcon='i-tabler-brain'
+              name='REASONING'
+              enabled={props.modelMeta.features.value.includes('REASONING')}
+              text={props.modelMeta.features.value.includes('REASONING')
+                ? 'Supported'
+                : 'Not supported'}
+            />
+            <AbilityCard
+              onIcon='i-tabler-function'
+              offIcon='i-tabler-function-off'
+              name='NATIVE FUNCTION CALLING'
+              enabled={props.modelMeta.features.value.includes(
+                'FUNCTION_CALLING',
+              )}
+              text={props.modelMeta.features.value.includes('FUNCTION_CALLING')
+                ? 'Supported'
+                : 'Not supported'}
+            />
+          </div>
+        </div>
       </div>
+    </div>
+  )
+}
+
+interface ProviderData {
+  meta: ProvidedMeta
+  pricing: Pricing | null
+}
+
+function ProvidedContent(props: {
+  data: ProviderData
+}) {
+  return (
+    <div class='flex flex-col gap-4'>
+      <div class='flex gap-4 flex-col md:flex-row'>
+        <ModelSpec
+          key='Provided at'
+          iconClass='i-tabler-calendar-bolt'
+          references={props.data.meta.provided_at.references}
+          contentToCopy={props.data.meta.provided_at.value}
+        >
+          {formatter.format(new Date(props.data.meta.provided_at.value))}
+        </ModelSpec>
+        <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+        <ModelSpec
+          key='Provided at'
+          iconClass='i-tabler-calendar-bolt'
+          references={props.data.meta.provided_at.references}
+          contentToCopy={props.data.meta.provided_at.value}
+        >
+          {formatter.format(new Date(props.data.meta.provided_at.value))}
+        </ModelSpec>
+      </div>
+      <div class='h-[1px] w-full bg-gray-200 ' />
+      <div>
+        <div class='flex flex-col sm:flex-row gap-2'>
+          <div class='flex gap-1 w-60'>
+            <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-moneybag' />
+            <div class='font-bold text-slate-800'>Pricing</div>
+          </div>
+          <div>
+            <div class='flex gap-2'>
+              <div class='font-bold text-slate-700'>Input</div>
+              <div>aa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProvidedInfo(props: {
+  modelMeta: ModelMeta
+}) {
+  const getProviderIds = createMemo(() => fetchProviderIds(props.modelMeta.id))
+  const [getSelectedProvider, setSelectedProvider] = createSignal(
+    getProviderIds()[0],
+  )
+  const [getProviderData, { refetch }] = createResource(
+    async () => {
+      const [meta, pricing] = await Promise.all([
+        fetchProviderMeta(props.modelMeta.id, getSelectedProvider()),
+        fetchPricing(props.modelMeta.id, getSelectedProvider()),
+      ])
+      return {
+        meta,
+        pricing,
+      }
+    },
+  )
+
+  createEffect(() => {
+    getSelectedProvider()
+    refetch()
+  })
+
+  return (
+    <div class='flex flex-col gap-2'>
+      <div class='flex gap-2 items-center'>
+        <div class='text-lg text-gray-500 font-bold'>with:</div>
+        <Select
+          titles={Object.fromEntries(getProviderIds().map((id) => [id, id]))}
+          value={getSelectedProvider()}
+          onChange={setSelectedProvider}
+        />
+      </div>
+      <Suspense fallback='loading...'>
+        <Show when={getProviderData()}>
+          {(data) => <ProvidedContent data={data()} />}
+        </Show>
+      </Suspense>
     </div>
   )
 }
@@ -457,6 +688,7 @@ function ModelContent(props: {
       <ModelTitle modelMeta={props.modelMeta} />
       <ModelSummary modelMeta={props.modelMeta} />
       <ModelSpecs modelMeta={props.modelMeta} />
+      <ProvidedInfo modelMeta={props.modelMeta} />
     </div>
   )
 }

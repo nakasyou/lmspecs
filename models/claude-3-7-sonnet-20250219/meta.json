@@ -39,5 +39,9 @@
     "input": 200000,
     "output": 8192,
     "references": []
+  },
+  "features": {
+    "value": [],
+    "references": []
   }
 }
