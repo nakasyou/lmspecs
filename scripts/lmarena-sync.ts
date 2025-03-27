@@ -60,7 +60,7 @@ for (const yyyymmdd in data) {
 
 for (const [modelId, metaPath] of modelMaps) {
   await Deno.writeTextFile(
-    join(metaPath, '../score-lmarena.json'),
+    join(metaPath, '../bench-lmarena.json'),
     JSON.stringify(
       {
         '$schema': '../../schema/_output/models/bench-lmarena.json',
