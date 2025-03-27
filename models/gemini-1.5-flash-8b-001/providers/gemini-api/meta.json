@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "gemini-1.5-flash-8b",
   "provider": "gemini-api",
-  "provided_at": "2024-10-23"
+  "provided_at": {
+    "value": "2024-10-23",
+    "references": []
+  }
 }

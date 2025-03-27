@@ -1,19 +1,43 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "claude-3-7-sonnet-20250219",
-  "name": "Claude 3.7 Sonnet 2025-02-19",
-  "creators": ["Anthropic"],
-  "published": "2025-02-19",
+  "name": "claude-3-7-sonnet-20250219",
+  "creators": [
+    "Anthropic"
+  ],
+  "published_at": {
+    "value": "2025-02-19",
+    "references": []
+  },
   "states": {
-    "2025-02-19": ["STABLE"]
+    "2025-02-19": [
+      "STABLE"
+    ]
   },
-  "lmarena_id": "claude-3-7-sonnet-20250219",
-  "mmlu_pro_ids": [],
+  "identifiers": {
+    "lmarena": "claude-3-7-sonnet-20250219"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  },
   "cutoff_date": {
-    "value": "2024-11"
+    "value": "2024-11",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 200000,
-    "output": 8192
+    "output": 8192,
+    "references": []
   }
 }

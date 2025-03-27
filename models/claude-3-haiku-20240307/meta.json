@@ -1,20 +1,43 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "claude-3-haiku-20240307",
-  "name": "Claude 3 Haiku 2024-03-07",
-  "creators": ["Anthropic"],
-  "published": "2024-03-07",
-  "states": {
-    "2024-03-07": ["STABLE"]
+  "name": "claude-3-haiku-20240307",
+  "creators": [
+    "Anthropic"
+  ],
+  "published_at": {
+    "value": "2024-03-07",
+    "references": []
   },
-  "lmarena_id": "claude-3-haiku-20240307",
-  "mmlu_pro_ids": ["Claude-3-Haiku (2024-03-07)"],
+  "states": {
+    "2024-03-07": [
+      "STABLE"
+    ]
+  },
+  "identifiers": {
+    "lmarena": "claude-3-haiku-20240307"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  },
   "cutoff_date": {
     "value": "2023-09",
-    "sources": ["https://docs.anthropic.com/en/docs/about-claude/models/all-models#"]
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 200000,
-    "output": 4096
+    "output": 4096,
+    "references": []
   }
 }

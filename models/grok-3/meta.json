@@ -1,21 +1,50 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "grok-3",
   "name": "Grok 3",
-  "creators": ["xAI"],
-  "published": "2025-02-17",
-  "states": {
-    "2025-02-17": ["EXPERIMENTAL"]
-  },
-  "mmlu_pro_ids": [
-    "Grok3-Beta"
+  "creators": [
+    "xAI"
   ],
-  "lmarena_id": "early-grok-3",
-  "cutoff_date": {
-    "value": "2024-10-31",
-    "sources": [
-      "https://www.reddit.com/r/grok/comments/1iubkvu/grok_3s_actual_knowledge_cutoff_date_is_october/"
+  "published_at": {
+    "value": "2025-02-17",
+    "references": []
+  },
+  "states": {
+    "2025-02-17": [
+      "EXPERIMENTAL"
     ]
   },
-  "tokens_limit": {}
+  "cutoff_date": {
+    "value": "2024-10-31",
+    "references": [
+      {
+        "url": "https://www.reddit.com/r/grok/comments/1iubkvu/grok_3s_actual_knowledge_cutoff_date_is_october/",
+        "retrieved": "2025-03-27T06:46:32.098Z"
+      }
+    ]
+  },
+  "token_limit": {
+    "input": 1000000,
+    "output": null,
+    "references": [{
+      "url": "https://x.ai/news/grok-3",
+      "retrieved": "2025-03-27T06:55:32.158Z"
+    }]
+  },
+  "identifiers": {
+    "lmarena": "early-grok-3"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  }
 }

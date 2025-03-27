@@ -1,37 +1,48 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-1.5-flash-001",
-  "name": "Gemini 1.5 Flash 001",
-  "creators": ["Google"],
-  "published": "2024-05-24",
-  "states": {
-    "2024-05-24": ["STABLE"]
-  },
-  "lmarena_id": "gemini-1.5-flash-001",
-  "mmlu_pro_ids": [
-    "Gemini-1.5-Flash"
+  "name": "gemini-1.5-flash-001",
+  "creators": [
+    "Google"
   ],
-  "cutoff_date": {
-    "value": "2024-05",
-    "sources": [
-      "https://firebase.google.com/docs/vertex-ai/models?hl=ja#specs-and-limitations-comparison"
+  "published_at": {
+    "value": "2024-05-24",
+    "references": []
+  },
+  "states": {
+    "2024-05-24": [
+      "STABLE"
     ]
   },
-  "logos": ["google-gemini-icon/image.svg"],
-  "tokens_limit": {
+  "identifiers": {
+    "lmarena": "gemini-1.5-flash-001"
+  },
+  "logos": [
+    "google-gemini-icon/image.svg"
+  ],
+  "token_limit": {
     "input": 1048576,
     "output": 8192,
-    "sources": [
-      "https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash"
-    ]
+    "references": []
   },
   "multimodalities": {
-    "input": ["text", "image", "audio", "video"],
-    "output": ["text"],
-    "sources": []
+    "input": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   },
   "license": {
     "value": "Proprietary",
-    "sources": []
+    "references": []
+  },
+  "cutoff_date": {
+    "value": "2024-05",
+    "references": []
   }
 }

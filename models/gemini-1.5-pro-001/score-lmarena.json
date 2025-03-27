@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schema/score.json",
+  "$schema": "../../schema/_output/models/bench-lmarena.json",
   "scores": {
     "2024-10-23": {
       "text_creative_writing": 1274.7215211467242,

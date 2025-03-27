@@ -64,13 +64,13 @@ export function Select<T extends string>(props: {
     closeTimeout = setTimeout(() => setIsShown(false), 400)
   }
   return (
-    <div ref={ref} class={"inline-block relative " + (props.class)}>
+    <div ref={ref} class={'inline-block relative ' + (props.class)}>
       <div
         onClick={() => {
           ;(getIsRealShown() ? close : open)()
         }}
-        role="combobox"
-        aria-haspopup="listbox"
+        role='combobox'
+        aria-haspopup='listbox'
         aria-expanded={getIsRealShown()}
         class='w-full border p-1 rounded-md border-gray-400 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors'
       >
@@ -91,19 +91,23 @@ export function Select<T extends string>(props: {
             'opacity-0': !getIsRealShown(),
             'bottom-full mb-2': shouldShowUp(),
             'top-full mt-2': !shouldShowUp(),
-            [props.selectClass ?? '']: true
+            [props.selectClass ?? '']: true,
           }}
         >
-          <div class='bg-white dark:bg-slate-900 dark:text-white border border-gray-400 rounded-md shadow-lg' role="listbox">
+          <div
+            class='bg-white dark:bg-slate-900 dark:text-white border border-gray-400 rounded-md shadow-lg'
+            role='listbox'
+          >
             <For
               each={Object.entries(props.titles) as [T, string | JSX.Element][]}
             >
               {([id, title]) => (
                 <div
-                  role="option"
+                  role='option'
                   aria-selected={getValue() === id}
                   classList={{
-                    'bg-uchu-purple-1 dark:bg-uchu-purple-7 hover:bg-uchu-purple-2 dark:hover:bg-uchu-purple-9': getValue() === id,
+                    'bg-uchu-purple-1 dark:bg-uchu-purple-7 hover:bg-uchu-purple-2 dark:hover:bg-uchu-purple-9':
+                      getValue() === id,
                   }}
                   class='transition-colors p-1 first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-uchu-gray-1 dark:hover:bg-uchu-gray-9'
                   onClick={() =>

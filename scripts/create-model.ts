@@ -1,7 +1,7 @@
 const modelID = Deno.args[0]
 
 const json = {
-  $schema: '../../schema/meta-models.json',
+  $schema: '../../schema/_output/models/meta.json',
   id: modelID,
   name: modelID.split('-').map((m) => m[0].toUpperCase() + m.slice(1)).join(
     ' ',
@@ -11,7 +11,7 @@ const json = {
   states: {},
   lmarena_id: modelID,
   cutoff_date: {},
-  tokens_limit: {},
+  token_limit: {},
 }
 
 await Deno.mkdir(`./models/${modelID}`)

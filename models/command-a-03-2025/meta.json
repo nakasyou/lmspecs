@@ -1,20 +1,39 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "command-a-03-2025",
-  "name": "Command A 03 2025",
-  "creators": ["Cohere"],
-  "published": "2025-03-13",
-  "states": {
-    "2025-03-13": ["STABLE"]
+  "name": "command-a-03-2025",
+  "creators": [
+    "Cohere"
+  ],
+  "published_at": {
+    "value": "2025-03-13",
+    "references": []
   },
-  "lmarena_id": "command-a-03-2025",
-  "mmlu_pro_ids": [],
-  "tokens_limit": {
+  "states": {
+    "2025-03-13": [
+      "STABLE"
+    ]
+  },
+  "identifiers": {
+    "lmarena": "command-a-03-2025"
+  },
+  "token_limit": {
     "input": 256000,
-    "output": 8000
+    "output": 8000,
+    "references": []
   },
   "license": {
-    "value": "cc-by-nc-4.0"
+    "value": "cc-by-nc-4.0",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   },
   "links": {
     "huggingface": "https://huggingface.co/CohereForAI/c4ai-command-a-03-2025"

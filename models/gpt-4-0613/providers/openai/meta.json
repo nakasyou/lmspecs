@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "gpt-4-0613",
   "provider": "OpenAI",
-  "provided_at": "2023-06-13"
+  "provided_at": {
+    "value": "2023-06-13",
+    "references": []
+  }
 }

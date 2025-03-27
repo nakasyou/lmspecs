@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schema/meta-provider.json",
+  "$schema": "../../schema/_output/providers/meta.json",
 
   "id": "gemini-api",
   "name": "Gemini API"

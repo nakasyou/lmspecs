@@ -1,17 +1,40 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "o3-mini",
   "name": "o3-mini",
-  "creators": ["OpenAI"],
-  "published": "2025-01-31",
+  "creators": [
+    "OpenAI"
+  ],
+  "published_at": {
+    "value": "2025-01-31",
+    "references": []
+  },
   "states": {
-    "2025-01-31": ["STABLE"]
+    "2025-01-31": [
+      "STABLE"
+    ]
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
   },
   "cutoff_date": {
-    "value": "2023-10"
+    "value": "2023-10",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 200000,
-    "output": 100000
+    "output": 100000,
+    "references": []
+  },
+  "identifiers": {},
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

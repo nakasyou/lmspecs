@@ -68,7 +68,7 @@ function LMArena(props: {
   })
   return (
     <label>
-      <div class="text-lg font-bold">Select a subject:</div>
+      <div class='text-lg font-bold'>Select a subject:</div>
       <Select
         titles={titles}
         value={props.value ?? 'text_overall'}
@@ -100,19 +100,28 @@ export default {
   formatParams: (params) => params,
   Setting: LMArena,
   getData: async (params, modelIds) => {
-    const promises: Promise<[modelId: string, [date: string, val: number | null][]]>[] = []
+    const promises: Promise<
+      [modelId: string, [date: string, val: number | null][]]
+    >[] = []
     for (const modelId of modelIds) {
       const path = `../../../../models/${modelId}/score-lmarena.json`
       if (path in MODEL_LMARENA_IMPORTS) {
         promises.push((async () => {
-          const imported = ((await MODEL_LMARENA_IMPORTS[path]()) as { default: LMArenaScore }).default
-          
-          return [modelId, Object.entries(imported.scores).map(([date, scores]) => [date, scores[params]])]
+          const imported =
+            ((await MODEL_LMARENA_IMPORTS[path]()) as { default: LMArenaScore })
+              .default
+
+          return [
+            modelId,
+            Object.entries(imported.scores).map((
+              [date, scores],
+            ) => [date, scores[params]]),
+          ]
         })())
       } else {
         promises.push(Promise.resolve([modelId, []]))
       }
     }
     return Object.fromEntries(await Promise.all(promises))
-  }
+  },
 } satisfies ValueType<LMArenaParams>

@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "gemini-2.0-pro-exp-02-05",
   "provider": "gemini-api",
-  "provided_at": "2025-02-05"
+  "provided_at": {
+    "value": "2025-02-05",
+    "references": []
+  }
 }

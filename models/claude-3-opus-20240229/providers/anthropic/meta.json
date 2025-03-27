@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "claude-3-opus-20240229",
   "provider": "anthropic",
-  "provided_at": "2024-02-29"
+  "provided_at": {
+    "value": "2024-02-29",
+    "references": []
+  }
 }

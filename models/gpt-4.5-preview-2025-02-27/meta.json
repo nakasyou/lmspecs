@@ -1,17 +1,40 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gpt-4.5-preview-2025-02-27",
   "name": "GPT-4.5 Preview (2025-02-27)",
-  "creators": ["OpenAI"],
-  "published": "2025-02-27",
+  "creators": [
+    "OpenAI"
+  ],
+  "published_at": {
+    "value": "2025-02-27",
+    "references": []
+  },
   "states": {
-    "2025-02-27": ["EXPERIMENTAL"]
+    "2025-02-27": [
+      "EXPERIMENTAL"
+    ]
   },
   "cutoff_date": {
-    "value": "2023-10"
+    "value": "2023-10",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 128000,
-    "output": 16384
+    "output": 16384,
+    "references": []
+  },
+  "identifiers": {},
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

@@ -1,4 +1,7 @@
 {
   "model_id": "gemini-1.5-pro-001",
-  "provider_id": "gemini-api"
+  "provider_id": "gemini-api",
+  "provided_at": {
+    "references": []
+  }
 }

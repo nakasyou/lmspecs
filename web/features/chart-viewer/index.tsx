@@ -297,10 +297,12 @@ export default function ChartViewer() {
         ],
       },
       options: {
-        interaction: chartType === 'date' ? {
-          mode: 'x',
-          intersect: true,
-        } : undefined,
+        interaction: chartType === 'date'
+          ? {
+            mode: 'x',
+            intersect: true,
+          }
+          : undefined,
         scales: {
           ...(() => {
             switch (chartType) {
@@ -319,8 +321,10 @@ export default function ChartViewer() {
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
-                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
-                    }
+                      color: getIsDarkmode()
+                        ? 'white'
+                        : 'oklch(0.446 0.03 256.802)',
+                    },
                   },
                   y: {
                     type: 'linear',
@@ -334,8 +338,10 @@ export default function ChartViewer() {
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
-                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
-                    }
+                      color: getIsDarkmode()
+                        ? 'white'
+                        : 'oklch(0.446 0.03 256.802)',
+                    },
                   },
                 }
               case 'date': {
@@ -354,8 +360,10 @@ export default function ChartViewer() {
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
-                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
-                    }
+                      color: getIsDarkmode()
+                        ? 'white'
+                        : 'oklch(0.446 0.03 256.802)',
+                    },
                   },
                   y: {
                     grid: {
@@ -364,8 +372,10 @@ export default function ChartViewer() {
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
-                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
-                    }
+                      color: getIsDarkmode()
+                        ? 'white'
+                        : 'oklch(0.446 0.03 256.802)',
+                    },
                   },
                 }
               }
@@ -378,8 +388,10 @@ export default function ChartViewer() {
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
-                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
-                    }
+                      color: getIsDarkmode()
+                        ? 'white'
+                        : 'oklch(0.446 0.03 256.802)',
+                    },
                   },
                   y: {
                     grid: {
@@ -388,8 +400,10 @@ export default function ChartViewer() {
                         : 'oklch(0.869 0.005 56.366)',
                     },
                     ticks: {
-                      color: getIsDarkmode() ? 'white' : 'oklch(0.446 0.03 256.802)'
-                    }
+                      color: getIsDarkmode()
+                        ? 'white'
+                        : 'oklch(0.446 0.03 256.802)',
+                    },
                   },
                 }
             }

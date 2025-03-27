@@ -1,19 +1,37 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "command-r-08-2024",
-  "name": "Command R 08 2024",
-  "creators": ["Cohere"],
-  "published": "2024-08-30",
-  "states": {
-    "2024-08-30": ["STABLE"]
+  "name": "command-r-08-2024",
+  "creators": [
+    "Cohere"
+  ],
+  "published_at": {
+    "value": "2024-08-30",
+    "references": []
   },
-  "lmarena_id": "command-r-08-2024",
-  "tokens_limit": {
+  "states": {
+    "2024-08-30": [
+      "STABLE"
+    ]
+  },
+  "identifiers": {},
+  "token_limit": {
     "input": 128000,
-    "output": 4000
+    "output": 4000,
+    "references": []
   },
   "license": {
-    "value": "cc-by-nc-4.0"
+    "value": "cc-by-nc-4.0",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   },
   "links": {
     "huggingface": "https://huggingface.co/CohereForAI/c4ai-command-r-08-2024"

@@ -1,17 +1,40 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "o1-pro-2025-03-19",
   "name": "o1-pro (2025-03-19)",
-  "creators": ["OpenAI"],
-  "published": "2025-03-19",
+  "creators": [
+    "OpenAI"
+  ],
+  "published_at": {
+    "value": "2025-03-19",
+    "references": []
+  },
   "states": {
-    "2025-03-19": ["STABLE"]
+    "2025-03-19": [
+      "STABLE"
+    ]
   },
   "cutoff_date": {
-    "value": "2023-10"
+    "value": "2023-10",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 200000,
-    "output": 100000
+    "output": 100000,
+    "references": []
+  },
+  "identifiers": {},
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

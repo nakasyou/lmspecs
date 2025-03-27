@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schema/score.json",
+  "$schema": "../../schema/_output/models/bench-lmarena.json",
   "scores": {
     "2023-12-06": {
       "text_overall": 1047.026369113196

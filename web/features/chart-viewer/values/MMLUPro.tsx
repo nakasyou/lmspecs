@@ -77,10 +77,9 @@ export default {
 
       if (path in MODEL_MMLUPRO_IMPORTS) {
         promises.push((async () => {
-          const imported =
-            ((await MODEL_MMLUPRO_IMPORTS[path]()) as {
-              default: MMLUProScores
-            }).default
+          const imported = ((await MODEL_MMLUPRO_IMPORTS[path]()) as {
+            default: MMLUProScores
+          }).default
 
           const values: [date: string, val: number | null][] = Object.entries(
             imported.scores,
@@ -98,6 +97,6 @@ export default {
         })())
       }
     }
-    return Object.fromEntries((await Promise.all(promises)).filter((v) => !!v) )
+    return Object.fromEntries((await Promise.all(promises)).filter((v) => !!v))
   },
 } satisfies ValueType<MMLUProParams>

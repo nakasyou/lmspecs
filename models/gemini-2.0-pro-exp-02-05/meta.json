@@ -1,25 +1,53 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-2.0-pro-exp-02-05",
   "name": "Gemini 2.0 Pro Exp 02 05",
-  "creators": ["Google"],
-  "published": "2025-02-25",
-  "states": {
-    "2025-02-25": ["EXPERIMENTAL"]
-  },
-  "mmlu_pro_ids": [
-    "Gemini-2.0-Pro"
+  "creators": [
+    "Google"
   ],
-  "lmarena_id": "gemini-2.0-pro-exp-02-05",
-  "cutoff_date": {
-    "value": "2024-06",
-    "sources": [
-      "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison"
+  "published_at": {
+    "value": "2025-02-25",
+    "references": []
+  },
+  "states": {
+    "2025-02-25": [
+      "EXPERIMENTAL"
     ]
   },
-  "logos": ["google-gemini-icon/image.svg"],
-  "tokens_limit": {
+  "cutoff_date": {
+    "value": "2024-06",
+    "references": [
+      {
+        "url": "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison",
+        "retrieved": "2025-03-27T06:46:32.040Z"
+      }
+    ]
+  },
+  "logos": [
+    "google-gemini-icon/image.svg"
+  ],
+  "token_limit": {
     "input": 2097152,
-    "output": 8192
+    "output": 8192,
+    "references": []
+  },
+  "identifiers": {
+    "lmarena": "gemini-2.0-pro-exp-02-05"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

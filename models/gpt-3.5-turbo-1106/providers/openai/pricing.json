@@ -1,10 +1,10 @@
 {
-  "$schema": "../../../../schema/pricing.json",
+  "$schema": "../../../../schema/_output/provided/pricing.json",
   "pricing": {
     "2023-11-06": {
       "input": [{ "cost": { "USD": 1 } }],
-      "cachedInput": [{ "cost": { "USD": 0 } }],
-      "output": [{ "cost": { "USD": 2 } }]
+      "output": [{ "cost": { "USD": 2 } }],
+      "references": []
     }
   }
 }

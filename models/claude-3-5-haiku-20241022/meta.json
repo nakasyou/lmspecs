@@ -1,19 +1,43 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "claude-3-5-haiku-20241022",
-  "name": "Claude 3.5 Sonnet 2024-10-22",
-  "creators": ["Anthropic"],
-  "published": "2025-10-22",
+  "name": "claude-3-5-haiku-20241022",
+  "creators": [
+    "Anthropic"
+  ],
+  "published_at": {
+    "value": "2025-10-22",
+    "references": []
+  },
   "states": {
-    "2025-10-22": ["STABLE"]
+    "2025-10-22": [
+      "STABLE"
+    ]
   },
-  "lmarena_id": "claude-3-5-haiku-20241022",
-  "mmlu_pro_ids": ["Claude-3-5-Haiku (2024-10-22)"],
+  "identifiers": {
+    "lmarena": "claude-3-5-haiku-20241022"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  },
   "cutoff_date": {
-    "value": "2024-04"
+    "value": "2024-04",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 200000,
-    "output": 8192
+    "output": 8192,
+    "references": []
   }
 }

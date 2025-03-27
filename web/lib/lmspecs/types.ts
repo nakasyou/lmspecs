@@ -3,11 +3,11 @@ export interface ModelMeta {
   id: string
   logos?: string[]
   multimodalities: {
-    input: ("image" | "text" | 'audio' | 'video')[]
-    output: ("image" | "text" | 'audio' | 'video')[]
+    input: ('image' | 'text' | 'audio' | 'video')[]
+    output: ('image' | 'text' | 'audio' | 'video')[]
     sources: string[]
   }
-  tokens_limit: {
+  token_limit: {
     input: number
     output?: number
     sources: string[]

@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "grok-2-1212",
   "provider": "xAI",
-  "provided_at": "2024-12-12"
+  "provided_at": {
+    "value": "2024-12-12",
+    "references": []
+  }
 }

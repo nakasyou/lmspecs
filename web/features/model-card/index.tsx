@@ -147,10 +147,10 @@ function ModelSummary(props: {
     <div class='border justify-between border-uchu-gray-4 rounded-lg flex gap-2 p-3'>
       <ModelSummaryCard
         title='CONTEXT WINDOW'
-        shortDesc={`${props.modelMeta.tokens_limit.input.toString()} Tokens`}
+        shortDesc={`${props.modelMeta.token_limit.input.toString()} Tokens`}
       >
         <div class='text-lg font-bold text-gray-700'>
-          {formatTokenUnit(props.modelMeta.tokens_limit.input)}
+          {formatTokenUnit(props.modelMeta.token_limit.input)}
         </div>
       </ModelSummaryCard>
       <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
@@ -205,7 +205,7 @@ function ModelSpec(props: {
         <div>
           <div class='font-bold text-slate-800'>{props.key}</div>
         </div>
-        <div class="text-slate-700">{props.children}</div>
+        <div class='text-slate-700'>{props.children}</div>
       </div>
       <Show when={props.sources}>
         <SpecSources sources={props.sources ?? []} />
@@ -272,30 +272,26 @@ function ModelSpecs(props: {
         </ModelSpec>
         <ModelSpec
           key='Context Window'
-          sources={props.modelMeta.tokens_limit.sources}
+          sources={props.modelMeta.token_limit.sources}
         >
           <div class='break-words'>
-            {props.modelMeta.tokens_limit.input} Tokens
+            {props.modelMeta.token_limit.input} Tokens
           </div>
         </ModelSpec>
-        <Show when={props.modelMeta.tokens_limit.output}>
+        <Show when={props.modelMeta.token_limit.output}>
           <ModelSpec
             key='Max Output Length'
-            sources={props.modelMeta.tokens_limit.sources}
+            sources={props.modelMeta.token_limit.sources}
           >
             <div class='break-words'>
-              {props.modelMeta.tokens_limit.output} Tokens
+              {props.modelMeta.token_limit.output} Tokens
             </div>
           </ModelSpec>
         </Show>
-        <ModelSpec
-          key='Published Date'
-        >
+        <ModelSpec key='Published Date'>
           {formatter.format(new Date(props.modelMeta.published))}
         </ModelSpec>
-        <ModelSpec
-          key='Multimodalities'
-        >
+        <ModelSpec key='Multimodalities'>
           {formatter.format(new Date(props.modelMeta.published))}
         </ModelSpec>
       </div>

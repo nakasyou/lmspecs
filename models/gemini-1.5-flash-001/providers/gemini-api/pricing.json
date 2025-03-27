@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../../schema/pricing.json",
+  "$schema": "../../../../schema/_output/provided/pricing.json",
   "pricing": {
     "2024-05-24": {
       "input": [
@@ -13,7 +13,8 @@
       "output": [
         { "cost": { "USD": 0.3 }, "cond": { "maxInputTokens": 128000 } },
         { "cost": { "USD": 0.6 }, "cond": { "minInputTokens": 128000 } }
-      ]
+      ],
+      "references": []
     }
   }
 }

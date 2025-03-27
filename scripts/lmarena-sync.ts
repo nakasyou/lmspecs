@@ -63,7 +63,7 @@ for (const [modelId, metaPath] of modelMaps) {
     join(metaPath, '../score-lmarena.json'),
     JSON.stringify(
       {
-        '$schema': '../../schema/score.json',
+        '$schema': '../../schema/_output/models/bench-lmarena.json',
         scores: modelData[modelId],
       },
       null,

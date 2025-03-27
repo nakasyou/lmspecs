@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "command-r-08-2024",
   "provider": "cohere",
-  "provided_at": "2024-08-30"
+  "provided_at": {
+    "value": "2024-08-30",
+    "references": []
+  }
 }

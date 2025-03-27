@@ -9,12 +9,14 @@ export interface Provided {
 }
 
 const MODEL_META_IMPORTS = import.meta.glob('../../../models/*/meta.json')
-const PROVIDED_META_IMPORTS = import.meta.glob('../../../provided/*/*/meta.json')
+const PROVIDED_META_IMPORTS = import.meta.glob(
+  '../../../provided/*/*/meta.json',
+)
 
 const MODEL_LMARENA_IMPORTS = import.meta.glob(
   '../../../models/*/score-lmarena.json',
 )
-export const getProvideds = async ()=> {
+export const getProvideds = async () => {
   const models: {
     [model: string]: {
       [provider: string]: Provided
@@ -56,7 +58,7 @@ export const getLMArenaScores = async (targetModelIds: string[]): Promise<{
           (m) => [
             modelId,
             (m as { default: LMArenaScore }).default as LMArenaScore,
-          ]
+          ],
         ),
       )
     } else {
@@ -86,7 +88,7 @@ export const getMMLUProScores = async (targetModelIds: string[]) => {
           (m) => [
             modelId,
             (m as { default: MMLUProScores }).default as LMArenaScore,
-          ]
+          ],
         ),
       )
     } else {

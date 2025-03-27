@@ -67,7 +67,9 @@ export default function ProviderSelect(props: {
     <Dialog>
       <DialogOpener class='text-left text-uchu-purple-6 dark:text-uchu-purple-2 font-bold'>
         <div>Providers</div>
-        <div class="text-sm text-uchu-purple-5 dark:text-uchu-purple-3">({getSelectedProviders().size} selected)</div>
+        <div class='text-sm text-uchu-purple-5 dark:text-uchu-purple-3'>
+          ({getSelectedProviders().size} selected)
+        </div>
       </DialogOpener>
       <DialogContent>
         <div class='p-3'>
@@ -90,7 +92,10 @@ export default function ProviderSelect(props: {
                   when={!getProviders.loading}
                   fallback={<div>Loading...</div>}
                 >
-                  <Show when={getAvailableProviders().length > 0} fallback='All providers selected'>
+                  <Show
+                    when={getAvailableProviders().length > 0}
+                    fallback='All providers selected'
+                  >
                     <For each={getAvailableProviders()}>
                       {(providerId: string) => (
                         <div class='flex items-center gap-1'>
@@ -103,7 +108,9 @@ export default function ProviderSelect(props: {
                             }}
                             class='i-tabler-circle-plus w-5 h-5 text-uchu-purple-6 dark:text-uchu-purple-2 hover:text-uchu-purple-7 transition-colors'
                           />
-                          <div class="text-uchu-gray-9">{getProviders()![providerId].name}</div>
+                          <div class='text-uchu-gray-9'>
+                            {getProviders()![providerId].name}
+                          </div>
                         </div>
                       )}
                     </For>
@@ -116,7 +123,10 @@ export default function ProviderSelect(props: {
                 Selected Providers ({getSelectedProviders().size})
               </div>
               <div class='space-y-2 max-h-[40vh] overflow-y-auto'>
-                <Show when={getSelectedProviders().size > 0} fallback='No providers selected'>
+                <Show
+                  when={getSelectedProviders().size > 0}
+                  fallback='No providers selected'
+                >
                   <For each={[...getSelectedProviders()]}>
                     {(providerId: string) => (
                       <div class='flex items-center gap-2'>
@@ -130,8 +140,10 @@ export default function ProviderSelect(props: {
                             })
                           }}
                           class='i-tabler-circle-minus w-5 h-5 flex-none text-uchu-red-6 hover:text-uchu-red-7 transition-colors'
-                          />
-                        <div class="text-uchu-gray-9">{getProviders()![providerId].name}</div>
+                        />
+                        <div class='text-uchu-gray-9'>
+                          {getProviders()![providerId].name}
+                        </div>
                       </div>
                     )}
                   </For>

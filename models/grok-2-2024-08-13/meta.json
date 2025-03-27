@@ -1,23 +1,48 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "grok-2-2024-08-13",
   "name": "Grok-2 (2024-08-13)",
-  "creators": ["xAI"],
-  "published": "2024-08-13",
-  "states": {
-    "2024-08-13": ["STABLE"]
+  "creators": [
+    "xAI"
+  ],
+  "published_at": {
+    "value": "2024-08-13",
+    "references": []
   },
-  "lmarena_id": "grok-2-2024-08-13",
-  "mmlu_pro_ids": ["Grok-2"],
+  "states": {
+    "2024-08-13": [
+      "STABLE"
+    ]
+  },
   "license": {
     "value": "Proprietary",
-    "sources": ["https://github.com/xai-org/grok-1/issues/355"]
+    "sources": [
+      "https://github.com/xai-org/grok-1/issues/355"
+    ]
   },
-  "tokens_limit": {
-    "input": 131072
+  "token_limit": {
+    "input": 131072,
+    "references": []
   },
   "cutoff_date": {
     "value": "2024-06-17",
-    "sources": ["https://docs.x.ai/docs/models?cluster=us-east-1#model-constraints"]
+    "references": [
+      {
+        "url": "https://docs.x.ai/docs/models?cluster=us-east-1#model-constraints",
+        "retrieved": "2025-03-27T06:46:32.093Z"
+      }
+    ]
+  },
+  "identifiers": {
+    "lmarena": "grok-2-2024-08-13"
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

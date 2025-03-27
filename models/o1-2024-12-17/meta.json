@@ -1,18 +1,40 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "o1-2024-12-17",
   "name": "o1 (2024-12-17)",
-  "creators": ["OpenAI"],
-  "published": "2024-12-17",
+  "creators": [
+    "OpenAI"
+  ],
+  "published_at": {
+    "value": "2024-12-17",
+    "references": []
+  },
   "states": {
-    "2024-12-17": ["STABLE"]
+    "2024-12-17": [
+      "STABLE"
+    ]
   },
   "cutoff_date": {
-    "value": "2023-10"
+    "value": "2023-10",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 200000,
-    "output": 100000
+    "output": 100000,
+    "references": []
   },
-  "mmlu_pro_ids": ["GPT-o1"]
+  "identifiers": {},
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  }
 }

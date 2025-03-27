@@ -1,10 +1,10 @@
 {
-  "$schema": "../../../../schema/pricing.json",
+  "$schema": "../../../../schema/_output/provided/pricing.json",
   "pricing": {
     "2024-05-13": {
-      "input": [{ "cost": { "USD": 5.00 } }],
-      "cachedInput": [{ "cost": { "USD": 0 } }],
-      "output": [{ "cost": { "USD": 15.00 } }]
+      "input": [{ "cost": { "USD": 5 } }],
+      "output": [{ "cost": { "USD": 15 } }],
+      "references": []
     }
   }
 }

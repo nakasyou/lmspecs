@@ -8,7 +8,9 @@ if (!await exists('tmp/mmlu_pro_leaderboard_submission')) {
   await $`git clone https://huggingface.co/datasets/TIGER-Lab/mmlu_pro_leaderboard_submission tmp/mmlu_pro_leaderboard_submission`
 }
 
-const output = await $`git log main --date-order --format=%H%n%cI`.cwd('tmp/mmlu_pro_leaderboard_submission').text()
+const output = await $`git log main --date-order --format=%H%n%cI`.cwd(
+  'tmp/mmlu_pro_leaderboard_submission',
+).text()
 
 const outputLines = output.split('\n')
 
@@ -26,7 +28,7 @@ if (await exists('tmp/mmlu-pro-cached.json')) {
   for (let i = 0; i < outputLines.length; i += 2) {
     const hash = outputLines[i]
     const date = new Date(outputLines[i + 1])
-  
+
     await $`git checkout ${hash}`.cwd('tmp/mmlu_pro_leaderboard_submission')
     const resultPath = `./tmp/mmlu_pro_leaderboard_submission/results.csv`
     if (!await exists(resultPath)) {
@@ -37,25 +39,32 @@ if (await exists('tmp/mmlu-pro-cached.json')) {
       // Excel
       continue
     }
-  
+
     const lines = csv.replaceAll('\r', '').split('\n')
     const headers = lines[0].split(',')
     const modelIdx = 0
     const overallIdx = headers.indexOf('Overall')
-  
-    const thisData = Object.fromEntries(lines.slice(1).map(line => {
-      const cols = line.split(',')
-      const modelId = cols[modelIdx]
-      const scores = Object.fromEntries(cols.slice(overallIdx).map((score, i) => {
-        const header = headers[overallIdx + i]
-        return [header ? header.toLowerCase() : undefined, parseFloat(score)]
-      }))
-      return [modelId, scores]
-    }))
-  
+
+    const thisData = Object.fromEntries(
+      lines.slice(1).map((line) => {
+        const cols = line.split(',')
+        const modelId = cols[modelIdx]
+        const scores = Object.fromEntries(
+          cols.slice(overallIdx).map((score, i) => {
+            const header = headers[overallIdx + i]
+            return [
+              header ? header.toLowerCase() : undefined,
+              parseFloat(score),
+            ]
+          }),
+        )
+        return [modelId, scores]
+      }),
+    )
+
     data[date.toISOString().slice(0, 10)] = thisData
   }
-  
+
   const modelMaps = new Map<string, string>()
   for await (const entry of expandGlob('models/*/meta.json')) {
     const meta = JSON.parse(await Deno.readTextFile(entry.path))
@@ -66,8 +75,8 @@ if (await exists('tmp/mmlu-pro-cached.json')) {
   }
 
   await Deno.writeTextFile(
-    './tmp/mmlu-pro-cached.json', 
-    JSON.stringify(data, null, 2)
+    './tmp/mmlu-pro-cached.json',
+    JSON.stringify(data, null, 2),
   )
 }
 
@@ -95,7 +104,7 @@ for await (const entry of expandGlob('models/*/meta.json')) {
     join(entry.path, '../score-mmlu-pro.json'),
     JSON.stringify(
       {
-        '$schema': '../../schema/score.json',
+        '$schema': '../../schema/_output/models/bench-lmarena.json',
         scores: scoreData,
       },
       null,

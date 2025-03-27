@@ -1,33 +1,49 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-2.0-flash-001",
-  "name": "Gemini 2.0 Flash 001",
-  "creators": ["Google"],
-  "lmarena_id": "gemini-2.0-flash-001",
-  "mmlu_pro_ids": ["Gemini-2.0-Flash"],
-  "cutoff_date": {
-    "value": "2024-06",
-    "sources": [
-      "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison"
+  "name": "gemini-2.0-flash-001",
+  "creators": [
+    "Google"
+  ],
+  "published_at": {
+    "value": "2025-02-25",
+    "references": []
+  },
+  "states": {
+    "2025-02-25": [
+      "STABLE"
     ]
   },
-  "tokens_limit": {
-    "input": 1048576,
-    "output": 8192
+  "identifiers": {
+    "lmarena": "gemini-2.0-flash-001"
   },
-  "logos": ["google-gemini-icon/image.svg"],
-  "published": "2025-02-25",
-  "states": {
-    "2025-02-25": ["STABLE"]
+  "logos": [
+    "google-gemini-icon/image.svg"
+  ],
+  "token_limit": {
+    "input": 1048576,
+    "output": 8192,
+    "references": []
   },
   "multimodalities": {
-    "input": ["text", "image", "audio", "video"],
-    "output": ["text"],
-    "sources": []
+    "input": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   },
   "license": {
     "value": "Proprietary",
-    "sources": []
+    "references": []
+  },
+  "cutoff_date": {
+    "value": "2024-06",
+    "references": []
   },
   "prev": "gemini-2.0-flash-exp"
 }

@@ -1,18 +1,41 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "deepseek-v3",
-  "name": "DeepSeek V3",
-  "creators": ["DeepSeek"],
-  "published": "2025-12-26",
+  "name": "deepseek-v3",
+  "creators": [
+    "DeepSeek"
+  ],
+  "published_at": {
+    "value": "2025-12-26",
+    "references": []
+  },
   "states": {
-    "2025-12-26": ["STABLE"]
+    "2025-12-26": [
+      "STABLE"
+    ]
   },
-  "lmarena_id": "deepseek-v3",
-  "mmlu_pro_ids": ["DeepSeek-V3"],
+  "identifiers": {
+    "lmarena": "deepseek-v3"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  },
   "cutoff_date": {
-    "value": "2024-10"
+    "value": "2024-10",
+    "references": []
   },
-  "tokens_limit": {
-    "input": 128000
+  "token_limit": {
+    "input": 128000,
+    "references": []
   }
 }

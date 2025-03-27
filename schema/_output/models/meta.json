@@ -1,0 +1,315 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "creators": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "const": "Google"
+          },
+          {
+            "const": "xAI"
+          },
+          {
+            "const": "OpenAI"
+          },
+          {
+            "const": "DeepSeek"
+          },
+          {
+            "const": "Anthropic"
+          },
+          {
+            "const": "Cohere"
+          },
+          {
+            "const": "CohereForAI"
+          }
+        ]
+      }
+    },
+    "published_at": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "value",
+        "references"
+      ]
+    },
+    "states": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "const": "STABLE"
+            },
+            {
+              "const": "DEPRECATED"
+            },
+            {
+              "const": "EXPERIMENTAL"
+            }
+          ]
+        }
+      }
+    },
+    "prev": {
+      "type": "string"
+    },
+    "identifiers": {
+      "type": "object",
+      "properties": {
+        "lmarena": {
+          "type": "string"
+        }
+      },
+      "required": []
+    },
+    "cutoff_date": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "value",
+        "references"
+      ]
+    },
+    "token_limit": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "number"
+        },
+        "output": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "references"
+      ]
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "const": "Proprietary"
+            },
+            {
+              "const": "MIT"
+            },
+            {
+              "const": "CC-BY-NC-4.0"
+            },
+            {
+              "const": "Apache-2.0"
+            }
+          ]
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "value",
+        "references"
+      ]
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "github": {
+          "type": "string"
+        },
+        "huggingface": {
+          "type": "string"
+        }
+      },
+      "required": []
+    },
+    "logos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "multimodalities": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "image"
+              },
+              {
+                "const": "text"
+              },
+              {
+                "const": "audio"
+              },
+              {
+                "const": "video"
+              }
+            ]
+          }
+        },
+        "output": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "text"
+              },
+              {
+                "const": "image"
+              },
+              {
+                "const": "audio"
+              },
+              {
+                "const": "video"
+              }
+            ]
+          }
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "input",
+        "output",
+        "references"
+      ]
+    }
+  },
+  "required": [
+    "$schema",
+    "name",
+    "id",
+    "creators",
+    "published_at",
+    "states",
+    "identifiers",
+    "license",
+    "multimodalities"
+  ]
+}

@@ -1,22 +1,49 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-2.0-flash-thinking-exp-01-21",
   "name": "Gemini 2.0 Flash Thinking Exp 0121",
-  "creators": ["Google"],
-  "published": "2025-01-21",
+  "creators": [
+    "Google"
+  ],
+  "published_at": {
+    "value": "2025-01-21",
+    "references": []
+  },
   "states": {
     "2025-01-21": [
       "EXPERIMENTAL"
     ]
   },
-  "lmarena_id": "gemini-2.0-flash-thinking-exp-01-21",
   "cutoff_date": {
-    "value": "2024-06"
+    "value": "2024-06",
+    "references": []
   },
-  "logos": ["google-gemini-icon/image.svg"],
-  "tokens_limit": {
+  "logos": [
+    "google-gemini-icon/image.svg"
+  ],
+  "token_limit": {
     "input": 1000000,
-    "output": 64000
+    "output": 64000,
+    "references": []
   },
-  "prev": "gemini-2.0-flash-thinking-exp-1219"
+  "prev": "gemini-2.0-flash-thinking-exp-1219",
+  "identifiers": {
+    "lmarena": "gemini-2.0-flash-thinking-exp-01-21"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  }
 }

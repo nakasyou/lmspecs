@@ -1,6 +1,9 @@
 {
-  "$schema": "../../../../schema/meta-provided.json",
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "claude-3-7-sonnet-20250219",
   "provider": "anthropic",
-  "provided_at": "2025-02-19"
+  "provided_at": {
+    "value": "2025-02-19",
+    "references": []
+  }
 }

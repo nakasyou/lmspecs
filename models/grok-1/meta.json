@@ -1,21 +1,41 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "grok-1",
   "name": "Grok-1",
-  "creators": ["xAI"],
-  "published": "2024-03-27",
+  "creators": [
+    "xAI"
+  ],
+  "published_at": {
+    "value": "2024-03-27",
+    "references": []
+  },
   "states": {
-    "2024-03-27": ["STABLE"]
+    "2024-03-27": [
+      "STABLE"
+    ]
   },
   "license": {
     "value": "Apache-2.0",
-    "sources": ["https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md"]
+    "sources": [
+      "https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md"
+    ]
   },
   "links": {
     "github": "https://github.com/xai-org/grok-1",
     "huggingface": "https://huggingface.co/xai-org/grok-1"
   },
-  "tokens_limit": {
-    "input": 8000
+  "token_limit": {
+    "input": 8000,
+    "references": []
+  },
+  "identifiers": {},
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

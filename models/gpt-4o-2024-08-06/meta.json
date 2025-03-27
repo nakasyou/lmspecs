@@ -1,21 +1,45 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gpt-4o-2024-08-06",
   "name": "GPT-4o (2024-08-06)",
-  "creators": ["OpenAI"],
-  "published": "2024-08-06",
-  "states": {
-    "2024-08-06": ["STABLE"]
-  },
-  "lmarena_id": "gpt-4o-2024-08-06",
-  "mmlu_pro_ids": [
-    "GPT-4o (2024-08-06)"
+  "creators": [
+    "OpenAI"
   ],
-  "cutoff_date": {
-    "value": "2023-10"
+  "published_at": {
+    "value": "2024-08-06",
+    "references": []
   },
-  "tokens_limit": {
+  "states": {
+    "2024-08-06": [
+      "STABLE"
+    ]
+  },
+  "cutoff_date": {
+    "value": "2023-10",
+    "references": []
+  },
+  "token_limit": {
     "input": 128000,
-    "output": 16384
+    "output": 16384,
+    "references": []
+  },
+  "identifiers": {
+    "lmarena": "gpt-4o-2024-08-06"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

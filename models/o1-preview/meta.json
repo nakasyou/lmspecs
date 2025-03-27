@@ -1,19 +1,42 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "o1-preview",
   "name": "o1 preview",
-  "creators": ["OpenAI"],
-  "published": "2024-09-12",
+  "creators": [
+    "OpenAI"
+  ],
+  "published_at": {
+    "value": "2024-09-12",
+    "references": []
+  },
   "states": {
-    "2024-09-12": ["EXPERIMENTAL"]
+    "2024-09-12": [
+      "EXPERIMENTAL"
+    ]
   },
   "cutoff_date": {
-    "value": "2023-10"
+    "value": "2023-10",
+    "references": []
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 128000,
-    "output": 32768
+    "output": 32768,
+    "references": []
   },
-  "lmarena_id": "o1-preview",
-  "mmlu_pro_ids": ["GPT-o1"]
+  "identifiers": {
+    "lmarena": "o1-preview"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  }
 }

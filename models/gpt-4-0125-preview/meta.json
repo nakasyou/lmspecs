@@ -1,20 +1,47 @@
 {
-  "$schema": "../../schema/meta-models.json",
+  "$schema": "../../schema/_output/models/meta.json",
   "id": "gpt-4-0125-preview",
   "name": "GPT-4 0125 Preview",
-  "creators": ["OpenAI"],
-  "published": "2024-01-25",
-  "states": {
-    "2024-01-25": ["STABLE"]
+  "creators": [
+    "OpenAI"
+  ],
+  "published_at": {
+    "value": "2024-01-25",
+    "references": []
   },
-  "lmarena_id": "gpt-4-0125-preview",
-  "mmlu_pro_ids": [],
+  "states": {
+    "2024-01-25": [
+      "STABLE"
+    ]
+  },
   "cutoff_date": {
     "value": "2023-12-01",
-    "sources": ["https://platform.openai.com/docs/models/gpt-4-turbo"]
+    "references": [
+      {
+        "url": "https://platform.openai.com/docs/models/gpt-4-turbo",
+        "retrieved": "2025-03-27T06:46:32.055Z"
+      }
+    ]
   },
-  "tokens_limit": {
+  "token_limit": {
     "input": 128000,
-    "output": 8192
+    "output": 8192,
+    "references": []
+  },
+  "identifiers": {
+    "lmarena": "gpt-4-0125-preview"
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
   }
 }

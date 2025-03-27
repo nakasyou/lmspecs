@@ -118,7 +118,8 @@ const calculateCost = (prices: Price[], opts: {
 export default {
   title: 'Pricing',
   image: <div class='i-tabler-coin w-full h-full' />,
-  description: 'Prices for some APIs. The dataset is made using official websites.',
+  description:
+    'Prices for some APIs. The dataset is made using official websites.',
   Setting,
   initParams: () => ({
     inputTokens: 32,
@@ -180,5 +181,5 @@ export default {
     return Object.fromEntries(await Promise.all(promises))
   },
   isProvidedOnly: true,
-  isStepwise: true
+  isStepwise: true,
 } satisfies ValueType<PricingParams>
