@@ -81,7 +81,7 @@ function LMArena(props: {
 }
 
 const MODEL_LMARENA_IMPORTS = import.meta.glob(
-  '../../../../models/*/score-lmarena.json',
+  '../../../../models/*/bench-lmarena.json',
 )
 interface LMArenaScore {
   scores: {
@@ -90,7 +90,6 @@ interface LMArenaScore {
     }
   }
 }
-
 export default {
   title: 'Chatbot Arena',
   image: <img src={lmarena} alt='Chatbot Arena' />,
@@ -104,13 +103,12 @@ export default {
       [modelId: string, [date: string, val: number | null][]]
     >[] = []
     for (const modelId of modelIds) {
-      const path = `../../../../models/${modelId}/score-lmarena.json`
+      const path = `../../../../models/${modelId}/bench-lmarena.json`
       if (path in MODEL_LMARENA_IMPORTS) {
         promises.push((async () => {
           const imported =
             ((await MODEL_LMARENA_IMPORTS[path]()) as { default: LMArenaScore })
               .default
-
           return [
             modelId,
             Object.entries(imported.scores).map((

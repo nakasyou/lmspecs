@@ -20,10 +20,11 @@ const data: Data = await fetch(SCORES_URL).then((res) => res.json())
 const modelMaps = new Map<string, string>()
 for await (const entry of expandGlob('models/*/meta.json')) {
   const meta = JSON.parse(await Deno.readTextFile(entry.path))
-  if (!meta.lmarena_id) {
+
+  if (!meta.identifiers.lmarena) {
     continue
   }
-  modelMaps.set(meta.lmarena_id, entry.path)
+  modelMaps.set(meta.identifiers.lmarena, entry.path)
 }
 
 const modelData: Record<string, {
@@ -59,6 +60,9 @@ for (const yyyymmdd in data) {
 }
 
 for (const [modelId, metaPath] of modelMaps) {
+  if (!modelData[modelId]) {
+    continue
+  }
   await Deno.writeTextFile(
     join(metaPath, '../bench-lmarena.json'),
     JSON.stringify(

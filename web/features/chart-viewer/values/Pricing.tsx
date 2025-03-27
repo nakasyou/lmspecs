@@ -158,7 +158,11 @@ export default {
                 ? calculateCost(pricings.cachedInput, {
                   inputTokens: params.inputTokens,
                 }).USD * params.cachedInputTokens / 1000000
-                : 0
+                : (pricings.input
+                  ? calculateCost(pricings.input, {
+                    inputTokens: params.inputTokens,
+                  }).USD * params.inputTokens / 1000000
+                  : 0)
               const outputCost = pricings.output
                 ? calculateCost(pricings.output, {
                   inputTokens: params.inputTokens,

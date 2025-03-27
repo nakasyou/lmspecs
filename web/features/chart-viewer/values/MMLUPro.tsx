@@ -46,12 +46,12 @@ function MMLUPro(props: {
 }
 
 const MODEL_MMLUPRO_IMPORTS = import.meta.glob(
-  '../../../../models/*/score-mmlu-pro.json',
+  '../../../../models/*/benchmarks.json',
 )
-export interface MMLUProScores {
-  scores: {
-    [date: string]: {
-      [title: string]: number
+export interface Benchmarks {
+  mmlu_pro: {
+    value: {
+      [title: string]: number | null
     }
   }
 }
@@ -73,26 +73,24 @@ export default {
       [modelId: string, [date: string, val: number | null][]] | null
     >[] = []
     for (const modelId of modelIds) {
-      const path = `../../../../models/${modelId}/score-mmlu-pro.json`
+      const path = `../../../../models/${modelId}/benchmarks.json`
 
       if (path in MODEL_MMLUPRO_IMPORTS) {
         promises.push((async () => {
           const imported = ((await MODEL_MMLUPRO_IMPORTS[path]()) as {
-            default: MMLUProScores
+            default: Benchmarks
           }).default
+          console
 
-          const values: [date: string, val: number | null][] = Object.entries(
-            imported.scores,
-          ).flatMap((
-            [date, scores],
-          ) => scores[params] ? [[date, scores[params]]] : [])
-
-          if (!values.length) {
+          const value = imported.mmlu_pro.value[params]
+          if (!value) {
             return null
           }
           return [
             modelId,
-            values,
+            [
+              [new Date().toISOString().slice(0, 10), imported.mmlu_pro.value[params]]
+            ],
           ]
         })())
       }
