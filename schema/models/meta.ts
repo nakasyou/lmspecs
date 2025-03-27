@@ -1,5 +1,5 @@
 import * as v from 'valibot'
-import { reference } from '../shared.ts'
+import { reference, trustability } from '../shared.ts'
 
 export default v.object({
   $schema: v.string(),
@@ -68,4 +68,9 @@ export default v.object({
     ])),
     references: v.array(reference()),
   }),
+  model_parameters: v.optional(v.object({
+    value: v.number(),
+    references: v.array(reference()),
+    trustability: trustability()
+  }))
 })

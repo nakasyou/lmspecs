@@ -16,8 +16,11 @@
   },
   "license": {
     "value": "Proprietary",
-    "sources": [
-      "https://github.com/xai-org/grok-1/issues/355"
+    "references": [
+      {
+        "retrieved": "2025-03-27T06:46:32.089Z",
+        "url": "https://github.com/xai-org/grok-1/issues/355"
+      }
     ]
   },
   "token_limit": {

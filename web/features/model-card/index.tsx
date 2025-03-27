@@ -1,5 +1,4 @@
 import { createResource } from 'solid-js'
-import { ModelMeta } from '../../lib/lmspecs/types.ts'
 import Header from '../header/index.tsx'
 import { useParams } from '@solidjs/router'
 import { Suspense } from 'solid-js'
@@ -7,6 +6,12 @@ import { Show } from 'solid-js'
 import { JSX } from 'solid-js'
 import { formatTokenUnit } from '../../lib/math.ts'
 import { For } from 'solid-js'
+import { InferOutput } from 'valibot'
+import modelMetaSchema from '../../../schema/models/meta.ts'
+import CopyButton from '../../components/CopyButton.tsx'
+import { createMemo } from 'solid-js'
+
+type ModelMeta = InferOutput<typeof modelMetaSchema>
 
 const MODEL_INFO = import.meta.glob('../../../models/**/*')
 const ASSETS = import.meta.glob('../../../assets/*/*')
@@ -39,7 +44,13 @@ function CreatedBy(props: {
   })
   return (
     <div class='flex flex-col gap-1'>
-      <div class='text-slate-500 text-sm'>Created by</div>
+      <div class='text-slate-500 text-sm flex gap-1 items-center'>
+        <div>Created by</div>
+        <CopyButton
+          content={JSON.stringify(props.modelMeta.creators)}
+          class='w-4 h-4 bg-slate-500'
+        />
+      </div>
       <Suspense>
         <div class='flex gap-2'>
           <For each={getCreatorImages() ?? []}>
@@ -63,7 +74,7 @@ function ModelTitle(props: {
     return getAssetURL(id)
   })
   return (
-    <div class='flex gap-4'>
+    <div class='flex gap-4 flex-col sm:flex-row'>
       <div class='flex flex-col gap-2'>
         <div>
           <Suspense>
@@ -75,10 +86,17 @@ function ModelTitle(props: {
           </Suspense>
         </div>
         <div>
-          <div class='text-lg font-bold'>
-            {props.modelMeta.name}
+          <div class='flex gap-2 items-center justify-start'>
+            <div class='text-lg font-bold'>{props.modelMeta.name}</div>
+            <CopyButton content={props.modelMeta.name} class='w-5 h-5' />
           </div>
-          <div class='text-uchu-gray-7 font-mono'>{props.modelMeta.id}</div>
+          <div class='flex gap-1 items-center'>
+            <div class='text-uchu-gray-7 font-mono'>{props.modelMeta.id}</div>
+            <CopyButton
+              content={props.modelMeta.id}
+              class='w-4 h-4 bg-uchu-gray-7'
+            />
+          </div>
         </div>
       </div>
       <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
@@ -147,10 +165,10 @@ function ModelSummary(props: {
     <div class='border justify-between border-uchu-gray-4 rounded-lg flex gap-2 p-3'>
       <ModelSummaryCard
         title='CONTEXT WINDOW'
-        shortDesc={`${props.modelMeta.token_limit.input.toString()} Tokens`}
+        shortDesc={`${props.modelMeta.token_limit?.input.toString()} Tokens`}
       >
         <div class='text-lg font-bold text-gray-700'>
-          {formatTokenUnit(props.modelMeta.token_limit.input)}
+          {formatTokenUnit(props.modelMeta.token_limit?.input ?? 0)}
         </div>
       </ModelSummaryCard>
       <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
@@ -197,43 +215,64 @@ function ModelSpec(props: {
   key: string
   children: JSX.Element
   class?: string
-  sources?: string[]
+  references?: {
+    url: string
+    retrieved: string
+  }[]
+  iconClass: string
+  contentToCopy: string
 }) {
   return (
-    <div class={'flex flex-col' + (props.class ?? '')}>
-      <div class='flex justify-between'>
-        <div>
+    <div class={'flex flex-col flex-1 ' + (props.class ?? '')}>
+      <div class='flex justify-between flex-col sm:flex-row gap-1'>
+        <div class='flex gap-1 items-center'>
+          <div
+            class={'w-6 h-6 bg-slate-800 relative bottom-[2px] ' +
+              props.iconClass}
+          />
           <div class='font-bold text-slate-800'>{props.key}</div>
         </div>
-        <div class='text-slate-700'>{props.children}</div>
+        <div class='flex gap-1'>
+          <div class='text-slate-700'>{props.children}</div>
+          <CopyButton
+            content={props.contentToCopy}
+            class='w-4 h-4 text-slate-500'
+          />
+        </div>
       </div>
-      <Show when={props.sources}>
-        <SpecSources sources={props.sources ?? []} />
-      </Show>
+      <div class=''>
+        <Show when={props.references}>
+          <SpecReferences references={props.references ?? []} />
+        </Show>
+      </div>
     </div>
   )
 }
-function SpecSources(props: {
-  sources: string[]
+function SpecReferences(props: {
+  references: {
+    url: string
+    retrieved: string
+  }[]
 }) {
   return (
     <details>
-      <summary class='text-sm text-gray-700'>
-        {props.sources.length === 1
-          ? '1 source'
-          : props.sources.length + ' sources'}
+      <summary class='text-xs text-gray-600'>
+        {props.references.length === 1
+          ? '1 reference'
+          : props.references.length + ' references'}
       </summary>
       <ul class='list-disc list-inside ml-1 pl-4 border-l-4 border-uchu-gray-6'>
-        <For each={props.sources}>
-          {(source) => (
+        <For each={props.references}>
+          {(reference) => (
             <li class='text-xs'>
               <a
-                href={source}
+                href={reference.url}
                 target='_blank'
                 rel='noreferrer noopener'
                 class='text-uchu-blue-5 hover:text-uchu-blue-4'
               >
-                {source}
+                {reference.url}{' '}
+                ({formatter.format(new Date(reference.retrieved))})
               </a>
             </li>
           )}
@@ -242,58 +281,169 @@ function SpecSources(props: {
     </details>
   )
 }
+function MultimodalityCard(props: {
+  onIcon: string
+  offIcon: string
 
+  name: string
+  input: boolean
+  output: boolean
+}) {
+  const getText = createMemo(() => {
+    if (props.input && props.output) {
+      return 'Input and output'
+    }
+    if (props.input) {
+      return 'Input only'
+    }
+    if (props.output) {
+      return 'Output only'
+    }
+    return 'Not supported'
+  })
+  const getIsOn = createMemo(() => props.input || props.output)
+  return (
+    <div
+      class='flex items-center gap-2'
+      classList={{
+        'opacity-70': !getIsOn(),
+      }}
+    >
+      <div>
+        <div
+          class='w-6 h-6 items-center bg-gray-800'
+          classList={{
+            [props.offIcon]: !getIsOn(),
+            [props.onIcon]: getIsOn(),
+          }}
+        />
+      </div>
+      <div>
+        <div class='font-bold text-sm text-gray-800'>{props.name}</div>
+        <div class='text-gray-700 text-xs'>{getText()}</div>
+      </div>
+    </div>
+  )
+}
 function ModelSpecs(props: {
   modelMeta: ModelMeta
 }) {
   return (
     <div class='flex flex-col gap-2'>
-      <div class='grid grid-cols-2 gap-y-3 gap-x-10'>
-        <ModelSpec key='ID'>
-          <div class='font-mono'>
-            {props.modelMeta.id}
-          </div>
-        </ModelSpec>
-        <ModelSpec key='Model Name'>
-          {props.modelMeta.name}
-        </ModelSpec>
-        <ModelSpec key='Creators'>
-          <div class='break-words'>
-            {props.modelMeta.creators.join(', ')}
-          </div>
-        </ModelSpec>
-        <ModelSpec
-          key='Knowledge Cutoff'
-          sources={props.modelMeta.cutoff_date?.sources}
-        >
-          {props.modelMeta.cutoff_date
-            ? formatter.format(new Date(props.modelMeta.cutoff_date.value))
-            : 'Unknown'}
-        </ModelSpec>
-        <ModelSpec
-          key='Context Window'
-          sources={props.modelMeta.token_limit.sources}
-        >
-          <div class='break-words'>
-            {props.modelMeta.token_limit.input} Tokens
-          </div>
-        </ModelSpec>
-        <Show when={props.modelMeta.token_limit.output}>
+      <div class='flex flex-col gap-4'>
+        <div class='flex gap-4 flex-col md:flex-row'>
           <ModelSpec
-            key='Max Output Length'
-            sources={props.modelMeta.token_limit.sources}
+            key='Published Date'
+            iconClass='i-tabler-calendar-bolt'
+            references={props.modelMeta.published_at?.references}
+            contentToCopy={props.modelMeta.published_at.value}
+          >
+            {formatter.format(new Date(props.modelMeta.published_at.value))}
+          </ModelSpec>
+          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+          <ModelSpec
+            key='Knowledge Cutoff'
+            iconClass='i-tabler-database-off'
+            references={props.modelMeta.cutoff_date?.references}
+            contentToCopy={props.modelMeta.cutoff_date?.value ?? ''}
+          >
+            {props.modelMeta.cutoff_date
+              ? formatter.format(new Date(props.modelMeta.cutoff_date.value))
+              : 'Unknown'}
+          </ModelSpec>
+        </div>
+        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='flex gap-4 flex-col md:flex-row'>
+          <ModelSpec
+            iconClass='i-tabler-copyright'
+            key='License'
+            references={props.modelMeta.license.references}
+            contentToCopy={props.modelMeta.license.value}
+          >
+            {props.modelMeta.license.value}
+          </ModelSpec>
+          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+          <ModelSpec
+            iconClass='i-tabler-pencil'
+            key='Model Size'
+            references={props.modelMeta.model_parameters?.references ?? []}
+            contentToCopy={props.modelMeta.model_parameters?.value.toString() ??
+              'Unknown'}
+          >
+            <Show when={props.modelMeta.model_parameters} fallback='Unknown'>
+              {(getParams) => (
+                <div>
+                  <span>{formatTokenUnit(getParams().value)}</span>
+                  <Show when={getParams().trustability === 'GUESSED'}>
+                    ?
+                  </Show>
+                </div>
+              )}
+            </Show>
+          </ModelSpec>
+        </div>
+        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='flex gap-4 flex-col md:flex-row'>
+          <ModelSpec
+            iconClass='i-tabler-book'
+            key='Context Window'
+            references={props.modelMeta.token_limit?.references}
+            contentToCopy={props.modelMeta.token_limit?.input.toString() ?? ''}
           >
             <div class='break-words'>
-              {props.modelMeta.token_limit.output} Tokens
+              {props.modelMeta.token_limit?.input} Tokens
             </div>
           </ModelSpec>
-        </Show>
-        <ModelSpec key='Published Date'>
-          {formatter.format(new Date(props.modelMeta.published))}
-        </ModelSpec>
-        <ModelSpec key='Multimodalities'>
-          {formatter.format(new Date(props.modelMeta.published))}
-        </ModelSpec>
+          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+          <ModelSpec
+            iconClass='i-tabler-pencil'
+            key='Max Output Length'
+            references={props.modelMeta.token_limit?.references}
+            contentToCopy={props.modelMeta.token_limit?.output?.toString() ??
+              ''}
+          >
+            <Show when={props.modelMeta.token_limit?.output} fallback='Unknown or not specified'>
+              {props.modelMeta.token_limit?.output} Tokens
+            </Show>
+          </ModelSpec>
+        </div>
+        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='flex flex-col sm:flex-row gap-2'>
+          <div class='flex gap-1 w-60'>
+            <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-tournament' />
+            <div class='font-bold text-slate-800'>Multimodalities</div>
+          </div>
+          <div class='grow grid grid-cols-2 gap-2'>
+            <MultimodalityCard
+              onIcon='i-tabler-notes'
+              offIcon='i-tabler-notes-off'
+              name='TEXT'
+              input={props.modelMeta.multimodalities.input.includes('text')}
+              output={props.modelMeta.multimodalities.output.includes('text')}
+            />
+            <MultimodalityCard
+              onIcon='i-tabler-photo'
+              offIcon='i-tabler-photo-off'
+              name='IMAGE'
+              input={props.modelMeta.multimodalities.input.includes('image')}
+              output={props.modelMeta.multimodalities.output.includes('image')}
+            />
+            <MultimodalityCard
+              onIcon='i-tabler-music'
+              offIcon='i-tabler-music-off'
+              name='AUDIO'
+              input={props.modelMeta.multimodalities.input.includes('audio')}
+              output={props.modelMeta.multimodalities.output.includes('audio')}
+            />
+            <MultimodalityCard
+              onIcon='i-tabler-movie'
+              offIcon='i-tabler-movie-off'
+              name='VIDEO'
+              input={props.modelMeta.multimodalities.input.includes('video')}
+              output={props.modelMeta.multimodalities.output.includes('video')}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -299,6 +299,47 @@
         "output",
         "references"
       ]
+    },
+    "model_parameters": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        },
+        "trustability": {
+          "anyOf": [
+            {
+              "const": "OFFICIAL"
+            },
+            {
+              "const": "GUESSED"
+            }
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "references",
+        "trustability"
+      ]
     }
   },
   "required": [
