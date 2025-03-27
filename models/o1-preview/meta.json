@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "o1-preview",
   "name": "o1 preview",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2024-09-12",
   "states": {
     "2024-09-12": ["EXPERIMENTAL"]

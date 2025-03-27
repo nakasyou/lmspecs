@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gpt-4-1106-vision-preview",
   "name": "GPT-4 1106 Vision Preview",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2023-11-06",
   "states": {
     "2023-11-06": ["EXPERIMENTAL"]

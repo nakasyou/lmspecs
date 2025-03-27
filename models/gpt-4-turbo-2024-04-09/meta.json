@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gpt-4-turbo-2024-04-09",
   "name": "GPT-4 Turbo 2024-04-09",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2024-04-09",
   "states": {
     "2024-04-09": ["STABLE"]

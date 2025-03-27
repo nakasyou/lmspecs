@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-2.0-flash-lite-001",
   "name": "Gemini 2.0 Flash Lite 001",
-  "creator": ["Google"],
+  "creators": ["Google"],
   "published": "2025-02-25",
   "states": {
     "2024-02-25": ["STABLE"]
@@ -16,6 +16,7 @@
       "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison"
     ]
   },
+  "logos": ["google-gemini-icon/image.svg"],
   "tokens_limit": {
     "input": 1048576,
     "output": 8192

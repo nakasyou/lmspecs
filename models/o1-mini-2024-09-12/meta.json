@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "o1-mini-2024-09-12",
   "name": "o1 mini",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2024-09-12",
   "states": {
     "2024-09-12": ["STABLE"]

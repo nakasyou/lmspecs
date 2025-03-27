@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-2.0-pro-exp-02-05",
   "name": "Gemini 2.0 Pro Exp 02 05",
-  "creator": ["Google"],
+  "creators": ["Google"],
   "published": "2025-02-25",
   "states": {
     "2025-02-25": ["EXPERIMENTAL"]
@@ -17,6 +17,7 @@
       "https://firebase.google.com/docs/vertex-ai/models#specs-and-limitations-comparison"
     ]
   },
+  "logos": ["google-gemini-icon/image.svg"],
   "tokens_limit": {
     "input": 2097152,
     "output": 8192

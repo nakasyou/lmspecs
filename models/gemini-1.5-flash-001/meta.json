@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-1.5-flash-001",
   "name": "Gemini 1.5 Flash 001",
-  "creator": ["Google"],
+  "creators": ["Google"],
   "published": "2024-05-24",
   "states": {
     "2024-05-24": ["STABLE"]
@@ -17,11 +17,21 @@
       "https://firebase.google.com/docs/vertex-ai/models?hl=ja#specs-and-limitations-comparison"
     ]
   },
+  "logos": ["google-gemini-icon/image.svg"],
   "tokens_limit": {
     "input": 1048576,
     "output": 8192,
     "sources": [
       "https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash"
     ]
+  },
+  "multimodalities": {
+    "input": ["text", "image", "audio", "video"],
+    "output": ["text"],
+    "sources": []
+  },
+  "license": {
+    "value": "Proprietary",
+    "sources": []
   }
 }

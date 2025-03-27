@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gpt-4-0125-preview",
   "name": "GPT-4 0125 Preview",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2024-01-25",
   "states": {
     "2024-01-25": ["STABLE"]

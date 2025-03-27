@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "command-r7b-12-2024",
   "name": "Command R7B 12 2024",
-  "creator": ["Cohere"],
+  "creators": ["Cohere"],
   "published": "2024-12-14",
   "states": {
     "2024-12-14": ["STABLE"]

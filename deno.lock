@@ -15,6 +15,7 @@
     "jsr:@std/streams@0.221": "0.221.0",
     "npm:@egoist/tailwindcss-icons@^1.9.0": "1.9.0_tailwindcss@4.0.9",
     "npm:@iconify-json/tabler@^1.2.16": "1.2.16",
+    "npm:@solidjs/router@~0.15.3": "0.15.3_solid-js@1.9.5__seroval@1.2.1",
     "npm:@tailwindcss/vite@^4.0.9": "4.0.9_vite@6.2.0__lightningcss@1.29.1_lightningcss@1.29.1",
     "npm:@types/node@*": "22.5.4",
     "npm:chart.js@^4.4.8": "4.4.8",
@@ -422,6 +423,12 @@
     },
     "@rollup/rollup-win32-x64-msvc@4.34.9": {
       "integrity": "sha512-AyleYRPU7+rgkMWbEh71fQlrzRfeP6SyMnRf9XX4fCdDPAJumdSBqYEcWPMzVQ4ScAl7E4oFfK0GUVn77xSwbw=="
+    },
+    "@solidjs/router@0.15.3_solid-js@1.9.5__seroval@1.2.1": {
+      "integrity": "sha512-iEbW8UKok2Oio7o6Y4VTzLj+KFCmQPGEpm1fS3xixwFBdclFVBvaQVeibl1jys4cujfAK5Kn6+uG2uBm3lxOMw==",
+      "dependencies": [
+        "solid-js"
+      ]
     },
     "@tailwindcss/node@4.0.9": {
       "integrity": "sha512-tOJvdI7XfJbARYhxX+0RArAhmuDcczTC46DGCEziqxzzbIaPnfYaIyRT31n4u8lROrsO7Q6u/K9bmQHL2uL1bQ==",
@@ -957,6 +964,7 @@
       "jsr:@std/path@^1.0.8",
       "npm:@egoist/tailwindcss-icons@^1.9.0",
       "npm:@iconify-json/tabler@^1.2.16",
+      "npm:@solidjs/router@~0.15.3",
       "npm:@tailwindcss/vite@^4.0.9",
       "npm:chart.js@^4.4.8",
       "npm:chartjs-adapter-intl@0.1",

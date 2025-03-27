@@ -8,6 +8,7 @@
     "@david/dax": "jsr:@david/dax@^0.42.0",
     "@egoist/tailwindcss-icons": "npm:@egoist/tailwindcss-icons@^1.9.0",
     "@iconify-json/tabler": "npm:@iconify-json/tabler@^1.2.16",
+    "@solidjs/router": "npm:@solidjs/router@^0.15.3",
     "@std/fs": "jsr:@std/fs@^1.0.13",
     "@std/path": "jsr:@std/path@^1.0.8",
     "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.0.9",

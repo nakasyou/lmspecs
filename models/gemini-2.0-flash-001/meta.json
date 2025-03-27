@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gemini-2.0-flash-001",
   "name": "Gemini 2.0 Flash 001",
-  "creator": ["Google"],
+  "creators": ["Google"],
   "lmarena_id": "gemini-2.0-flash-001",
   "mmlu_pro_ids": ["Gemini-2.0-Flash"],
   "cutoff_date": {
@@ -15,9 +15,19 @@
     "input": 1048576,
     "output": 8192
   },
+  "logos": ["google-gemini-icon/image.svg"],
   "published": "2025-02-25",
   "states": {
     "2025-02-25": ["STABLE"]
+  },
+  "multimodalities": {
+    "input": ["text", "image", "audio", "video"],
+    "output": ["text"],
+    "sources": []
+  },
+  "license": {
+    "value": "Proprietary",
+    "sources": []
   },
   "prev": "gemini-2.0-flash-exp"
 }

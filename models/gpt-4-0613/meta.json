@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gpt-4-0613",
   "name": "GPT-4 0613",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2023-06-13",
   "states": {
     "2023-06-13": ["STABLE"]

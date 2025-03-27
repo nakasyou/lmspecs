@@ -1,5 +1,6 @@
 import { createEffect } from 'solid-js'
 import { ValueType } from '../ValueSelect.tsx'
+import { formatTokenUnit } from '../../../lib/math.ts'
 
 export type PricingParams = {
   inputTokens: number
@@ -71,16 +72,6 @@ function Setting(props: {
 const MODEL_PRICING_IMPORTS = import.meta.glob(
   '../../../../models/*/providers/*/pricing.json',
 )
-
-const formatTokenUnit = (val: number) => {
-  if (val < 1000) {
-    return Math.floor(val).toString()
-  }
-  if (val < 1000000) {
-    return Math.floor(val / 100) / 10 + 'k'
-  }
-  return Math.floor(val / 100000) / 10 + 'M'
-}
 
 interface Price {
   cost: {

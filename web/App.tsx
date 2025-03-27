@@ -1,15 +1,17 @@
-import { createSignal } from 'solid-js'
 import './App.css'
-import Hero from './features/hero/index.tsx'
-import Description from './features/description/index.tsx'
-import Header from './features/header/index.tsx'
+import { lazy } from 'solid-js'
+import { Router, Route } from '@solidjs/router'
+import Model from './pages/model.tsx'
+
+const Home = lazy(() => import('./pages/home/index.tsx'));
+const Chart = lazy(() => import('./pages/chart.tsx'));
 
 export default function App() {
   return (
-    <div>
-      <Header />
-      <Hero />
-      <Description />
-    </div>
+    <Router>
+      <Route path="/" component={Home} />
+      <Route path="/chart" component={Chart} />
+      <Route path="/model/:modelId" component={Model} />
+    </Router>
   )
 }

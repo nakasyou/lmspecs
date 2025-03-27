@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "grok-2-2024-08-13",
   "name": "Grok-2 (2024-08-13)",
-  "creator": ["xAI"],
+  "creators": ["xAI"],
   "published": "2024-08-13",
   "states": {
     "2024-08-13": ["STABLE"]

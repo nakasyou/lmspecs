@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "grok-2-1212",
   "name": "Grok-2 1212",
-  "creator": ["xAI"],
+  "creators": ["xAI"],
   "published": "2024-12-12",
   "states": {
     "2024-12-12": ["STABLE"]

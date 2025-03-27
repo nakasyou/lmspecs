@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "deepseek-r1",
   "name": "DeepSeek R1",
-  "creator": ["DeepSeek"],
+  "creators": ["DeepSeek"],
   "published": "2025-01-20",
   "states": {
     "2025-01-20": ["STABLE"]

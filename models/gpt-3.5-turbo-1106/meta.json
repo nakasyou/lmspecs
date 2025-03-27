@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "gpt-3.5-turbo-1106",
   "name": "GPT-3.5 Turbo 0125",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2023-11-06",
   "states": {
     "2023-11-06": ["STABLE"]

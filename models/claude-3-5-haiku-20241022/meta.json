@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "claude-3-5-haiku-20241022",
   "name": "Claude 3.5 Sonnet 2024-10-22",
-  "creator": ["Anthropic"],
+  "creators": ["Anthropic"],
   "published": "2025-10-22",
   "states": {
     "2025-10-22": ["STABLE"]

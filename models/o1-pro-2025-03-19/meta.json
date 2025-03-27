@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "o1-pro-2025-03-19",
   "name": "o1-pro (2025-03-19)",
-  "creator": ["OpenAI"],
+  "creators": ["OpenAI"],
   "published": "2025-03-19",
   "states": {
     "2025-03-19": ["STABLE"]

@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "claude-3-haiku-20240307",
   "name": "Claude 3 Haiku 2024-03-07",
-  "creator": ["Anthropic"],
+  "creators": ["Anthropic"],
   "published": "2024-03-07",
   "states": {
     "2024-03-07": ["STABLE"]

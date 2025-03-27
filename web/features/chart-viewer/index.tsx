@@ -258,7 +258,7 @@ addEventListener('resize', () => {
   setIsSm(innerWidth < 640)
 })
 
-export default function Hero() {
+export default function ChartViewer() {
   let canvas!: HTMLCanvasElement
 
   let chart:

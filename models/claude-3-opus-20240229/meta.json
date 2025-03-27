@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "claude-3-opus-20240229",
   "name": "Claude 3 Opus 2024-02-29",
-  "creator": ["Anthropic"],
+  "creators": ["Anthropic"],
   "published": "2024-02-29",
   "states": {
     "2024-02-29": ["STABLE"]

@@ -2,7 +2,7 @@
   "$schema": "../../schema/meta-models.json",
   "id": "claude-3-7-sonnet-20250219",
   "name": "Claude 3.7 Sonnet 2025-02-19",
-  "creator": ["Anthropic"],
+  "creators": ["Anthropic"],
   "published": "2025-02-19",
   "states": {
     "2025-02-19": ["STABLE"]
