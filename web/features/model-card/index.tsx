@@ -10,9 +10,10 @@ import { InferOutput } from 'valibot'
 import modelMetaSchema from '../../../schema/models/meta.ts'
 import pricingSchema, { cond } from '../../../schema/provided/pricing.ts'
 import providedMetaSchema from '../../../schema/provided/meta.ts'
+import speedSchema from '../../../schema/provided/speed.ts'
 import CopyButton from '../../components/CopyButton.tsx'
 import { Select } from '../../components/Select.tsx'
-import { createMemo, createSignal, createEffect } from 'solid-js'
+import { createEffect, createMemo, createSignal } from 'solid-js'
 import { formatter } from './shared.ts'
 import { ModelSpec } from './ModelSpec.tsx'
 import ProvidedContent from './PrividedContent.tsx'
@@ -21,6 +22,7 @@ import { AbilityCard } from './AbilityCard.tsx'
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
 export type Pricing = InferOutput<typeof pricingSchema>
+export type Speed = InferOutput<typeof speedSchema>
 
 const MODEL_INFO = import.meta.glob('../../../models/**/*')
 const ASSETS = import.meta.glob('../../../assets/*/*')
@@ -70,7 +72,18 @@ const fetchPricing = async (
 
   return mod.default
 }
+const fetchSpeed = async (
+  modelId: string,
+  providerId: string,
+): Promise<Speed | null> => {
+  const path = `../../../models/${modelId}/providers/${providerId}/speed.json`
+  if (!(path in MODEL_INFO)) {
+    return null
+  }
+  const mod = await MODEL_INFO[path]() as { default: Speed }
 
+  return mod.default
+}
 const COMPANY_IMAGES = {
   Google: 'google-icon/image.svg',
 } as Record<string, string>
@@ -297,7 +310,6 @@ function ModelSummary(props: {
   )
 }
 
-
 function MultimodalityCard(props: {
   onIcon: string
   offIcon: string
@@ -416,69 +428,79 @@ function ModelSpecs(props: {
           </ModelSpec>
         </div>
         <div class='h-[1px] w-full bg-gray-200 ' />
-        <div class='flex flex-col sm:flex-row gap-2'>
-          <div class='flex gap-1 w-60'>
-            <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-tournament' />
-            <div class='font-bold text-slate-800'>Multimodalities</div>
+        <div class='flex gap-4 flex-col md:flex-row'>
+          <div class='flex flex-col sm:flex-row gap-2 flex-1'>
+            <div class='flex gap-1 w-60'>
+              <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-tournament' />
+              <div class='font-bold text-slate-800'>Multimodalities</div>
+            </div>
+            <div class='grow grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2'>
+              <MultimodalityCard
+                onIcon='i-tabler-notes'
+                offIcon='i-tabler-notes-off'
+                name='TEXT'
+                input={props.modelMeta.multimodalities.input.includes('text')}
+                output={props.modelMeta.multimodalities.output.includes('text')}
+              />
+              <MultimodalityCard
+                onIcon='i-tabler-photo'
+                offIcon='i-tabler-photo-off'
+                name='IMAGE'
+                input={props.modelMeta.multimodalities.input.includes('image')}
+                output={props.modelMeta.multimodalities.output.includes(
+                  'image',
+                )}
+              />
+              <MultimodalityCard
+                onIcon='i-tabler-music'
+                offIcon='i-tabler-music-off'
+                name='AUDIO'
+                input={props.modelMeta.multimodalities.input.includes('audio')}
+                output={props.modelMeta.multimodalities.output.includes(
+                  'audio',
+                )}
+              />
+              <MultimodalityCard
+                onIcon='i-tabler-movie'
+                offIcon='i-tabler-movie-off'
+                name='VIDEO'
+                input={props.modelMeta.multimodalities.input.includes('video')}
+                output={props.modelMeta.multimodalities.output.includes(
+                  'video',
+                )}
+              />
+            </div>
           </div>
-          <div class='grow grid grid-cols-2 gap-2'>
-            <MultimodalityCard
-              onIcon='i-tabler-notes'
-              offIcon='i-tabler-notes-off'
-              name='TEXT'
-              input={props.modelMeta.multimodalities.input.includes('text')}
-              output={props.modelMeta.multimodalities.output.includes('text')}
-            />
-            <MultimodalityCard
-              onIcon='i-tabler-photo'
-              offIcon='i-tabler-photo-off'
-              name='IMAGE'
-              input={props.modelMeta.multimodalities.input.includes('image')}
-              output={props.modelMeta.multimodalities.output.includes('image')}
-            />
-            <MultimodalityCard
-              onIcon='i-tabler-music'
-              offIcon='i-tabler-music-off'
-              name='AUDIO'
-              input={props.modelMeta.multimodalities.input.includes('audio')}
-              output={props.modelMeta.multimodalities.output.includes('audio')}
-            />
-            <MultimodalityCard
-              onIcon='i-tabler-movie'
-              offIcon='i-tabler-movie-off'
-              name='VIDEO'
-              input={props.modelMeta.multimodalities.input.includes('video')}
-              output={props.modelMeta.multimodalities.output.includes('video')}
-            />
-          </div>
-        </div>
-        <div class='h-[1px] w-full bg-gray-200 ' />
-        <div class='flex flex-col sm:flex-row gap-2'>
-          <div class='flex gap-1 w-60'>
-            <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-sparkles' />
-            <div class='font-bold text-slate-800'>Features</div>
-          </div>
-          <div class='grow grid grid-cols-2 gap-2'>
-            <AbilityCard
-              onIcon='i-tabler-brain'
-              offIcon='i-tabler-brain'
-              name='REASONING'
-              enabled={props.modelMeta.features.value.includes('REASONING')}
-              text={props.modelMeta.features.value.includes('REASONING')
-                ? 'Supported'
-                : 'Not supported'}
-            />
-            <AbilityCard
-              onIcon='i-tabler-function'
-              offIcon='i-tabler-function-off'
-              name='NATIVE FUNCTION CALLING'
-              enabled={props.modelMeta.features.value.includes(
-                'FUNCTION_CALLING',
-              )}
-              text={props.modelMeta.features.value.includes('FUNCTION_CALLING')
-                ? 'Supported'
-                : 'Not supported'}
-            />
+          <div class='h-[1px] w-full md:h-12 md:w-[1px] bg-gray-300 self-center' />
+          <div class='flex flex-col sm:flex-row gap-2 flex-1'>
+            <div class='flex gap-1 w-60'>
+              <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-sparkles' />
+              <div class='font-bold text-slate-800'>Features</div>
+            </div>
+            <div class='grow grid grid-cols-1 gap-2'>
+              <AbilityCard
+                onIcon='i-tabler-brain'
+                offIcon='i-tabler-brain'
+                name='REASONING'
+                enabled={props.modelMeta.features.value.includes('REASONING')}
+                text={props.modelMeta.features.value.includes('REASONING')
+                  ? 'Supported'
+                  : 'Not supported'}
+              />
+              <AbilityCard
+                onIcon='i-tabler-function'
+                offIcon='i-tabler-function-off'
+                name='NATIVE FUNCTION CALLING'
+                enabled={props.modelMeta.features.value.includes(
+                  'FUNCTION_CALLING',
+                )}
+                text={props.modelMeta.features.value.includes(
+                    'FUNCTION_CALLING',
+                  )
+                  ? 'Supported'
+                  : 'Not supported'}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -489,9 +511,8 @@ function ModelSpecs(props: {
 export interface ProviderData {
   meta: ProvidedMeta
   pricing: Pricing | null
+  speed: Speed | null
 }
-
-
 
 function ProvidedInfo(props: {
   modelMeta: ModelMeta
@@ -502,13 +523,15 @@ function ProvidedInfo(props: {
   )
   const [getProviderData, { refetch }] = createResource(
     async () => {
-      const [meta, pricing] = await Promise.all([
+      const [meta, pricing, speed] = await Promise.all([
         fetchProviderMeta(props.modelMeta.id, getSelectedProvider()),
         fetchPricing(props.modelMeta.id, getSelectedProvider()),
+        fetchSpeed(props.modelMeta.id, getSelectedProvider()),
       ])
       return {
         meta,
         pricing,
+        speed
       }
     },
   )

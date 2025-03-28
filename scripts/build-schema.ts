@@ -8,6 +8,7 @@ import providedMeta from '../schema/provided/meta.ts'
 import providerMeta from '../schema/providers/meta.ts'
 import providedPricing from '../schema/provided/pricing.ts'
 import modelBenchLmarena from '../schema/models/bench-lmarena.ts'
+import providedSpeed from '../schema/provided/speed.ts'
 
 const map: [
   string,
@@ -19,6 +20,7 @@ const map: [
   ['providers/meta.json', providerMeta],
   ['provided/pricing.json', providedPricing],
   ['models/bench-lmarena.json', modelBenchLmarena],
+  ['provided/speed.json', providedSpeed]
 ]
 
 for (const [output, schema] of map) {

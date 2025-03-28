@@ -1,10 +1,16 @@
-import type { ProviderData } from './index.tsx'
+import type { ProviderData, Speed } from './index.tsx'
 import { createMemo, For, Show } from 'solid-js'
 import type { cond } from '../../../schema/provided/pricing.ts'
 import type { InferOutput } from 'valibot'
 import { formatter } from './shared.ts'
 import { ModelSpec } from './ModelSpec.tsx'
 import { AbilityCard } from './AbilityCard.tsx'
+import { createResource } from 'solid-js'
+import { createSignal } from 'solid-js'
+import { onMount } from 'solid-js'
+import { createEffect } from 'solid-js'
+import { Switch } from 'solid-js'
+import { Match } from 'solid-js'
 
 function PricingCond(props: {
   cond: InferOutput<typeof cond>
@@ -26,6 +32,212 @@ function PricingCond(props: {
 const getAbilityText = (input?: boolean) =>
   input === undefined ? 'Unknown' : input ? 'Supported' : 'Not supported'
 
+const loremipsumTokenized: string[] = [
+  'Lorem',
+  ' ipsum',
+  ' dolor',
+  ' sit',
+  ' amet',
+  ',',
+  ' consectetur',
+  ' adipiscing',
+  ' elit',
+  ',',
+  ' sed',
+  ' do',
+  ' eiusmod',
+  ' tempor',
+  ' incididunt',
+  ' ut',
+  ' labore',
+  ' et',
+  ' dolore',
+  ' magna',
+  ' aliqua',
+  '.',
+  ' Ut',
+  ' enim',
+  ' ad',
+  ' minim',
+  ' veniam',
+  ',',
+  ' quis',
+  ' nost',
+  'rud',
+  ' exercitation',
+  ' ullam',
+  'co',
+  ' laboris',
+  ' nisi',
+  ' ut',
+  ' aliqu',
+  'ip',
+  ' ex',
+  ' ea',
+  ' commodo',
+  ' consequat',
+  '.',
+  ' Duis',
+  ' aute',
+  ' ir',
+  'ure',
+  ' dolor',
+  ' in',
+  ' reprehenderit',
+  ' in',
+  ' voluptate',
+  ' velit',
+  ' esse',
+  ' c',
+  'illum',
+  ' dolore',
+  ' eu',
+  ' fugiat',
+  ' nulla',
+  ' pariatur',
+  '.',
+  ' Ex',
+  'cepteur',
+  ' sint',
+  ' occaec',
+  'at',
+  ' cupid',
+  'atat',
+  ' non',
+  ' pro',
+  'ident',
+  ',',
+  ' sunt',
+  ' in',
+  ' culpa',
+  ' qui',
+  ' officia',
+  ' deserunt',
+  ' moll',
+  'it',
+  ' anim',
+  ' id',
+  ' est',
+  ' laborum',
+  '.',
+  ' ',
+]
+
+type SpeedLevel = 'SLOW' | 'MEDIUM' | 'FAST' | 'FASTEST'
+const calcSpeedLevel = (tps: number): SpeedLevel => {
+  if (tps < 50) {
+    return 'SLOW'
+  }
+  if (tps < 100) {
+    return 'MEDIUM'
+  }
+  if (tps < 300) {
+    return 'FAST'
+  }
+  return 'FASTEST'
+}
+
+function Speed(props: {
+  speed: Speed
+}) {
+  const getTps = createMemo(() =>
+    props.speed.measuredSpeeds.reduce(
+      (prev, cur) => cur.result.tps + prev,
+      0,
+    ) / props.speed.measuredSpeeds.length
+  )
+  const getSpeedLevel = createMemo(() => calcSpeedLevel(getTps()))
+
+  const [getWritingLorem, setWritingLorem] = createSignal('')
+  const [getIsStopped, setIsStopped] = createSignal(false)
+
+  let scrollContainerRef!: HTMLDivElement
+
+  createEffect(() => {
+    if (getIsStopped()) {
+      return
+    }
+    setWritingLorem('')
+    let i = 0
+    const step = async () => {
+      setWritingLorem((prev) => prev + loremipsumTokenized[i])
+      i++
+      scrollContainerRef.scrollTop = scrollContainerRef.scrollHeight
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 / getTps()))
+      if (i === loremipsumTokenized.length) {
+        setIsStopped(true)
+      }
+      if (getIsStopped()) {
+        return
+      }
+      step()
+    }
+    step()
+  })
+
+  return (
+    <>
+      <div class='h-[1px] w-full bg-gray-200 ' />
+      <div class='flex flex-col sm:flex-row gap-2'>
+        <div class='flex gap-1 w-60 shrink-0'>
+          <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-bolt' />
+          <div class='font-bold text-slate-800'>Speed</div>
+        </div>
+        <div class='grid grid-cols-2 grow'>
+          <div class='flex items-center'>
+            <div class='flex flex-col items-center gap-1'>
+              <div class='flex'>
+                <Switch>
+                  <Match when={getSpeedLevel() === 'FASTEST'}>
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                  </Match>
+                  <Match when={getSpeedLevel() === 'FAST'}>
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                  </Match>
+                  <Match when={getSpeedLevel() === 'MEDIUM'}>
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                  </Match>
+                  <Match when={getSpeedLevel() === 'SLOW'}>
+                    <div class='i-tabler-bolt-filled w-8 h-8' />
+                  </Match>
+                </Switch>
+              </div>
+              <div class='text-slate-700 font-bold text-lg'>
+                {getSpeedLevel()}
+              </div>
+              <div class='text-sm text-slate-600'>≈{getTps()} Tokens/s</div>
+            </div>
+          </div>
+          <div class='flex gap-1'>
+            <button
+              type='button'
+              class='w-6 h-6 p-1 bg-uchu-purple-5 shrink-0'
+              onClick={() => setIsStopped((prev) => !prev)}
+              classList={{
+                'i-tabler-play': getIsStopped(),
+                'i-tabler-player-stop': !getIsStopped(),
+              }}
+              title={getIsStopped() ? 'Stop' : 'Start'}
+            />
+            <div
+              ref={scrollContainerRef}
+              class='grow font-mono border p-1 border-gray-200 rounded-md h-60 overflow-y-auto text-slate-500'
+            >
+              {getWritingLorem()}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
 export default function ProvidedContent(props: {
   data: ProviderData
 }) {
@@ -156,6 +368,9 @@ export default function ProvidedContent(props: {
           />
         </div>
       </div>
+      <Show when={props.data.speed}>
+        {(getSpeed) => <Speed speed={getSpeed()} />}
+      </Show>
     </div>
   )
 }

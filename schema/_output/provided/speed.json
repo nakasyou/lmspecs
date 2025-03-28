@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "measuredSpeeds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "tps": {
+                "type": "number"
+              },
+              "ttft": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "tps"
+            ]
+          },
+          "env": {
+            "type": "object",
+            "properties": {
+              "inputToken": {
+                "type": "number"
+              },
+              "outputToken": {
+                "type": "number"
+              },
+              "date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "inputToken",
+              "outputToken",
+              "date"
+            ]
+          }
+        },
+        "required": [
+          "result",
+          "env"
+        ]
+      }
+    }
+  },
+  "required": [
+    "measuredSpeeds"
+  ]
+}
