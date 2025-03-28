@@ -10,7 +10,7 @@
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "input": {
+          "value": {
             "type": "array",
             "items": {
               "type": "object",
@@ -27,7 +27,7 @@
                   },
                   "required": []
                 },
-                "cost": {
+                "input": {
                   "type": "object",
                   "properties": {
                     "USD": {
@@ -37,31 +37,8 @@
                   "required": [
                     "USD"
                   ]
-                }
-              },
-              "required": [
-                "cost"
-              ]
-            }
-          },
-          "output": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "cond": {
-                  "type": "object",
-                  "properties": {
-                    "maxInputTokens": {
-                      "type": "number"
-                    },
-                    "minInputTokens": {
-                      "type": "number"
-                    }
-                  },
-                  "required": []
                 },
-                "cost": {
+                "cachedInput": {
                   "type": "object",
                   "properties": {
                     "USD": {
@@ -71,31 +48,8 @@
                   "required": [
                     "USD"
                   ]
-                }
-              },
-              "required": [
-                "cost"
-              ]
-            }
-          },
-          "cachedInput": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "cond": {
-                  "type": "object",
-                  "properties": {
-                    "maxInputTokens": {
-                      "type": "number"
-                    },
-                    "minInputTokens": {
-                      "type": "number"
-                    }
-                  },
-                  "required": []
                 },
-                "cost": {
+                "output": {
                   "type": "object",
                   "properties": {
                     "USD": {
@@ -108,7 +62,8 @@
                 }
               },
               "required": [
-                "cost"
+                "input",
+                "output"
               ]
             }
           },
@@ -132,6 +87,7 @@
           }
         },
         "required": [
+          "value",
           "references"
         ]
       }

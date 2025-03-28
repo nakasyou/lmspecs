@@ -36,6 +36,7 @@
   },
   "token_limit": {
     "input": 128000,
+    "output": null,
     "references": []
   },
   "features": {

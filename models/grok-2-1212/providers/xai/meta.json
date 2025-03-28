@@ -5,5 +5,15 @@
   "provided_at": {
     "value": "2024-12-12",
     "references": []
+  },
+  "features": {
+    "value": {
+      "fine_tuning": false,
+      "function_calling": true,
+      "json_mode": true,
+      "prompt_caching": false,
+      "streaming": true
+    },
+    "references": []
   }
 }

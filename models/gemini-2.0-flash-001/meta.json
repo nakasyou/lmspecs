@@ -47,7 +47,7 @@
   },
   "prev": "gemini-2.0-flash-exp",
   "features": {
-    "value": [],
+    "value": ["FUNCTION_CALLING"],
     "references": []
   },
   "links": {

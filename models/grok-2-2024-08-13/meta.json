@@ -25,6 +25,7 @@
   },
   "token_limit": {
     "input": 131072,
+    "output": null,
     "references": []
   },
   "cutoff_date": {

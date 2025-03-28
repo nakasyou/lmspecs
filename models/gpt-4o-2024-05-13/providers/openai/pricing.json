@@ -2,9 +2,17 @@
   "$schema": "../../../../schema/_output/provided/pricing.json",
   "pricing": {
     "2024-05-13": {
-      "input": [{ "cost": { "USD": 5 } }],
-      "output": [{ "cost": { "USD": 15 } }],
-      "references": []
+      "references": [],
+      "value": [
+        {
+          "input": {
+            "USD": 5
+          },
+          "output": {
+            "USD": 15
+          }
+        }
+      ]
     }
   }
 }

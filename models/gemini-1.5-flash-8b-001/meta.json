@@ -46,7 +46,12 @@
     "references": []
   },
   "features": {
-    "value": [],
+    "value": ["FUNCTION_CALLING"],
+    "references": []
+  },
+  "model_parameters": {
+    "value": 80000000000,
+    "trustability": "GUESSED",
     "references": []
   }
 }

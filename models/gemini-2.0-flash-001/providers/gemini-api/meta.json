@@ -6,5 +6,21 @@
     "value": "2025-02-25",
     "references": []
   },
-  "prev": "gemini-2.0-flash-exp"
+  "prev": "gemini-2.0-flash-exp",
+  "features": {
+    "value": {
+      "fine_tuning": true,
+      "free_plan": true,
+      "function_calling": true,
+      "json_mode": true,
+      "prompt_caching": true,
+      "streaming": true
+    },
+    "references": [
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/models",
+        "retrieved": "2025-03-28T01:54:04.548Z"
+      }
+    ]
+  }
 }

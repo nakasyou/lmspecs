@@ -5,14 +5,15 @@ const price = object({
   USD: number(), // Price in USD
 })
 
+export const cond = object({
+  maxInputTokens: optional(number()),
+  minInputTokens: optional(number()),
+})
 const cost = object({
-  cond: optional(
-    object({
-      maxInputTokens: optional(number()),
-      minInputTokens: optional(number()),
-    }),
-  ),
-  cost: price,
+  cond: optional(cond),
+  input: price,
+  cachedInput: optional(price),
+  output: price,
 })
 
 export default object({
@@ -21,9 +22,7 @@ export default object({
     record(
       string(),
       object({
-        input: optional(array(cost)),
-        output: optional(array(cost)),
-        cachedInput: optional(array(cost)),
+        value: array(cost),
         references: array(reference()),
       }),
     ),

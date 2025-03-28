@@ -34,16 +34,14 @@
     "input": [
       "text",
       "image",
-      "audio",
-      "video"
-    ],
+      "audio"    ],
     "output": [
       "text"
     ],
     "references": []
   },
   "features": {
-    "value": [],
+    "value": ["FUNCTION_CALLING"],
     "references": []
   }
 }

@@ -32,7 +32,8 @@
   },
   "multimodalities": {
     "input": [
-      "text"
+      "text",
+      "image"
     ],
     "output": [
       "text"
@@ -40,7 +41,7 @@
     "references": []
   },
   "features": {
-    "value": [],
+    "value": ["FUNCTION_CALLING"],
     "references": []
   }
 }

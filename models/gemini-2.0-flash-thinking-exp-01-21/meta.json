@@ -47,7 +47,7 @@
     "references": []
   },
   "features": {
-    "value": [],
+    "value": ["REASONING", "FUNCTION_CALLING"],
     "references": []
   }
 }

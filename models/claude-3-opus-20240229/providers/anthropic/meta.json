@@ -5,5 +5,16 @@
   "provided_at": {
     "value": "2024-02-29",
     "references": []
+  },  "features": {
+    "value": {
+      "fine_tuning": false,
+      "function_calling": true,
+      "json_mode": false,
+      "streaming": true
+    },
+    "references": [{
+      "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview",
+      "retrieved": "2025-03-28T01:54:04.548Z"
+    }]
   }
 }

@@ -2,19 +2,37 @@
   "$schema": "../../../../schema/_output/provided/pricing.json",
   "pricing": {
     "2024-10-23": {
-      "input": [
-        { "cost": { "USD": 1.25 }, "cond": { "maxInputTokens": 128000 } },
-        { "cost": { "USD": 2.5 }, "cond": { "minInputTokens": 128000 } }
-      ],
-      "cachedInput": [
-        { "cost": { "USD": 0.3125 }, "cond": { "maxInputTokens": 128000 } },
-        { "cost": { "USD": 0.625 }, "cond": { "minInputTokens": 128000 } }
-      ],
-      "output": [
-        { "cost": { "USD": 5 }, "cond": { "maxInputTokens": 128000 } },
-        { "cost": { "USD": 10 }, "cond": { "minInputTokens": 128000 } }
-      ],
-      "references": []
+      "references": [],
+      "value": [
+        {
+          "cond": {
+            "maxInputTokens": 128000
+          },
+          "input": {
+            "USD": 1.25
+          },
+          "output": {
+            "USD": 5
+          },
+          "cachedInput": {
+            "USD": 0.3125
+          }
+        },
+        {
+          "cond": {
+            "minInputTokens": 128000
+          },
+          "input": {
+            "USD": 2.5
+          },
+          "output": {
+            "USD": 10
+          },
+          "cachedInput": {
+            "USD": 0.625
+          }
+        }
+      ]
     }
   }
 }

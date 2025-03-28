@@ -1,7 +1,28 @@
 {
+  "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "gemini-1.5-pro-001",
   "provider_id": "gemini-api",
   "provided_at": {
-    "references": []
+    "value": "2024-02-15",
+    "references": [{
+      "url": "https://developers.googleblog.com/en/gemini-15-our-next-generation-model-now-available-for-private-preview-in-google-ai-studio/",
+      "retrieved": "2025-03-28T01:54:04.548Z"
+    }]
+  },
+  "features": {
+    "value": {
+      "fine_tuning": true,
+      "free_plan": true,
+      "function_calling": true,
+      "json_mode": true,
+      "prompt_caching": true,
+      "streaming": true
+    },
+    "references": [
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/models",
+        "retrieved": "2025-03-28T01:54:04.548Z"
+      }
+    ]
   }
 }

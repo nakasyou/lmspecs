@@ -61,9 +61,61 @@
       "required": [
         "references"
       ]
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "object",
+          "properties": {
+            "fine_tuning": {
+              "type": "boolean"
+            },
+            "free_plan": {
+              "type": "boolean"
+            },
+            "function_calling": {
+              "type": "boolean"
+            },
+            "json_mode": {
+              "type": "boolean"
+            },
+            "prompt_caching": {
+              "type": "boolean"
+            },
+            "streaming": {
+              "type": "boolean"
+            }
+          },
+          "required": []
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "retrieved": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url",
+              "retrieved"
+            ]
+          }
+        }
+      },
+      "required": [
+        "value",
+        "references"
+      ]
     }
   },
   "required": [
-    "provided_at"
+    "provided_at",
+    "features"
   ]
 }

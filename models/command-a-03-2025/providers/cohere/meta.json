@@ -5,5 +5,29 @@
   "provided_at": {
     "value": "2025-03-13",
     "references": []
+  },
+  "features": {
+    "value": {
+      "fine_tuning": true,
+      "free_plan": true,
+      "function_calling": true,
+      "json_mode": true,
+      "prompt_caching": false,
+      "streaming": true
+    },
+    "references": [
+      {
+        "url": "https://docs.cohere.com/v2/docs/tool-use-overview",
+        "retrieved": "2025-03-28T01:54:04.548Z"
+      },
+      {
+        "url": "https://docs.cohere.com/docs/chat-preparing-the-data",
+        "retrieved": "2025-03-28T01:54:04.548Z"
+      },
+      {
+        "url": "https://docs.cohere.com/v1/docs/structured-outputs#json-mode",
+        "retrieved": "2025-03-28T01:54:04.548Z"
+      }
+    ]
   }
 }

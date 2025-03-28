@@ -5,5 +5,18 @@
   "provided_at": {
     "value": "2023-11-06",
     "references": []
+  },
+  "features": {
+    "value": {
+      "fine_tuning": true,
+      "function_calling": false,
+      "json_mode": false,
+      "prompt_caching": false,
+      "streaming": false
+    },
+    "references": [{
+      "url": "https://platform.openai.com/docs/models/gpt-3.5-turbo",
+      "retrieved": "2025-03-28T01:54:04.548Z"
+    }]
   }
 }

@@ -8,17 +8,19 @@ import { formatTokenUnit } from '../../lib/math.ts'
 import { For } from 'solid-js'
 import { InferOutput } from 'valibot'
 import modelMetaSchema from '../../../schema/models/meta.ts'
-import pricingSchema from '../../../schema/provided/pricing.ts'
+import pricingSchema, { cond } from '../../../schema/provided/pricing.ts'
 import providedMetaSchema from '../../../schema/provided/meta.ts'
 import CopyButton from '../../components/CopyButton.tsx'
-import { createMemo } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
-import { createSignal } from 'solid-js'
-import { createEffect } from 'solid-js'
+import { createMemo, createSignal, createEffect } from 'solid-js'
+import { formatter } from './shared.ts'
+import { ModelSpec } from './ModelSpec.tsx'
+import ProvidedContent from './PrividedContent.tsx'
+import { AbilityCard } from './AbilityCard.tsx'
 
-type ModelMeta = InferOutput<typeof modelMetaSchema>
-type ProvidedMeta = InferOutput<typeof providedMetaSchema>
-type Pricing = InferOutput<typeof pricingSchema>
+export type ModelMeta = InferOutput<typeof modelMetaSchema>
+export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
+export type Pricing = InferOutput<typeof pricingSchema>
 
 const MODEL_INFO = import.meta.glob('../../../models/**/*')
 const ASSETS = import.meta.glob('../../../assets/*/*')
@@ -295,81 +297,7 @@ function ModelSummary(props: {
   )
 }
 
-const formatter = new Intl.DateTimeFormat('en-us', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-})
-function ModelSpec(props: {
-  key: string
-  children: JSX.Element
-  class?: string
-  references?: {
-    url: string
-    retrieved: string
-  }[]
-  iconClass: string
-  contentToCopy: string
-}) {
-  return (
-    <div class={'flex flex-col flex-1 ' + (props.class ?? '')}>
-      <div class='flex justify-between flex-col sm:flex-row gap-1'>
-        <div class='flex gap-1 items-center'>
-          <div
-            class={'w-6 h-6 bg-slate-800 relative bottom-[2px] ' +
-              props.iconClass}
-          />
-          <div class='font-bold text-slate-800'>{props.key}</div>
-        </div>
-        <div class='flex gap-1'>
-          <div class='text-slate-700'>{props.children}</div>
-          <CopyButton
-            content={props.contentToCopy}
-            class='w-4 h-4 text-slate-500'
-          />
-        </div>
-      </div>
-      <div class=''>
-        <Show when={props.references}>
-          <SpecReferences references={props.references ?? []} />
-        </Show>
-      </div>
-    </div>
-  )
-}
-function SpecReferences(props: {
-  references: {
-    url: string
-    retrieved: string
-  }[]
-}) {
-  return (
-    <details>
-      <summary class='text-xs text-gray-600'>
-        {props.references.length === 1
-          ? '1 reference'
-          : props.references.length + ' references'}
-      </summary>
-      <ul class='list-disc list-inside ml-1 pl-4 border-l-4 border-uchu-gray-6'>
-        <For each={props.references}>
-          {(reference) => (
-            <li class='text-xs'>
-              <a
-                href={reference.url}
-                target='_blank'
-                rel='noreferrer noopener'
-                class='text-uchu-blue-5 hover:text-uchu-blue-4'
-              >
-                {reference.url}{' '}
-                ({formatter.format(new Date(reference.retrieved))})
-              </a>
-            </li>
-          )}
-        </For>
-      </ul>
-    </details>
-  )
-}
+
 function MultimodalityCard(props: {
   onIcon: string
   offIcon: string
@@ -402,36 +330,6 @@ function MultimodalityCard(props: {
   )
 }
 
-function AbilityCard(props: {
-  onIcon: string
-  offIcon: string
-
-  name: string
-  text: string
-  enabled: boolean
-}) {
-  return (
-    <div
-      class='flex items-center gap-2'
-      classList={{
-        'opacity-70': !props.enabled,
-      }}
-    >
-      <div>
-        <div
-          class='w-6 h-6 items-center bg-gray-800'
-          classList={{
-            [props.enabled ? props.onIcon : props.offIcon]: true,
-          }}
-        />
-      </div>
-      <div>
-        <div class='font-bold text-sm text-gray-800'>{props.name}</div>
-        <div class='text-gray-700 text-xs'>{props.text}</div>
-      </div>
-    </div>
-  )
-}
 function ModelSpecs(props: {
   modelMeta: ModelMeta
 }) {
@@ -588,53 +486,12 @@ function ModelSpecs(props: {
   )
 }
 
-interface ProviderData {
+export interface ProviderData {
   meta: ProvidedMeta
   pricing: Pricing | null
 }
 
-function ProvidedContent(props: {
-  data: ProviderData
-}) {
-  return (
-    <div class='flex flex-col gap-4'>
-      <div class='flex gap-4 flex-col md:flex-row'>
-        <ModelSpec
-          key='Provided at'
-          iconClass='i-tabler-calendar-bolt'
-          references={props.data.meta.provided_at.references}
-          contentToCopy={props.data.meta.provided_at.value}
-        >
-          {formatter.format(new Date(props.data.meta.provided_at.value))}
-        </ModelSpec>
-        <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
-        <ModelSpec
-          key='Provided at'
-          iconClass='i-tabler-calendar-bolt'
-          references={props.data.meta.provided_at.references}
-          contentToCopy={props.data.meta.provided_at.value}
-        >
-          {formatter.format(new Date(props.data.meta.provided_at.value))}
-        </ModelSpec>
-      </div>
-      <div class='h-[1px] w-full bg-gray-200 ' />
-      <div>
-        <div class='flex flex-col sm:flex-row gap-2'>
-          <div class='flex gap-1 w-60'>
-            <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-moneybag' />
-            <div class='font-bold text-slate-800'>Pricing</div>
-          </div>
-          <div>
-            <div class='flex gap-2'>
-              <div class='font-bold text-slate-700'>Input</div>
-              <div>aa</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+
 
 function ProvidedInfo(props: {
   modelMeta: ModelMeta
@@ -662,7 +519,7 @@ function ProvidedInfo(props: {
   })
 
   return (
-    <div class='flex flex-col gap-2'>
+    <div class='flex flex-col gap-5'>
       <div class='flex gap-2 items-center'>
         <div class='text-lg text-gray-500 font-bold'>with:</div>
         <Select
@@ -684,7 +541,7 @@ function ModelContent(props: {
   modelMeta: ModelMeta
 }) {
   return (
-    <div class='flex flex-col gap-4'>
+    <div class='flex flex-col gap-4 max-w-256 mx-auto'>
       <ModelTitle modelMeta={props.modelMeta} />
       <ModelSummary modelMeta={props.modelMeta} />
       <ModelSpecs modelMeta={props.modelMeta} />
