@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "command-a-03-2025",
-  "name": "command-a-03-2025",
+  "name": "Command A (2025-03)",
   "creators": [
     "Cohere"
   ],
@@ -17,13 +17,14 @@
   "identifiers": {
     "lmarena": "command-a-03-2025"
   },
+  "logos": ["cohere-icon/image.svg"],
   "token_limit": {
     "input": 256000,
     "output": 8000,
     "references": []
   },
   "license": {
-    "value": "cc-by-nc-4.0",
+    "value": "CC-BY-NC-4.0",
     "references": []
   },
   "multimodalities": {

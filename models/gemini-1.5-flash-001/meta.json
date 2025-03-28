@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-1.5-flash-001",
-  "name": "gemini-1.5-flash-001",
+  "name": "Gemini 1.5 Flash 001",
   "creators": [
     "Google"
   ],
@@ -13,6 +13,9 @@
     "2024-05-24": [
       "STABLE"
     ]
+  },
+  "links": {
+    "huggingface": "https://huggingface.co/deepseek-ai/DeepSeek-V3"
   },
   "identifiers": {
     "lmarena": "gemini-1.5-flash-001"

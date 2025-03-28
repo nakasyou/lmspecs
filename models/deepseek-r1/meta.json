@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "deepseek-r1",
-  "name": "deepseek-r1",
+  "name": "DeepSeek R1",
   "creators": [
     "DeepSeek"
   ],
@@ -17,9 +17,13 @@
   "identifiers": {
     "lmarena": "deepseek-r1"
   },
+  "logos": ["deepseek-icon/image.svg"],
   "license": {
-    "value": "Proprietary",
+    "value": "MIT",
     "references": []
+  },
+  "links": {
+    "huggingface": "https://huggingface.co/deepseek-ai/DeepSeek-R1"
   },
   "multimodalities": {
     "input": [

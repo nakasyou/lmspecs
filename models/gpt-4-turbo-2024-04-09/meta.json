@@ -9,6 +9,9 @@
     "value": "2024-04-09",
     "references": []
   },
+  "logos": [
+    "gpt-4-turbo-icon/image.png"
+  ],
   "states": {
     "2024-04-09": [
       "STABLE"

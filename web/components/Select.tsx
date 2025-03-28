@@ -72,9 +72,9 @@ export function Select<T extends string>(props: {
         role='combobox'
         aria-haspopup='listbox'
         aria-expanded={getIsRealShown()}
-        class='w-full border p-1 rounded-md border-gray-400 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors'
+        class='w-full border p-1 rounded-md border-gray-200 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors'
       >
-        <div>{props.titles[getValue()]}</div>
+        <div class="text-slate-700">{props.titles[getValue()]}</div>
         <div
           class='i-tabler-caret-down-filled w-4 h-4 transition-all'
           classList={{
@@ -109,7 +109,7 @@ export function Select<T extends string>(props: {
                     'bg-uchu-purple-1 dark:bg-uchu-purple-7 hover:bg-uchu-purple-2 dark:hover:bg-uchu-purple-9':
                       getValue() === id,
                   }}
-                  class='transition-colors p-1 first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-uchu-gray-1 dark:hover:bg-uchu-gray-9'
+                  class='text-slate-700 transition-colors p-1 first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-uchu-gray-1 dark:hover:bg-uchu-gray-9'
                   onClick={() =>
                     getValue() === id ? close() : setValue(() => id)}
                 >

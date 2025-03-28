@@ -31,6 +31,7 @@
   "identifiers": {
     "lmarena": "gpt-3.5-turbo-0125"
   },
+  "logos": ["gpt-3.5-icon/image.png"],
   "license": {
     "value": "Proprietary",
     "references": []

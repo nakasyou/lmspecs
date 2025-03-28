@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-1.5-pro-001",
-  "name": "gemini-1.5-pro-001",
+  "name": "Gemini 1.5 Pro 001",
   "creators": [
     "Google"
   ],

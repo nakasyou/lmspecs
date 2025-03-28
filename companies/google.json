@@ -1,0 +1,5 @@
+{
+  "$schema": "../schema/_output/companies.json",
+  "name": "Google",
+  "icon": "google-icon/image.svg"
+}

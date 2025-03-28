@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "command-r7b-12-2024",
-  "name": "command-r7b-12-2024",
+  "name": "Command R7b (2024-12)",
   "creators": [
     "Cohere"
   ],
@@ -14,14 +14,15 @@
       "STABLE"
     ]
   },
-  "identifiers": {},
+  "identifiers": {},  "logos": ["cohere-icon/image.svg"],
+
   "token_limit": {
     "input": 128000,
     "output": 4000,
     "references": []
   },
   "license": {
-    "value": "cc-by-nc-4.0",
+    "value": "CC-BY-NC-4.0",
     "references": []
   },
   "multimodalities": {

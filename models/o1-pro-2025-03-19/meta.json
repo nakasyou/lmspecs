@@ -23,7 +23,8 @@
     "output": 100000,
     "references": []
   },
-  "identifiers": {},
+  "identifiers": {},  "logos": ["o1-pro-icon/image.png"],
+
   "license": {
     "value": "Proprietary",
     "references": []

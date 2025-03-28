@@ -25,7 +25,8 @@
   },
   "identifiers": {
     "lmarena": "chatgpt-4o-latest-20241120"
-  },
+  },  "logos": ["gpt-4o-icon/image.png"],
+
   "license": {
     "value": "Proprietary",
     "references": []
@@ -34,7 +35,8 @@
     "input": [
       "text",
       "image",
-      "audio"    ],
+      "audio"
+    ],
     "output": [
       "text"
     ],

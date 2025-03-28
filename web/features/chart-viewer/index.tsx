@@ -16,11 +16,6 @@ import {
   DialogOpener,
 } from '../../components/Dialog.tsx'
 import ModelSelect from './ModelSelect.tsx'
-import {
-  getLMArenaScores,
-  getMMLUProScores,
-  type Model,
-} from '../../lib/lmspecs/mod.ts'
 import ValueSelect, {
   VALUE_TYPES,
   ValueType,

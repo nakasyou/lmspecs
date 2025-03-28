@@ -72,13 +72,13 @@ export default v.object({
   model_parameters: v.optional(v.object({
     value: v.number(),
     references: v.array(reference()),
-    trustability: trustability()
+    trustability: trustability(),
   })),
   features: v.object({
     value: v.array(v.union([
       v.literal('REASONING'),
-      v.literal('FUNCTION_CALLING')
+      v.literal('FUNCTION_CALLING'),
     ])),
     references: v.array(reference()),
-  })
+  }),
 })

@@ -89,7 +89,10 @@ export default {
           return [
             modelId,
             [
-              [new Date().toISOString().slice(0, 10), imported.mmlu_pro.value[params]]
+              [
+                new Date().toISOString().slice(0, 10),
+                imported.mmlu_pro.value[params],
+              ],
             ],
           ]
         })())

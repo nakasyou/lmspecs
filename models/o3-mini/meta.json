@@ -28,6 +28,7 @@
     "references": []
   },
   "identifiers": {},
+  "logos": ["o3-mini-icon/image.png"],
   "multimodalities": {
     "input": [
       "text"

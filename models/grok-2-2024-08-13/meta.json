@@ -40,6 +40,9 @@
   "identifiers": {
     "lmarena": "grok-2-2024-08-13"
   },
+  "logos": [
+    "xai-icon/image.svg"
+  ],
   "multimodalities": {
     "input": [
       "text"

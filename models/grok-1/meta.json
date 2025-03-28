@@ -16,8 +16,11 @@
   },
   "license": {
     "value": "Apache-2.0",
-    "sources": [
-      "https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md"
+    "references": [
+      {
+        "url": "https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md",
+        "retrieved": "2025-03-28T05:19:17.617Z"
+      }
     ]
   },
   "links": {
@@ -26,9 +29,11 @@
   },
   "token_limit": {
     "input": 8000,
+    "output": null,
     "references": []
   },
   "identifiers": {},
+  "logos": ["grok-icon-2023/image.svg"],
   "multimodalities": {
     "input": [
       "text"

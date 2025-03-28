@@ -1,19 +1,21 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "claude-3-5-sonnet-20241022",
-  "name": "claude-3-5-sonnet-20241022",
+  "name": "Claude 3.5 Sonnet (2024-10-22)",
   "creators": [
     "Anthropic"
   ],
   "published_at": {
-    "value": "2025-10-22",
+    "value": "2024-10-22",
     "references": []
   },
   "states": {
-    "2025-10-22": [
+    "2024-10-22": [
       "STABLE"
     ]
   },
+  "logos": ["claude-icon/image.svg"],
+
   "identifiers": {
     "lmarena": "claude-3-5-sonnet-20241022"
   },

@@ -5,7 +5,8 @@
   "provided_at": {
     "value": "2024-03-07",
     "references": []
-  },  "features": {
+  },
+  "features": {
     "value": {
       "fine_tuning": false,
       "function_calling": true,

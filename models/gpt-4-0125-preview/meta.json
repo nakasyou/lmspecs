@@ -31,6 +31,9 @@
   "identifiers": {
     "lmarena": "gpt-4-0125-preview"
   },
+  "logos": [
+    "gpt-4-icon/image.png"
+  ],
   "license": {
     "value": "Proprietary",
     "references": []

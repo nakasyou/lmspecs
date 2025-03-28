@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "claude-3-haiku-20240307",
-  "name": "claude-3-haiku-20240307",
+  "name": "Claude 3 Haiku (2024-03-07)",
   "creators": [
     "Anthropic"
   ],
@@ -17,6 +17,8 @@
   "identifiers": {
     "lmarena": "claude-3-haiku-20240307"
   },
+  "logos": ["claude-icon/image.svg"],
+
   "license": {
     "value": "Proprietary",
     "references": []

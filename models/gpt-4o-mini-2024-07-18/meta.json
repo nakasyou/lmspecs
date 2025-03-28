@@ -26,6 +26,7 @@
   "identifiers": {
     "lmarena": "gpt-4o-mini-2024-07-18"
   },
+  "logos": ["gpt-4o-mini-icon/image.png"],
   "license": {
     "value": "Proprietary",
     "references": []

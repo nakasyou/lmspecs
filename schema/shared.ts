@@ -6,7 +6,8 @@ export const reference = () =>
     retrieved: string(),
   })
 
-export const trustability = () => union([
-  literal('OFFICIAL'),
-  literal('GUESSED')
-])
+export const trustability = () =>
+  union([
+    literal('OFFICIAL'),
+    literal('GUESSED'),
+  ])

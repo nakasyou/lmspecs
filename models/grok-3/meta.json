@@ -36,6 +36,9 @@
   "identifiers": {
     "lmarena": "early-grok-3"
   },
+  "logos": [
+    "grok-icon-2025/image.svg"
+  ],
   "license": {
     "value": "Proprietary",
     "references": []
@@ -50,7 +53,9 @@
     "references": []
   },
   "features": {
-    "value": ["REASONING"],
+    "value": [
+      "REASONING"
+    ],
     "references": []
   }
 }

@@ -9,7 +9,7 @@ import providerMeta from '../schema/providers/meta.ts'
 import providedPricing from '../schema/provided/pricing.ts'
 import modelBenchLmarena from '../schema/models/bench-lmarena.ts'
 import providedSpeed from '../schema/provided/speed.ts'
-
+import companies from '../schema/companies.ts'
 const map: [
   string,
   v.ObjectSchema<v.ObjectEntries, v.ErrorMessage<v.ObjectIssue> | undefined>,
@@ -20,7 +20,8 @@ const map: [
   ['providers/meta.json', providerMeta],
   ['provided/pricing.json', providedPricing],
   ['models/bench-lmarena.json', modelBenchLmarena],
-  ['provided/speed.json', providedSpeed]
+  ['provided/speed.json', providedSpeed],
+  ['companies.json', companies],
 ]
 
 for (const [output, schema] of map) {

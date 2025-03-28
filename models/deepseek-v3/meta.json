@@ -1,24 +1,27 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "deepseek-v3",
-  "name": "deepseek-v3",
+  "name": "DeepSeek V3",
   "creators": [
     "DeepSeek"
   ],
   "published_at": {
-    "value": "2025-12-26",
+    "value": "2024-12-26",
     "references": []
   },
   "states": {
-    "2025-12-26": [
+    "2024-12-26": [
       "STABLE"
     ]
   },
   "identifiers": {
     "lmarena": "deepseek-v3"
   },
+  "logos": [
+    "deepseek-icon/image.svg"
+  ],
   "license": {
-    "value": "Proprietary",
+    "value": "MIT",
     "references": []
   },
   "multimodalities": {

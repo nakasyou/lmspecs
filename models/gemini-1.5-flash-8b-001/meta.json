@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "gemini-1.5-flash-8b-001",
-  "name": "gemini-1.5-flash-8b-001",
+  "name": "Gemini 1.5 Flash 8B 001",
   "creators": [
     "Google"
   ],

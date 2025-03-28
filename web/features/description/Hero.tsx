@@ -23,7 +23,7 @@ export default function Hero() {
           >
             Open Chart Viewer
           </a>
-          <a href='/chart' class='text-uchu-purple-5 hover:text-uchu-purple-4'>
+          <a href='/model' class='text-uchu-purple-5 hover:text-uchu-purple-4'>
             or search models
           </a>
         </div>

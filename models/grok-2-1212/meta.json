@@ -23,8 +23,12 @@
       }
     ]
   },
+  "logos": [
+    "xai-icon/image.svg"
+  ],
   "token_limit": {
     "input": 131072,
+    "output": null,
     "references": []
   },
   "cutoff_date": {
@@ -47,7 +51,9 @@
     "references": []
   },
   "features": {
-    "value": ["FUNCTION_CALLING"],
+    "value": [
+      "FUNCTION_CALLING"
+    ],
     "references": []
   }
 }

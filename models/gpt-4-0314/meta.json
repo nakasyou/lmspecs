@@ -30,7 +30,9 @@
   },
   "identifiers": {
     "lmarena": "gpt-4-0314"
-  },
+  },  "logos": [
+    "gpt-4-icon/image.png"
+  ],
   "license": {
     "value": "Proprietary",
     "references": []

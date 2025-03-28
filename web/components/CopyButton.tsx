@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js'
 
-export default function CopyButton (props: {
+export default function CopyButton(props: {
   content: string
   class?: string
 }) {
@@ -8,18 +8,26 @@ export default function CopyButton (props: {
 
   let timeoutId: number | undefined
 
-  return <button onClick={() => {
-    navigator.clipboard.writeText(props.content)
-      .then(() => {
-        clearTimeout(timeoutId)
-        setIsCompreted(true)
-        timeoutId = setTimeout(() => {
-          setIsCompreted(false)
-        }, 1000)
-      })
-  }} class={props.class} type='button' classList={{
-    'i-tabler-copy': !getIsCompreted(),
-    'i-tabler-check': getIsCompreted(),
-    'shrink-0': true
-  }}></button>
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(props.content)
+          .then(() => {
+            clearTimeout(timeoutId)
+            setIsCompreted(true)
+            timeoutId = setTimeout(() => {
+              setIsCompreted(false)
+            }, 1000)
+          })
+      }}
+      class={props.class}
+      type='button'
+      classList={{
+        'i-tabler-copy': !getIsCompreted(),
+        'i-tabler-check': getIsCompreted(),
+        'shrink-0': true,
+      }}
+    >
+    </button>
+  )
 }

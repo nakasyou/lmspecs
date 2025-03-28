@@ -1,16 +1,16 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
   "id": "claude-3-5-haiku-20241022",
-  "name": "claude-3-5-haiku-20241022",
+  "name": "Claude 3.5 Haiku (2024-10-22)",
   "creators": [
     "Anthropic"
   ],
   "published_at": {
-    "value": "2025-10-22",
+    "value": "2024-10-22",
     "references": []
   },
   "states": {
-    "2025-10-22": [
+    "2024-10-22": [
       "STABLE"
     ]
   },
@@ -21,6 +21,7 @@
     "value": "Proprietary",
     "references": []
   },
+  "logos": ["claude-icon/image.svg"],
   "multimodalities": {
     "input": [
       "text",

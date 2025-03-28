@@ -23,5 +23,5 @@ export default v.object({
       streaming: v.optional(v.boolean()),
     }),
     references: v.array(reference()),
-  })
+  }),
 })

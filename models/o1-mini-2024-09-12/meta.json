@@ -25,7 +25,7 @@
   },
   "identifiers": {
     "lmarena": "o1-mini"
-  },
+  },"logos": ["o1-mini-icon/image.png"],
   "license": {
     "value": "Proprietary",
     "references": []

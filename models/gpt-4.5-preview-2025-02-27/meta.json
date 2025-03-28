@@ -28,6 +28,7 @@
     "value": "Proprietary",
     "references": []
   },
+  "logos": ["gpt-4.5-icon/image.png"],
   "multimodalities": {
     "input": [
       "text"

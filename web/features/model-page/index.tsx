@@ -18,6 +18,7 @@ import { formatter } from './shared.ts'
 import { ModelSpec } from './ModelSpec.tsx'
 import ProvidedContent from './PrividedContent.tsx'
 import { AbilityCard } from './AbilityCard.tsx'
+import Spinner from '../../components/Spinner.tsx'
 
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
@@ -266,46 +267,50 @@ function ModelSummary(props: {
   modelMeta: ModelMeta
 }) {
   return (
-    <div class='border justify-between border-uchu-gray-4 rounded-lg flex gap-2 p-3'>
-      <ModelSummaryCard
-        title='CONTEXT WINDOW'
-        shortDesc={`${props.modelMeta.token_limit?.input.toString()} Tokens`}
-      >
-        <div class='text-lg font-bold text-gray-700'>
-          {formatTokenUnit(props.modelMeta.token_limit?.input ?? 0)}
-        </div>
-      </ModelSummaryCard>
-      <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
-      <ModelSummaryCard
-        title='LICENSE'
-        shortDesc=''
-      >
-        <div class='text-lg font-bold text-gray-700'>
-          {props.modelMeta.license.value}
-        </div>
-      </ModelSummaryCard>
-      <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
-      <ModelSummaryCard
-        title='INPUT'
-        shortDesc={props.modelMeta.multimodalities.input.join('・')}
-      >
-        <div class='flex justify-center'>
-          <MultiModalitiesIcons
-            modalities={props.modelMeta.multimodalities.input}
-          />
-        </div>
-      </ModelSummaryCard>
-      <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
-      <ModelSummaryCard
-        title='OUTPUT'
-        shortDesc={props.modelMeta.multimodalities.output.join('・')}
-      >
-        <div class='flex justify-center'>
-          <MultiModalitiesIcons
-            modalities={props.modelMeta.multimodalities.output}
-          />
-        </div>
-      </ModelSummaryCard>
+    <div class='border justify-between border-uchu-gray-4 rounded-lg flex gap-2 p-3 flex-col sm:flex-row'>
+      <div class='flex gap-2 flex-1'>
+        <ModelSummaryCard
+          title='CONTEXT WINDOW'
+          shortDesc={`${props.modelMeta.token_limit?.input.toString()} Tokens`}
+        >
+          <div class='text-lg font-bold text-gray-700'>
+            {formatTokenUnit(props.modelMeta.token_limit?.input ?? 0)}
+          </div>
+        </ModelSummaryCard>
+        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+        <ModelSummaryCard
+          title='LICENSE'
+          shortDesc=''
+        >
+          <div class='text-lg font-bold text-gray-700'>
+            {props.modelMeta.license.value}
+          </div>
+        </ModelSummaryCard>
+      </div>
+      <div class='h-[1px] w-full sm:h-12 sm:w-[1px] bg-gray-100 self-center' />
+      <div class='flex gap-2 flex-1'>
+        <ModelSummaryCard
+          title='INPUT'
+          shortDesc={props.modelMeta.multimodalities.input.join('・')}
+        >
+          <div class='flex justify-center'>
+            <MultiModalitiesIcons
+              modalities={props.modelMeta.multimodalities.input}
+            />
+          </div>
+        </ModelSummaryCard>
+        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+        <ModelSummaryCard
+          title='OUTPUT'
+          shortDesc={props.modelMeta.multimodalities.output.join('・')}
+        >
+          <div class='flex justify-center'>
+            <MultiModalitiesIcons
+              modalities={props.modelMeta.multimodalities.output}
+            />
+          </div>
+        </ModelSummaryCard>
+      </div>
     </div>
   )
 }
@@ -523,6 +528,9 @@ function ProvidedInfo(props: {
   )
   const [getProviderData, { refetch }] = createResource(
     async () => {
+      if (!getSelectedProvider()) {
+        return null
+      }
       const [meta, pricing, speed] = await Promise.all([
         fetchProviderMeta(props.modelMeta.id, getSelectedProvider()),
         fetchPricing(props.modelMeta.id, getSelectedProvider()),
@@ -531,7 +539,7 @@ function ProvidedInfo(props: {
       return {
         meta,
         pricing,
-        speed
+        speed,
       }
     },
   )
@@ -542,21 +550,35 @@ function ProvidedInfo(props: {
   })
 
   return (
-    <div class='flex flex-col gap-5'>
-      <div class='flex gap-2 items-center'>
-        <div class='text-lg text-gray-500 font-bold'>with:</div>
-        <Select
-          titles={Object.fromEntries(getProviderIds().map((id) => [id, id]))}
-          value={getSelectedProvider()}
-          onChange={setSelectedProvider}
-        />
+    <Show
+      when={getSelectedProvider()}
+      fallback={
+        <div class='flex flex-col gap-2'>
+          <div class='h-[1px] w-full bg-gray-200 ' />
+          <div class='text-slate-600'>
+            No providers which can provide this model was found in LMSpecs.
+          </div>
+        </div>
+      }
+    >
+      <div class='flex flex-col gap-5'>
+        <div class='flex gap-2 items-center'>
+          <div class='text-lg text-gray-500 font-bold'>with:</div>
+          <Select
+            titles={Object.fromEntries(getProviderIds().map((id) => [id, id]))}
+            value={getSelectedProvider()}
+            onChange={setSelectedProvider}
+          />
+        </div>
+        <Suspense fallback={<Spinner />}>
+          <Show
+            when={getProviderData()}
+          >
+            {(data) => <ProvidedContent data={data()} />}
+          </Show>
+        </Suspense>
       </div>
-      <Suspense fallback='loading...'>
-        <Show when={getProviderData()}>
-          {(data) => <ProvidedContent data={data()} />}
-        </Show>
-      </Suspense>
-    </div>
+    </Show>
   )
 }
 
@@ -564,11 +586,19 @@ function ModelContent(props: {
   modelMeta: ModelMeta
 }) {
   return (
-    <div class='flex flex-col gap-4 max-w-256 mx-auto'>
-      <ModelTitle modelMeta={props.modelMeta} />
-      <ModelSummary modelMeta={props.modelMeta} />
-      <ModelSpecs modelMeta={props.modelMeta} />
-      <ProvidedInfo modelMeta={props.modelMeta} />
+    <div class='max-w-256 mx-auto flex flex-col gap-2'>
+      <div>
+        <a href="/model" class='text-sm text-slate-500 flex items-center'>
+          <span class='w-4 h-4 i-tabler-chevron-left relative bottom-0.5' />
+          Back to list
+        </a>
+      </div>
+      <div class='flex flex-col gap-4'>
+        <ModelTitle modelMeta={props.modelMeta} />
+        <ModelSummary modelMeta={props.modelMeta} />
+        <ModelSpecs modelMeta={props.modelMeta} />
+        <ProvidedInfo modelMeta={props.modelMeta} />
+      </div>
     </div>
   )
 }
@@ -581,7 +611,13 @@ export default function ModelCard() {
     <div>
       <Header sticky />
       <div class='p-8'>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div class='grid h-dvh place-items-center'>
+              <Spinner />
+            </div>
+          }
+        >
           <Show when={modelMeta()}>
             {(modelMeta) => <ModelContent modelMeta={modelMeta()} />}
           </Show>
