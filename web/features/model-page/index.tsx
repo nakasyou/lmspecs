@@ -21,6 +21,7 @@ import { AbilityCard } from './AbilityCard.tsx'
 import Spinner from '../../components/Spinner.tsx'
 import Title from '../../components/Title.tsx'
 import { getCompanyIcon, loadCompany } from '../../lib/lmspecs/new.ts'
+import huggingFaceIcon from '../../../assets/huggingface-icon/image.svg'
 
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
@@ -93,8 +94,12 @@ function CreatedBy(props: {
 }) {
   const [getCreatorImages] = createResource(async () => {
     const images = (await Promise.all(props.modelMeta.creators.map((creator) =>
-      loadCompany(creator).then(company => company && getCompanyIcon(company))
-    ))).flatMap(v => v ? v.url : [])
+      loadCompany(creator).then((company) =>
+        company && getCompanyIcon(company)
+      )
+    ))).flatMap((v) =>
+      v ? v.url : []
+    )
     return images
   })
   return (
@@ -155,6 +160,22 @@ function Links(props: {
               />
             )}
           </Show>
+          <Show when={props.modelMeta.links?.huggingface}>
+            {(link) => (
+              <a
+                href={link()}
+                rel='norefferer noopener'
+                target='_blank'
+                class='w-6 h-6'
+                style={{
+                  'background-image': `url(${huggingFaceIcon})`,
+                  'background-size': 'contain',
+                  'background-repeat': 'no-repeat',
+                  'background-position': 'center'
+                }}
+              />
+            )}
+          </Show>
         </div>
       </Suspense>
     </div>
@@ -187,7 +208,9 @@ function ModelTitle(props: {
             <CopyButton content={props.modelMeta.name} class='w-5 h-5' />
           </div>
           <div class='flex gap-1 items-center'>
-            <div class='text-uchu-gray-7 dark:text-uchu-gray-4 font-mono'>{props.modelMeta.id}</div>
+            <div class='text-uchu-gray-7 dark:text-uchu-gray-4 font-mono'>
+              {props.modelMeta.id}
+            </div>
             <CopyButton
               content={props.modelMeta.id}
               class='w-4 h-4 bg-uchu-gray-7'
@@ -219,7 +242,9 @@ function ModelSummaryCard(props: {
         {props.title}
       </div>
       <div>{props.children}</div>
-      <div class='text-sm text-uchu-gray-7 dark:text-uchu-gray-6 text-center'>{props.shortDesc}</div>
+      <div class='text-sm text-uchu-gray-7 dark:text-uchu-gray-6 text-center'>
+        {props.shortDesc}
+      </div>
     </div>
   )
 }
@@ -434,7 +459,9 @@ function ModelSpecs(props: {
           <div class='flex flex-col sm:flex-row gap-2 flex-1'>
             <div class='flex gap-1 w-60'>
               <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-tournament' />
-              <div class='font-bold text-slate-800 dark:text-slate-200'>Multimodalities</div>
+              <div class='font-bold text-slate-800 dark:text-slate-200'>
+                Multimodalities
+              </div>
             </div>
             <div class='grow grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2'>
               <MultimodalityCard
@@ -477,7 +504,9 @@ function ModelSpecs(props: {
           <div class='flex flex-col sm:flex-row gap-2 flex-1'>
             <div class='flex gap-1 w-60'>
               <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-sparkles' />
-              <div class='font-bold text-slate-800 dark:text-slate-200'>Features</div>
+              <div class='font-bold text-slate-800 dark:text-slate-200'>
+                Features
+              </div>
             </div>
             <div class='grow grid grid-cols-1 gap-2'>
               <AbilityCard
@@ -560,7 +589,9 @@ function ProvidedInfo(props: {
     >
       <div class='flex flex-col gap-5'>
         <div class='flex gap-2 items-center'>
-          <div class='text-lg text-gray-500 dark:text-slate-200 font-bold'>with:</div>
+          <div class='text-lg text-gray-500 dark:text-slate-200 font-bold'>
+            with:
+          </div>
           <Select
             titles={Object.fromEntries(getProviderIds().map((id) => [id, id]))}
             value={getSelectedProvider()}
@@ -583,19 +614,11 @@ function ModelContent(props: {
   modelMeta: ModelMeta
 }) {
   return (
-    <div class='max-w-256 mx-auto flex flex-col gap-2'>
-      <div>
-        <a href="/model" class='text-sm text-slate-500 dark:text-slate-300 flex items-center'>
-          <span class='w-4 h-4 i-tabler-chevron-left relative bottom-0.5' />
-          Return to list
-        </a>
-      </div>
-      <div class='flex flex-col gap-4'>
-        <ModelTitle modelMeta={props.modelMeta} />
-        <ModelSummary modelMeta={props.modelMeta} />
-        <ModelSpecs modelMeta={props.modelMeta} />
-        <ProvidedInfo modelMeta={props.modelMeta} />
-      </div>
+    <div class='flex flex-col gap-4'>
+      <ModelTitle modelMeta={props.modelMeta} />
+      <ModelSummary modelMeta={props.modelMeta} />
+      <ModelSpecs modelMeta={props.modelMeta} />
+      <ProvidedInfo modelMeta={props.modelMeta} />
     </div>
   )
 }
@@ -617,7 +640,20 @@ export default function ModelCard() {
         >
           <Title>{`${modelMeta()?.name} | LMSpecs`}</Title>
           <Show when={modelMeta()}>
-            {(modelMeta) => <ModelContent modelMeta={modelMeta()} />}
+            {(modelMeta) => (
+              <div class='max-w-256 mx-auto flex flex-col gap-2'>
+                <div>
+                  <a
+                    href='/model'
+                    class='text-sm text-slate-500 dark:text-slate-300 flex items-center'
+                  >
+                    <span class='w-4 h-4 i-tabler-chevron-left relative bottom-0.5' />
+                    Return to list
+                  </a>
+                </div>
+                <ModelContent modelMeta={modelMeta()} />
+              </div>
+            )}
           </Show>
         </Suspense>
       </div>
