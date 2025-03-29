@@ -39,7 +39,6 @@ export default function ProviderSelect(props: {
   >(new Set())
   const [getSearchQuery, setSearchQuery] = createSignal('')
   const getAvailableProviders = createMemo(() => {
-    const selectedProviders = getSelectedProviders()
     if (!getProviders()) {
       return [] as string[]
     }
@@ -51,7 +50,7 @@ export default function ProviderSelect(props: {
       })
       result = fuse.search(searchQuery).map((m) => m.item.id)
     }
-    return result.filter((providerId) => !selectedProviders.has(providerId))
+    return result
   })
 
   createEffect(() => {
@@ -72,84 +71,37 @@ export default function ProviderSelect(props: {
         </div>
       </DialogOpener>
       <DialogContent>
-        <div class='p-3'>
-          <div class='text-xl font-bold mb-4'>Provider Selector</div>
-          <div class='grid md:grid-cols-2 gap-4'>
-            <div class='border border-uchu-gray-5 rounded-md p-3'>
-              <div class='font-bold text-lg mb-2'>
-                Available Providers
-              </div>
-              <div class='mb-3'>
-                <input
-                  value={getSearchQuery()}
-                  onInput={(e) => setSearchQuery(e.target.value)}
-                  placeholder='Search providers'
-                  class='border border-uchu-gray-5 p-2 rounded-md w-full focus:outline-none focus:border-uchu-purple-6 transition-colors'
-                />
-              </div>
-              <div class='space-y-2 max-h-[40vh] overflow-y-auto'>
-                <Show
-                  when={!getProviders.loading}
-                  fallback={<div>Loading...</div>}
-                >
-                  <Show
-                    when={getAvailableProviders().length > 0}
-                    fallback='All providers selected'
-                  >
-                    <For each={getAvailableProviders()}>
-                      {(providerId: string) => (
-                        <div class='flex items-center gap-1'>
-                          <button
-                            type='button'
-                            onClick={() => {
-                              setSelectedProviders((cur) =>
-                                new Set([...cur, providerId])
-                              )
-                            }}
-                            class='i-tabler-circle-plus w-5 h-5 text-uchu-purple-6 dark:text-uchu-purple-2 hover:text-uchu-purple-7 transition-colors'
-                          />
-                          <div class='text-uchu-gray-9'>
-                            {getProviders()![providerId].name}
-                          </div>
-                        </div>
-                      )}
-                    </For>
-                  </Show>
-                </Show>
-              </div>
-            </div>
-            <div class='border border-uchu-gray-5 rounded-md p-3'>
-              <div class='font-bold text-lg mb-2'>
-                Selected Providers ({getSelectedProviders().size})
-              </div>
-              <div class='space-y-2 max-h-[40vh] overflow-y-auto'>
-                <Show
-                  when={getSelectedProviders().size > 0}
-                  fallback='No providers selected'
-                >
-                  <For each={[...getSelectedProviders()]}>
-                    {(providerId: string) => (
-                      <div class='flex items-center gap-2'>
-                        <button
-                          type='button'
-                          onClick={() => {
-                            setSelectedProviders((cur) => {
-                              const newer = new Set([...cur])
-                              newer.delete(providerId)
-                              return newer
-                            })
-                          }}
-                          class='i-tabler-circle-minus w-5 h-5 flex-none text-uchu-red-6 hover:text-uchu-red-7 transition-colors'
-                        />
-                        <div class='text-uchu-gray-9'>
-                          {getProviders()![providerId].name}
-                        </div>
-                      </div>
-                    )}
-                  </For>
-                </Show>
-              </div>
-            </div>
+        <div class='flex flex-col max-h-full h-full'>
+          <div class='text-xl font-bold mb-4'>Select providers</div>
+          <input
+            value={getSearchQuery()}
+            onInput={(e) => setSearchQuery(e.target.value)}
+            placeholder='Search providers'
+            class='border border-uchu-gray-5 p-2 rounded-md w-full focus:outline-none focus:border-uchu-purple-6 transition-colors'
+          />
+          <div class='grow'>
+            <For each={getAvailableProviders()}>
+              {(providerId) => (
+                <div class='flex items-center gap-1'>
+                  <button type="button" class="w-6 h-6" onClick={() => {
+                    setSelectedProviders(cur => {
+                      const providers = new Set([...cur])
+                      if (providers.has(providerId)) {
+                        providers.delete(providerId)
+                      } else {
+                        providers.add(providerId)
+                      }
+                      console.log(providers)
+                      return providers
+                    })
+                  }} classList={{
+                    'i-tabler-check bg-uchu-purple-6': getSelectedProviders().has(providerId),
+                    'i-tabler-minus bg-uchu-red-6': !getSelectedProviders().has(providerId),
+                  }}></button>
+                  <div>{providerId}</div>
+                </div>
+              )}
+            </For>
           </div>
         </div>
       </DialogContent>

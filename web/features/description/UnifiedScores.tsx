@@ -22,12 +22,12 @@ export default function UnifiedScores() {
         <img
           src={imageUnifiedLight}
           alt='Unified benchmarks'
-          class='w-full h-full block dark:hidden'
+          class='w-full h-full block dark:hidden object-contain'
         />
         <img
           src={imageUnifiedDark}
           alt='Unified benchmarks'
-          class='w-full h-full hidden dark:block'
+          class='w-full h-full hidden dark:block object-contain'
         />
       </div>
     </div>

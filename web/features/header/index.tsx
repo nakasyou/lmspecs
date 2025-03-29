@@ -5,14 +5,14 @@ export default function Header(props: {
   sticky?: boolean
 }) {
   return (
-    <header>
-      <div
-        class='transition-all top-0 left-0 w-full flex justify-between p-2'
-        classList={{
-          'fixed': !props.sticky,
-          'sticky': props.sticky,
-        }}
-      >
+    <header
+      class='top-0 w-full'
+      classList={{
+        'fixed': !props.sticky,
+        'sticky': props.sticky,
+      }}
+    >
+      <div class='bg-white/70 dark:bg-black/20 transition-all top-0 w-full flex justify-between p-2'>
         <a href='/'>
           <div class='font-bold text-lg'>LMSpecs</div>
         </a>

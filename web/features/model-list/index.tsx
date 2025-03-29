@@ -5,9 +5,9 @@ import {
   createResource,
   createSignal,
   For,
+  onMount,
   Show,
   Suspense,
-  onMount
 } from 'solid-js'
 import ModelCard from './ModelCard.tsx'
 import Spinner from '../../components/Spinner.tsx'
@@ -33,7 +33,9 @@ function FilterCheckBox(props: {
           }
         }}
       />
-      <span class='text-sm text-gray-700 dark:text-gray-300 select-none'>{props.children}</span>
+      <span class='text-sm text-gray-700 dark:text-gray-300 select-none'>
+        {props.children}
+      </span>
     </label>
   )
 }
@@ -59,7 +61,9 @@ function SeatchBox(props: {
   const [getSortMode, setSortMode] = createSignal<SortMode>('MATCHED')
 
   let fuse: Fuse<string>
-  const [getAdvancedFuse, setAdvancedFuse] = createSignal<Fuse<Model> | null>(null)
+  const [getAdvancedFuse, setAdvancedFuse] = createSignal<Fuse<Model> | null>(
+    null,
+  )
 
   onMount(() => {
     fuse = new Fuse(listModelIds())
@@ -70,9 +74,11 @@ function SeatchBox(props: {
     if (!models) {
       return
     }
-    setAdvancedFuse(new Fuse(models, {
-      keys: ['meta.name', 'meta.id', 'meta.creators', 'meta.published_at'],
-    }))
+    setAdvancedFuse(
+      new Fuse(models, {
+        keys: ['meta.name', 'meta.id', 'meta.creators', 'meta.published_at'],
+      }),
+    )
   })
 
   const getFilteredModels = createMemo(() => {
@@ -116,7 +122,9 @@ function SeatchBox(props: {
       }).map((model) => model.meta.id),
     )
 
-    let result = query === '' ? [...models] : advancedFuse.search(query).map(r => r.item)
+    let result = query === ''
+      ? [...models]
+      : advancedFuse.search(query).map((r) => r.item)
 
     if (sortMode === 'A_TO_Z') {
       result = result.sort((a, b) => {
@@ -170,8 +178,10 @@ function SeatchBox(props: {
   return (
     <div class='flex flex-col gap-2'>
       <div class='flex gap-3 h-13'>
-        <div class="flex flex-col justify-between grow">
-          <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>SEARCH QUERY</div>
+        <div class='flex flex-col justify-between grow'>
+          <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>
+            SEARCH QUERY
+          </div>
           <input
             class='border p-1 rounded-lg border-uchu-gray-4'
             placeholder='Search Models'
@@ -181,7 +191,9 @@ function SeatchBox(props: {
         </div>
 
         <div class='shrink-0 flex flex-col justify-between'>
-          <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>SORT BY</div>
+          <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>
+            SORT BY
+          </div>
           <Select
             titles={{
               A_TO_Z: 'name (A-Z)',
@@ -238,24 +250,21 @@ function SeatchBox(props: {
 }
 export default function ModelList() {
   const [getFilteredModelIds, setFilteredModelIds] = createSignal<string[]>(
-    listModelIds()
+    listModelIds(),
   )
   return (
     <>
-      <Header sticky />
-      <div class='p-8'>
-        <div class='max-w-256 mx-auto flex flex-col gap-2'>
-          <div class='text-2xl text-slate-7000 font-bold'>Find models</div>
-          <SeatchBox onResult={setFilteredModelIds} />
-          <div class='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
-            <For each={getFilteredModelIds()}>
-              {(modelId) => (
-                <a href={`/model/${modelId}`}>
-                  <ModelCard id={modelId} />
-                </a>
-              )}
-            </For>
-          </div>
+      <div class='max-w-256 mx-auto flex flex-col gap-2'>
+        <div class='text-2xl text-slate-7000 font-bold'>Find models</div>
+        <SeatchBox onResult={setFilteredModelIds} />
+        <div class='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
+          <For each={getFilteredModelIds()}>
+            {(modelId) => (
+              <a href={`/model/${modelId}`}>
+                <ModelCard id={modelId} />
+              </a>
+            )}
+          </For>
         </div>
       </div>
     </>

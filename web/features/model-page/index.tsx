@@ -111,7 +111,7 @@ function CreatedBy(props: {
           class='w-4 h-4 bg-slate-500 dark:bg-slate-400'
         />
       </div>
-      <Suspense fallback={<Spinner class="w-6 h-6" />}>
+      <Suspense fallback={<Spinner class='w-6 h-6' />}>
         <div class='flex gap-2'>
           <For each={getCreatorImages() ?? []}>
             {(image) => (
@@ -171,7 +171,7 @@ function Links(props: {
                   'background-image': `url(${huggingFaceIcon})`,
                   'background-size': 'contain',
                   'background-repeat': 'no-repeat',
-                  'background-position': 'center'
+                  'background-position': 'center',
                 }}
               />
             )}
@@ -628,35 +628,30 @@ export default function ModelCard() {
   const [modelMeta] = createResource(() => getModelMeta(params.modelId))
 
   return (
-    <div>
-      <Header sticky />
-      <div class='p-8'>
-        <Suspense
-          fallback={
-            <div class='grid h-dvh place-items-center'>
-              <Spinner />
+    <Suspense
+      fallback={
+        <div class='grid h-dvh place-items-center'>
+          <Spinner />
+        </div>
+      }
+    >
+      <Title>{`${modelMeta()?.name} | LMSpecs`}</Title>
+      <Show when={modelMeta()}>
+        {(modelMeta) => (
+          <div class='flex flex-col gap-2'>
+            <div>
+              <a
+                href='/model'
+                class='text-sm text-slate-500 dark:text-slate-300 flex items-center'
+              >
+                <span class='w-4 h-4 i-tabler-chevron-left relative bottom-0.5' />
+                Return to list
+              </a>
             </div>
-          }
-        >
-          <Title>{`${modelMeta()?.name} | LMSpecs`}</Title>
-          <Show when={modelMeta()}>
-            {(modelMeta) => (
-              <div class='max-w-256 mx-auto flex flex-col gap-2'>
-                <div>
-                  <a
-                    href='/model'
-                    class='text-sm text-slate-500 dark:text-slate-300 flex items-center'
-                  >
-                    <span class='w-4 h-4 i-tabler-chevron-left relative bottom-0.5' />
-                    Return to list
-                  </a>
-                </div>
-                <ModelContent modelMeta={modelMeta()} />
-              </div>
-            )}
-          </Show>
-        </Suspense>
-      </div>
-    </div>
+            <ModelContent modelMeta={modelMeta()} />
+          </div>
+        )}
+      </Show>
+    </Suspense>
   )
 }
