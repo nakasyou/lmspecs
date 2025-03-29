@@ -7,10 +7,10 @@ import {
   For,
   Show,
   Suspense,
+  onMount
 } from 'solid-js'
 import ModelCard from './ModelCard.tsx'
 import Spinner from '../../components/Spinner.tsx'
-import { onMount } from 'solid-js'
 import Fuse from 'fuse.js'
 import { createEffect } from 'solid-js'
 import { createStore } from 'solid-js/store'
@@ -47,9 +47,6 @@ function SeatchBox(props: {
     const models = (await Promise.all(
       listModelIds().flatMap((id) => loadModel(id)),
     )).filter((v) => !!v)
-    advancedFuse = new Fuse(models, {
-      keys: ['meta.name', 'meta.id', 'meta.creators', 'meta.published_at'],
-    })
     return models
   })
   const [getQuery, setQuery] = createSignal('')
@@ -62,15 +59,27 @@ function SeatchBox(props: {
   const [getSortMode, setSortMode] = createSignal<SortMode>('MATCHED')
 
   let fuse: Fuse<string>
-  let advancedFuse: Fuse<Model> | null = null
+  const [getAdvancedFuse, setAdvancedFuse] = createSignal<Fuse<Model> | null>(null)
+
   onMount(() => {
     fuse = new Fuse(listModelIds())
+  })
+
+  createEffect(() => {
+    const models = getModels()
+    if (!models) {
+      return
+    }
+    setAdvancedFuse(new Fuse(models, {
+      keys: ['meta.name', 'meta.id', 'meta.creators', 'meta.published_at'],
+    }))
   })
 
   const getFilteredModels = createMemo(() => {
     const models = getModels()
     const query = getQuery()
     const sortMode = getSortMode()
+    const advancedFuse = getAdvancedFuse()
 
     if (!models) {
       // fetching data
@@ -81,7 +90,7 @@ function SeatchBox(props: {
       return fuse.search(query).map((r) => r.item)
     }
     if (!advancedFuse) {
-      return []
+      return listModelIds()
     }
     const filteredModels = new Set(
       models.filter((model) => {
@@ -228,7 +237,9 @@ function SeatchBox(props: {
   )
 }
 export default function ModelList() {
-  const [getFilteredModelIds, setFilteredModelIds] = createSignal<string[]>([])
+  const [getFilteredModelIds, setFilteredModelIds] = createSignal<string[]>(
+    listModelIds()
+  )
   return (
     <>
       <Header sticky />
