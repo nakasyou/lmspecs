@@ -33,7 +33,7 @@ function FilterCheckBox(props: {
           }
         }}
       />
-      <span class='text-sm text-gray-700 select-none'>{props.children}</span>
+      <span class='text-sm text-gray-700 dark:text-gray-300 select-none'>{props.children}</span>
     </label>
   )
 }
@@ -162,7 +162,7 @@ function SeatchBox(props: {
     <div class='flex flex-col gap-2'>
       <div class='flex gap-3 h-13'>
         <div class="flex flex-col justify-between grow">
-          <div class='text-xs font-bold text-gray-500'>SEARCH QUERY</div>
+          <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>SEARCH QUERY</div>
           <input
             class='border p-1 rounded-lg border-uchu-gray-4'
             placeholder='Search Models'
@@ -172,7 +172,7 @@ function SeatchBox(props: {
         </div>
 
         <div class='shrink-0 flex flex-col justify-between'>
-          <div class='text-xs font-bold text-gray-500'>SORT BY</div>
+          <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>SORT BY</div>
           <Select
             titles={{
               A_TO_Z: 'name (A-Z)',

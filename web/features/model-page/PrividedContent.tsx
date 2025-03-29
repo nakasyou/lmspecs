@@ -178,7 +178,7 @@ function Speed(props: {
 
   return (
     <>
-      <div class='h-[1px] w-full bg-gray-200 ' />
+      <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
       <div class='flex flex-col sm:flex-row gap-2'>
         <div class='flex gap-1 w-60 shrink-0'>
           <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-bolt' />
@@ -254,12 +254,12 @@ export default function ProvidedContent(props: {
       <Show when={Object.values(props.data.pricing?.pricing ?? {}).at(-1)}>
         {(getPricing) => (
           <>
-            <div class='h-[1px] w-full bg-gray-200 ' />
+            <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
             <div>
               <div class='flex flex-col sm:flex-row gap-2'>
                 <div class='flex gap-1 w-60'>
-                  <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-moneybag' />
-                  <div class='font-bold text-slate-800'>Pricing</div>
+                  <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-moneybag' />
+                  <div class='font-bold text-slate-800 dark:text-slate-200'>Pricing</div>
                 </div>
                 <div class='grid grid-cols-1 md:grid-cols-2 gap-5 grow'>
                   <Show when={getPricing().value.length === 1}>
@@ -278,26 +278,26 @@ export default function ProvidedContent(props: {
 
                         <div class='flex gap-4'>
                           <div class='flex flex-col'>
-                            <div class='text-sm text-slate-600'>Input</div>
-                            <div class='text-lg font-mono font-bold text-slate-700'>
+                            <div class='text-sm text-slate-600 dark:text-slate-200'>Input</div>
+                            <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
                               ${pricing.input.USD}
                             </div>
                           </div>
                           <Show when={pricing.cachedInput?.USD}>
-                            <div class='h-6 w-[1px] bg-gray-300 hidden md:block self-center' />
+                            <div class='h-6 w-[1px] bg-gray-300  hidden md:block self-center' />
                             <div class='flex flex-col items-center'>
-                              <div class='text-sm text-slate-600'>
+                              <div class='text-sm text-slate-600 dark:text-slate-200'>
                                 Cache Read
                               </div>
-                              <div class='text-lg font-mono font-bold text-slate-700'>
+                              <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
                                 ${pricing.cachedInput?.USD}
                               </div>
                             </div>
                           </Show>
                           <div class='h-6 w-[1px] bg-gray-300 hidden md:block self-center' />
                           <div class='flex flex-col'>
-                            <div class='text-sm text-slate-600'>Output</div>
-                            <div class='text-lg font-mono font-bold text-slate-700'>
+                            <div class='text-sm text-slate-600 dark:text-slate-200'>Output</div>
+                            <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
                               ${pricing.output.USD}
                             </div>
                           </div>
@@ -311,11 +311,11 @@ export default function ProvidedContent(props: {
           </>
         )}
       </Show>
-      <div class='h-[1px] w-full bg-gray-200 ' />
+      <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
       <div class='flex flex-col sm:flex-row gap-2'>
         <div class='flex gap-1 w-60'>
-          <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-sparkles' />
-          <div class='font-bold text-slate-800'>Features</div>
+          <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-sparkles' />
+          <div class='font-bold text-slate-800 dark:text-slate-200'>Features</div>
         </div>
         <div class='grow grid grid-cols-2 gap-2'>
           <AbilityCard

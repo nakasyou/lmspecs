@@ -6,7 +6,7 @@ export default function Hero() {
           Unified database for Language Models:{' '}
           <span class='text-uchu-purple-5'>LMSpecs</span>
         </div>
-        <div class='text-gray-500'>
+        <div class='text-gray-500 dark:text-slate-300'>
           LMSpecs is a language model with a database of{' '}
           <span class='text-uchu-purple-5 font-bold '>3+</span>{' '}
           integrated benchmarks/scores, providing a versatile framework to

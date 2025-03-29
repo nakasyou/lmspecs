@@ -34,7 +34,7 @@ export default function ModelCard(props: {
     return loadModel(props.id)
   })
   return (
-    <div class='border p-2 rounded border-gray-200 flex flex-col justify-between gap-2 w-full h-full'>
+    <div class='border p-2 rounded border-gray-200 dark:border-gray-700 flex flex-col justify-between gap-2 w-full h-full'>
       <Suspense fallback={<Spinner />}>
         <Show when={getModel()}>
           {(getModel) => (
@@ -44,16 +44,16 @@ export default function ModelCard(props: {
                   <Logo model={getModel()} />
                 </div>
                 <div>
-                  <div class='text-sm font-bold text-slate-700'>
+                  <div class='text-sm font-bold text-slate-700 dark:text-slate-100'>
                     {getModel().meta.name}
                   </div>
-                  <div class='text-xs text-slate-700'>{getModel().meta.id}</div>
+                  <div class='text-xs text-slate-700 dark:text-slate-100'>{getModel().meta.id}</div>
                 </div>
               </div>
               <div class='flex'>
                 <div class='flex items-center gap-1'>
-                  <div class='i-tabler-upload w-4 h-4 bg-gray-500' />
-                  <div class="text-sm text-gray-500">
+                  <div class='i-tabler-upload w-4 h-4 bg-gray-500 dark:text-slate-300' />
+                  <div class="text-sm text-gray-500 dark:text-slate-300">
                     {formatter.format(
                       new Date(getModel().meta.published_at.value),
                     )}

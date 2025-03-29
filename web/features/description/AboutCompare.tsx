@@ -5,7 +5,7 @@ export default function AboutCompare() {
         Isn't it tough for models to{' '}
         <span class='text-uchu-purple-5'>gather information?</span>
       </div>
-      <div class='text-gray-500 text-sm sm:text-base max-w-200'>
+      <div class='text-gray-500 dark:text-slate-300 text-sm sm:text-base max-w-200'>
         Gathering information about language models can be challenging because
         the details are often scattered across a developer's website. For
         instance, when trying to find out about a model's knowledge cutoff, you

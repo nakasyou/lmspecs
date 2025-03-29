@@ -102,11 +102,11 @@ function CreatedBy(props: {
   })
   return (
     <div class='flex flex-col gap-1'>
-      <div class='text-slate-500 text-sm flex gap-1 items-center'>
+      <div class='text-slate-500 dark:text-gray-400 text-sm flex gap-1 items-center'>
         <div>Created by</div>
         <CopyButton
           content={JSON.stringify(props.modelMeta.creators)}
-          class='w-4 h-4 bg-slate-500'
+          class='w-4 h-4 bg-slate-500 dark:bg-slate-400'
         />
       </div>
       <Suspense>
@@ -166,7 +166,6 @@ function Links(props: {
 function ModelTitle(props: {
   modelMeta: ModelMeta
 }) {
-  const getProviderIds = createMemo(() => fetchProviderIds(props.modelMeta.id))
   const [getModelLogo] = createResource(() => {
     const id = props.modelMeta.logos?.[0]
     if (!id) return ''
@@ -191,7 +190,7 @@ function ModelTitle(props: {
             <CopyButton content={props.modelMeta.name} class='w-5 h-5' />
           </div>
           <div class='flex gap-1 items-center'>
-            <div class='text-uchu-gray-7 font-mono'>{props.modelMeta.id}</div>
+            <div class='text-uchu-gray-7 dark:text-uchu-gray-4 font-mono'>{props.modelMeta.id}</div>
             <CopyButton
               content={props.modelMeta.id}
               class='w-4 h-4 bg-uchu-gray-7'
@@ -199,12 +198,12 @@ function ModelTitle(props: {
           </div>
         </div>
       </div>
-      <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+      <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
       <div class='flex items-center'>
         <CreatedBy modelMeta={props.modelMeta} />
       </div>
       <Show when={Object.keys(props.modelMeta.links ?? {}).length > 0}>
-        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
         <div class='flex items-center'>
           <Links modelMeta={props.modelMeta} />
         </div>
@@ -223,7 +222,7 @@ function ModelSummaryCard(props: {
         {props.title}
       </div>
       <div>{props.children}</div>
-      <div class='text-sm text-uchu-gray-7 text-center'>{props.shortDesc}</div>
+      <div class='text-sm text-uchu-gray-7 dark:text-uchu-gray-6 text-center'>{props.shortDesc}</div>
     </div>
   )
 }
@@ -233,32 +232,32 @@ function MultiModalitiesIcons(props: {
   return (
     <div class='grid grid-cols-4 justify-center gap-2'>
       <div
-        class='w-5 h-5'
+        class='w-5 h-5 bg-gray-800 dark:bg-gray-200'
         classList={{
-          'i-tabler-notes-off bg-gray-500': !props.modalities.includes('text'),
-          'i-tabler-notes bg-gray-800': props.modalities.includes('text'),
+          'i-tabler-notes-off opacity-60': !props.modalities.includes('text'),
+          'i-tabler-notes': props.modalities.includes('text'),
         }}
       />
       <div
-        class='w-5 h-5'
+        class='w-5 h-5 bg-gray-800 dark:bg-gray-200'
         classList={{
-          'i-tabler-photo-off bg-gray-500': !props.modalities.includes('image'),
-          'i-tabler-photo bg-gray-800': props.modalities
+          'i-tabler-photo-off opacity-60': !props.modalities.includes('image'),
+          'i-tabler-photo': props.modalities
             .includes('image'),
         }}
       />
       <div
-        class='w-5 h-5'
+        class='w-5 h-5 bg-gray-800 dark:bg-gray-200'
         classList={{
-          'i-tabler-music-off bg-gray-500': !props.modalities.includes('audio'),
-          'i-tabler-music bg-gray-800': props.modalities.includes('audio'),
+          'i-tabler-music-off opacity-60': !props.modalities.includes('audio'),
+          'i-tabler-music': props.modalities.includes('audio'),
         }}
       />
       <div
-        class='w-5 h-5'
+        class='w-5 h-5 bg-gray-800 dark:bg-gray-200'
         classList={{
-          'i-tabler-movie-off bg-gray-500': !props.modalities.includes('video'),
-          'i-tabler-movie bg-gray-800': props.modalities.includes('video'),
+          'i-tabler-movie-off opacity-60': !props.modalities.includes('video'),
+          'i-tabler-movie': props.modalities.includes('video'),
         }}
       />
     </div>
@@ -268,27 +267,27 @@ function ModelSummary(props: {
   modelMeta: ModelMeta
 }) {
   return (
-    <div class='border justify-between border-uchu-gray-4 rounded-lg flex gap-2 p-3 flex-col sm:flex-row'>
+    <div class='border justify-between border-uchu-gray-4 dark:border-uchu-gray-9 rounded-lg flex gap-2 p-3 flex-col sm:flex-row'>
       <div class='flex gap-2 flex-1'>
         <ModelSummaryCard
           title='CONTEXT WINDOW'
           shortDesc={`${props.modelMeta.token_limit?.input.toString()} Tokens`}
         >
-          <div class='text-lg font-bold text-gray-700'>
+          <div class='text-lg font-bold text-gray-700 dark:text-gray-200'>
             {formatTokenUnit(props.modelMeta.token_limit?.input ?? 0)}
           </div>
         </ModelSummaryCard>
-        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
         <ModelSummaryCard
           title='LICENSE'
           shortDesc=''
         >
-          <div class='text-lg font-bold text-gray-700'>
+          <div class='text-lg font-bold text-gray-700 dark:text-gray-200'>
             {props.modelMeta.license.value}
           </div>
         </ModelSummaryCard>
       </div>
-      <div class='h-[1px] w-full sm:h-12 sm:w-[1px] bg-gray-100 self-center' />
+      <div class='h-[1px] w-full sm:h-12 sm:w-[1px] bg-gray-100 self-center dark:bg-gray-700' />
       <div class='flex gap-2 flex-1'>
         <ModelSummaryCard
           title='INPUT'
@@ -300,7 +299,7 @@ function ModelSummary(props: {
             />
           </div>
         </ModelSummaryCard>
-        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center' />
+        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
         <ModelSummaryCard
           title='OUTPUT'
           shortDesc={props.modelMeta.multimodalities.output.join('・')}
@@ -363,7 +362,7 @@ function ModelSpecs(props: {
           >
             {formatter.format(new Date(props.modelMeta.published_at.value))}
           </ModelSpec>
-          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center dark:bg-gray-700' />
           <ModelSpec
             key='Knowledge Cutoff'
             iconClass='i-tabler-database-off'
@@ -375,7 +374,7 @@ function ModelSpecs(props: {
               : 'Unknown'}
           </ModelSpec>
         </div>
-        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
         <div class='flex gap-4 flex-col md:flex-row'>
           <ModelSpec
             iconClass='i-tabler-copyright'
@@ -385,7 +384,7 @@ function ModelSpecs(props: {
           >
             {props.modelMeta.license.value}
           </ModelSpec>
-          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center dark:bg-gray-700 ' />
           <ModelSpec
             iconClass='i-tabler-weight'
             key='Model Size'
@@ -405,7 +404,7 @@ function ModelSpecs(props: {
             </Show>
           </ModelSpec>
         </div>
-        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
         <div class='flex gap-4 flex-col md:flex-row'>
           <ModelSpec
             iconClass='i-tabler-book'
@@ -417,7 +416,7 @@ function ModelSpecs(props: {
               {props.modelMeta.token_limit?.input} Tokens
             </div>
           </ModelSpec>
-          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center' />
+          <div class='h-[1px] w-full md:h-12 md:w-[1px] bg-gray-300 self-center dark:bg-gray-700' />
           <ModelSpec
             iconClass='i-tabler-pencil'
             key='Max Output Length'
@@ -433,12 +432,12 @@ function ModelSpecs(props: {
             </Show>
           </ModelSpec>
         </div>
-        <div class='h-[1px] w-full bg-gray-200 ' />
+        <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
         <div class='flex gap-4 flex-col md:flex-row'>
           <div class='flex flex-col sm:flex-row gap-2 flex-1'>
             <div class='flex gap-1 w-60'>
-              <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-tournament' />
-              <div class='font-bold text-slate-800'>Multimodalities</div>
+              <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-tournament' />
+              <div class='font-bold text-slate-800 dark:text-slate-200'>Multimodalities</div>
             </div>
             <div class='grow grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2'>
               <MultimodalityCard
@@ -477,11 +476,11 @@ function ModelSpecs(props: {
               />
             </div>
           </div>
-          <div class='h-[1px] w-full md:h-12 md:w-[1px] bg-gray-300 self-center' />
+          <div class='h-[1px] w-full md:h-12 md:w-[1px] bg-gray-300 self-center dark:bg-gray-700' />
           <div class='flex flex-col sm:flex-row gap-2 flex-1'>
             <div class='flex gap-1 w-60'>
-              <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-sparkles' />
-              <div class='font-bold text-slate-800'>Features</div>
+              <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-sparkles' />
+              <div class='font-bold text-slate-800 dark:text-slate-200'>Features</div>
             </div>
             <div class='grow grid grid-cols-1 gap-2'>
               <AbilityCard
@@ -555,7 +554,7 @@ function ProvidedInfo(props: {
       when={getSelectedProvider()}
       fallback={
         <div class='flex flex-col gap-2'>
-          <div class='h-[1px] w-full bg-gray-200 ' />
+          <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
           <div class='text-slate-600'>
             No providers which can provide this model was found in LMSpecs.
           </div>
@@ -564,7 +563,7 @@ function ProvidedInfo(props: {
     >
       <div class='flex flex-col gap-5'>
         <div class='flex gap-2 items-center'>
-          <div class='text-lg text-gray-500 font-bold'>with:</div>
+          <div class='text-lg text-gray-500 dark:text-slate-200 font-bold'>with:</div>
           <Select
             titles={Object.fromEntries(getProviderIds().map((id) => [id, id]))}
             value={getSelectedProvider()}
@@ -589,9 +588,9 @@ function ModelContent(props: {
   return (
     <div class='max-w-256 mx-auto flex flex-col gap-2'>
       <div>
-        <a href="/model" class='text-sm text-slate-500 flex items-center'>
+        <a href="/model" class='text-sm text-slate-500 dark:text-slate-300 flex items-center'>
           <span class='w-4 h-4 i-tabler-chevron-left relative bottom-0.5' />
-          Back to list
+          Return to list
         </a>
       </div>
       <div class='flex flex-col gap-4'>

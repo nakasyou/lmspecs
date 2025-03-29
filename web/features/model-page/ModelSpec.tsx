@@ -20,16 +20,16 @@ export function ModelSpec(props: {
       <div class='flex justify-between flex-col sm:flex-row gap-1'>
         <div class='flex gap-1 items-center'>
           <div
-            class={'w-6 h-6 bg-slate-800 relative bottom-[2px] ' +
+            class={'w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] ' +
               props.iconClass}
           />
-          <div class='font-bold text-slate-800'>{props.key}</div>
+          <div class='font-bold text-slate-800 dark:text-slate-200'>{props.key}</div>
         </div>
         <div class='flex gap-1'>
-          <div class='text-slate-700'>{props.children}</div>
+          <div class='text-slate-700 dark:text-slate-300'>{props.children}</div>
           <CopyButton
             content={props.contentToCopy}
-            class='w-4 h-4 text-slate-500'
+            class='w-4 h-4 text-slate-500 dark:text-slate-400'
           />
         </div>
       </div>
@@ -50,7 +50,7 @@ export function SpecReferences(props: {
 }) {
   return (
     <details>
-      <summary class='text-xs text-gray-600'>
+      <summary class='text-xs text-gray-600 dark:text-gray-400'>
         {props.references.length === 1
           ? '1 reference'
           : props.references.length + ' references'}

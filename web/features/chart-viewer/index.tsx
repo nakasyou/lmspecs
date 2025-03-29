@@ -173,7 +173,7 @@ function Settings(props: {
     <div class='w-full sm:w-32 p-2 flex flex-col h-full justify-between'>
       <div class='flex flex-col gap-2'>
         <div>
-          <div class='font-bold text-slate-500 text-sm'>TYPE</div>
+          <div class='font-bold text-slate-500 dark:text-slate-300 text-sm'>TYPE</div>
           <div class='flex justify-between'>
             <div class='w-30 sm:w-full'>
               <Select
@@ -206,7 +206,7 @@ function Settings(props: {
         </div>
         <div class='flex flex-row gap-2 sm:flex-col w-full justify-between'>
           <div>
-            <div class='font-bold text-slate-500 text-sm'>Models</div>
+            <div class='font-bold text-slate-500 dark:text-slate-300 text-sm'>Models</div>
             <ModelSelect
               onChange={(v) => {
                 setSelectedModelIds(v.map((m) => m.id))
@@ -217,7 +217,7 @@ function Settings(props: {
           </div>
           <Show when={getShouldAskProvider()}>
             <div>
-              <div class='font-bold text-slate-500 text-sm'>Provider</div>
+              <div class='font-bold text-slate-500 dark:text-slate-300 text-sm'>Provider</div>
               <ProviderSelect
                 onChange={(v) => setSelectedProviderIds([...v])}
               />
@@ -225,12 +225,12 @@ function Settings(props: {
           </Show>
           <Show when={getChartType() === 'scatter'}>
             <div>
-              <div class='font-bold text-slate-500 text-sm'>X Axis</div>
+              <div class='font-bold text-slate-500 dark:text-slate-300 text-sm'>X Axis</div>
               <ValueSelect value={getXAxis()} onChange={setXAxis} />
             </div>
           </Show>
           <div>
-            <div class='font-bold text-slate-500 text-sm'>Y Axis</div>
+            <div class='font-bold text-slate-500 dark:text-slate-300 text-sm'>Y Axis</div>
             <ValueSelect value={getYAxis()} onChange={setYAxis} />
           </div>
         </div>
@@ -572,8 +572,8 @@ export default function ChartViewer() {
     <div class='h-dvh flex flex-col sm:flex-row'>
       <div class='fixed top-0 left-0'>
         <a href='/' class='flex items-center p-2'>
-          <span class='i-tabler-chevron-left w-6 h-6 shrink-0 bg-slate-500' />
-          <div class='text-slate-500'>Back to home</div>
+          <span class='i-tabler-chevron-left w-6 h-6 shrink-0 bg-slate-500 dark:bg-slate-300' />
+          <div class='text-slate-500 dark:text-slate-300'>Home</div>
         </a>
       </div>
       <div class='grow h-full overflow-hidden p-1'>

@@ -9,7 +9,7 @@ export default function UnifiedScores() {
           Can a <span class='text-uchu-purple-5'>Single Score</span>{' '}
           Define a Model’s Worth?
         </div>
-        <div class='text-gray-500 text-sm sm:text-base max-w-200'>
+        <div class='text-gray-500 dark:text-slate-300 text-sm sm:text-base max-w-200'>
           When evaluating language models, relying on just one score might not
           tell the whole story. Instead, using a variety of benchmarks—alongside
           factors like cost, speed, and other performance metrics—allows for a
