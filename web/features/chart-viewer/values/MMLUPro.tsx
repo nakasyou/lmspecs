@@ -1,13 +1,15 @@
 import { createEffect } from 'solid-js'
 import { Select } from '../../../components/Select.tsx'
 import { ValueType } from '../ValueSelect.tsx'
+import benchMmluPro from '../../../../schema/models/bench-mmlu-pro.ts'
+import { InferOutput } from 'valibot'
 
 const titles = {
   'overall': 'Overall',
   'biology': 'Biology',
   'business': 'Business',
   'chemistry': 'Chemistry',
-  'computer science': 'Computer science',
+  'computer_science': 'Computer science',
   'economics': 'Economics',
   'engineering': 'Engineering',
   'health': 'Health',
@@ -46,15 +48,11 @@ function MMLUPro(props: {
 }
 
 const MODEL_MMLUPRO_IMPORTS = import.meta.glob(
-  '../../../../models/*/benchmarks.json',
+  '../../../../models/*/bench-mmlu-pro.json',
 )
-export interface Benchmarks {
-  mmlu_pro: {
-    value: {
-      [title: string]: number | null
-    }
-  }
-}
+
+export type BenchMMLUPro = InferOutput<typeof benchMmluPro>
+
 export default {
   title: 'MMLU Pro',
   image: (
@@ -73,16 +71,15 @@ export default {
       [modelId: string, [date: string, val: number | null][]] | null
     >[] = []
     for (const modelId of modelIds) {
-      const path = `../../../../models/${modelId}/benchmarks.json`
+      const path = `../../../../models/${modelId}/bench-mmlu-pro.json`
 
       if (path in MODEL_MMLUPRO_IMPORTS) {
         promises.push((async () => {
           const imported = ((await MODEL_MMLUPRO_IMPORTS[path]()) as {
-            default: Benchmarks
+            default: BenchMMLUPro
           }).default
-          console
 
-          const value = imported.mmlu_pro.value[params]
+          const value = imported.value[params]
           if (!value) {
             return null
           }
@@ -91,7 +88,7 @@ export default {
             [
               [
                 new Date().toISOString().slice(0, 10),
-                imported.mmlu_pro.value[params],
+                imported.value[params],
               ],
             ],
           ]

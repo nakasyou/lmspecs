@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/_output/models/bench-mmlu-pro.json",
+  "value": {
+    "overall": 0.6845,
+    "biology": 0.8507,
+    "business": 0.7338,
+    "chemistry": 0.693,
+    "economics": 0.798,
+    "engineering": 0.484,
+    "health": 0.6845,
+    "history": 0.6141,
+    "law": 0.5349,
+    "math": 0.6957,
+    "philosophy": 0.6352,
+    "physics": 0.6966,
+    "psychology": 0.7631,
+    "other": 0.6991,
+    "computer_science": 0.6902
+  },
+  "references": [
+    {
+      "url": "https://huggingface.co/datasets/TIGER-Lab/mmlu_pro_leaderboard_submission",
+      "retrieved": "2025-03-27T07:13:13.209Z"
+    }
+  ]
+}

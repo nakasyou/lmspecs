@@ -1,0 +1,52 @@
+{
+  "$schema": "../../schema/_output/models/meta.json",
+  "id": "gemini-2.5-pro-exp-03-25",
+  "name": "Gemini 2.5 Flash Experimental 03-25",
+  "creators": [
+    "google"
+  ],
+  "published_at": {
+    "value": "2025-03-25",
+    "references": []
+  },
+  "states": {
+    "2025-03-25": [
+      "EXPERIMENTAL"
+    ]
+  },
+  "identifiers": {
+    "lmarena": "gemini-2.5-pro-exp-03-25"
+  },
+  "logos": [
+    "google-gemini-icon/image.svg"
+  ],
+  "token_limit": {
+    "input": 1048576,
+    "output": 8192,
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text",
+      "image",
+      "audio",
+      "video"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  },
+  "license": {
+    "value": "Proprietary",
+    "references": []
+  },
+  "cutoff_date": {
+    "value": "2025-03-25",
+    "references": []
+  },
+  "features": {
+    "value": ["FUNCTION_CALLING", "REASONING"],
+    "references": []
+  }
+}

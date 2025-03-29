@@ -111,7 +111,7 @@ function CreatedBy(props: {
           class='w-4 h-4 bg-slate-500 dark:bg-slate-400'
         />
       </div>
-      <Suspense>
+      <Suspense fallback={<Spinner class="w-6 h-6" />}>
         <div class='flex gap-2'>
           <For each={getCreatorImages() ?? []}>
             {(image) => (

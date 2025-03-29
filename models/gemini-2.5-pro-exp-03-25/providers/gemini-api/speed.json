@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../../schema/_output/provided/speed.json",
+  "measuredSpeeds": [
+    {
+      "result": {
+        "ttft": 3.0,
+        "tps": 41.5
+      },
+      "env": {
+        "date": "2025-03-29T08:01:27.268Z",
+        "inputToken": 7,
+        "outputToken": 3310
+      }
+    }
+  ]
+}

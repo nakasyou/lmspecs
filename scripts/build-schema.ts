@@ -10,6 +10,8 @@ import providedPricing from '../schema/provided/pricing.ts'
 import modelBenchLmarena from '../schema/models/bench-lmarena.ts'
 import providedSpeed from '../schema/provided/speed.ts'
 import companies from '../schema/companies.ts'
+import modelBenchMMLUPro from '../schema/models/bench-mmlu-pro.ts'
+
 const map: [
   string,
   v.ObjectSchema<v.ObjectEntries, v.ErrorMessage<v.ObjectIssue> | undefined>,
@@ -22,6 +24,7 @@ const map: [
   ['models/bench-lmarena.json', modelBenchLmarena],
   ['provided/speed.json', providedSpeed],
   ['companies.json', companies],
+  ['models/bench-mmlu-pro.json', modelBenchMMLUPro],
 ]
 
 for (const [output, schema] of map) {
