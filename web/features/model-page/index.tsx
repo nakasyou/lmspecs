@@ -20,6 +20,7 @@ import ProvidedContent from './PrividedContent.tsx'
 import { AbilityCard } from './AbilityCard.tsx'
 import Spinner from '../../components/Spinner.tsx'
 import Title from '../../components/Title.tsx'
+import { getCompanyIcon, loadCompany } from '../../lib/lmspecs/new.ts'
 
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
@@ -86,18 +87,14 @@ const fetchSpeed = async (
 
   return mod.default
 }
-const COMPANY_IMAGES = {
-  Google: 'google-icon/image.svg',
-} as Record<string, string>
 
 function CreatedBy(props: {
   modelMeta: ModelMeta
 }) {
   const [getCreatorImages] = createResource(async () => {
-    const imageIds = props.modelMeta.creators.map((creator) =>
-      COMPANY_IMAGES[creator]
-    ).filter(Boolean)
-    const images = await Promise.all(imageIds.map(getAssetURL))
+    const images = (await Promise.all(props.modelMeta.creators.map((creator) =>
+      loadCompany(creator).then(company => company && getCompanyIcon(company))
+    ))).flatMap(v => v ? v.url : [])
     return images
   })
   return (

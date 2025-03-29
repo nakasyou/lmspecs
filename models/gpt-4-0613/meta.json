@@ -3,7 +3,7 @@
   "id": "gpt-4-0613",
   "name": "GPT-4 0613",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2023-06-13",

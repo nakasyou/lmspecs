@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../schema/_output/provided/meta.json",
   "model_id": "deepseek-r1",
-  "provider": "DeepSeek",
+  "provider": "deepseek",
   "provided_at": {
     "value": "2025-01-20",
     "references": []

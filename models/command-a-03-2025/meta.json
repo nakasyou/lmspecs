@@ -3,7 +3,7 @@
   "id": "command-a-03-2025",
   "name": "Command A (2025-03)",
   "creators": [
-    "Cohere"
+    "cohere"
   ],
   "published_at": {
     "value": "2025-03-13",

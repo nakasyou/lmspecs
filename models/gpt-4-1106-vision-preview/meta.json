@@ -3,7 +3,7 @@
   "id": "gpt-4-1106-vision-preview",
   "name": "GPT-4 1106 Vision Preview",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2023-11-06",

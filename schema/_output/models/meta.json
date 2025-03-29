@@ -16,22 +16,22 @@
       "items": {
         "anyOf": [
           {
-            "const": "Google"
+            "const": "google"
           },
           {
-            "const": "xAI"
+            "const": "xai"
           },
           {
-            "const": "OpenAI"
+            "const": "openai"
           },
           {
-            "const": "DeepSeek"
+            "const": "deepseek"
           },
           {
-            "const": "Anthropic"
+            "const": "anthropic"
           },
           {
-            "const": "Cohere"
+            "const": "cohere"
           },
           {
             "const": "CohereForAI"

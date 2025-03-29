@@ -3,7 +3,7 @@
   "id": "gpt-4.5-preview-2025-02-27",
   "name": "GPT-4.5 Preview (2025-02-27)",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2025-02-27",

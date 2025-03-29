@@ -1,0 +1,5 @@
+{
+  "$schema": "../schema/_output/companies.json",
+  "name": "openai",
+  "icon": "openai-icon/image.svg"
+}

@@ -1,0 +1,5 @@
+{
+  "$schema": "../schema/_output/companies.json",
+  "name": "Anthropic",
+  "icon": "anthropic-icon/image.svg"
+}

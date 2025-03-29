@@ -2,5 +2,5 @@
   "$schema": "../../schema/_output/providers/meta.json",
 
   "id": "openai",
-  "name": "OpenAI"
+  "name": "openai"
 }

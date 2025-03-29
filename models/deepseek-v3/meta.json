@@ -3,7 +3,7 @@
   "id": "deepseek-v3",
   "name": "DeepSeek V3",
   "creators": [
-    "DeepSeek"
+    "deepseek"
   ],
   "published_at": {
     "value": "2024-12-26",

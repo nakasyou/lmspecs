@@ -1,10 +1,13 @@
 import { type InferOutput, parse } from 'valibot'
 import modelMeta from '../../../schema/models/meta.ts'
+import companyMeta from '../../../schema/companies.ts'
 
 const MODEL_JSONS = import.meta.glob('../../../models/**/*.json')
 const ASSETS = import.meta.glob('../../../assets/*/*')
+const COMPANIES = import.meta.glob('../../../companies/*.json')
 
 export type ModelMeta = InferOutput<typeof modelMeta>
+export type CompanyMeta = InferOutput<typeof companyMeta>
 
 export interface Asset {
   url: string
@@ -60,4 +63,26 @@ export async function loadModel(id: string): Promise<Model | null> {
   return {
     meta: parsed,
   }
+}
+
+export interface Company {
+  meta: CompanyMeta
+}
+export async function loadCompany(id: string): Promise<Company | null> {
+  const path = `../../../companies/${id}.json`
+  if (!(path in COMPANIES)) {
+    return null
+  }
+  const loaded = await COMPANIES[path]() as { default: unknown }
+  const parsed = parse(
+    companyMeta,
+    (loaded as { default: unknown }).default,
+    )
+  return {
+    meta: parsed,
+  }
+}
+export function getCompanyIcon (company: Company) {
+  const logo = company.meta.icon
+  return loadAsset(logo)
 }

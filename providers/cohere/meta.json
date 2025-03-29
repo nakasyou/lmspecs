@@ -2,5 +2,5 @@
   "$schema": "../../schema/_output/providers/meta.json",
 
   "id": "cohere",
-  "name": "Cohere"
+  "name": "cohere"
 }

@@ -3,7 +3,7 @@
   "id": "gpt-3.5-turbo-1106",
   "name": "GPT-3.5 Turbo 0125",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2023-11-06",

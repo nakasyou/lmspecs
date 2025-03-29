@@ -6,12 +6,12 @@ export default v.object({
   name: v.string(),
   id: v.string(),
   creators: v.array(v.union([
-    v.literal('Google'),
-    v.literal('xAI'),
-    v.literal('OpenAI'),
-    v.literal('DeepSeek'),
-    v.literal('Anthropic'),
-    v.literal('Cohere'),
+    v.literal('google'),
+    v.literal("xai"),
+    v.literal("openai"),
+    v.literal("deepseek"),
+    v.literal('anthropic'),
+    v.literal('cohere'),
     v.literal('CohereForAI'),
   ])),
   published_at: v.object({

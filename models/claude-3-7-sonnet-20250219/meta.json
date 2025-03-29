@@ -3,7 +3,7 @@
   "id": "claude-3-7-sonnet-20250219",
   "name": "Claude 3.7 Sonnet (2025-02-19)",
   "creators": [
-    "Anthropic"
+    "anthropic"
   ],
   "published_at": {
     "value": "2025-02-19",

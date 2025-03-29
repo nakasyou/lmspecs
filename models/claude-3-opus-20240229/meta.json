@@ -3,7 +3,7 @@
   "id": "claude-3-opus-20240229",
   "name": "Claude 3.0 Opus (2024-02-29)",
   "creators": [
-    "Anthropic"
+    "anthropic"
   ],
   "published_at": {
     "value": "2024-02-29",

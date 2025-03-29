@@ -3,7 +3,7 @@
   "id": "o1-preview",
   "name": "o1 preview",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2024-09-12",

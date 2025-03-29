@@ -3,7 +3,7 @@
   "id": "gpt-4-0314",
   "name": "GPT-4 0314",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2023-03-14",

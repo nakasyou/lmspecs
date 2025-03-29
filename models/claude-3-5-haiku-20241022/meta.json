@@ -3,7 +3,7 @@
   "id": "claude-3-5-haiku-20241022",
   "name": "Claude 3.5 Haiku (2024-10-22)",
   "creators": [
-    "Anthropic"
+    "anthropic"
   ],
   "published_at": {
     "value": "2024-10-22",

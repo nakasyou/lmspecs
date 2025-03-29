@@ -1,6 +1,6 @@
 {
   "$schema": "../../../../schema/_output/provided/meta.json",
-  "provider": "DeepSeek",
+  "provider": "deepseek",
   "provided_at": {
     "value": "2024-01-20",
     "references": []

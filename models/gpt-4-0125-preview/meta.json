@@ -3,7 +3,7 @@
   "id": "gpt-4-0125-preview",
   "name": "GPT-4 0125 Preview",
   "creators": [
-    "OpenAI"
+    "openai"
   ],
   "published_at": {
     "value": "2024-01-25",

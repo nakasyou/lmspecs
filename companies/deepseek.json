@@ -1,0 +1,5 @@
+{
+  "$schema": "../schema/_output/companies.json",
+  "name": "DeepSeek",
+  "icon": "deepseek-icon/image.svg"
+}
