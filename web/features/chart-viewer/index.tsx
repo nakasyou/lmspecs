@@ -1,17 +1,8 @@
 import { Chart, registerables } from 'chart.js'
-import {
-  createEffect,
-  createMemo,
-  createSignal,
-  onMount,
-  Show,
-} from 'solid-js'
+import { createEffect, createMemo, createSignal, onMount, Show } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
 import ModelSelect from './ModelSelect.tsx'
-import ValueSelect, {
-  VALUE_TYPES,
-  ValueTypeData,
-} from './ValueSelect.tsx'
+import ValueSelect, { VALUE_TYPES, ValueTypeData } from './ValueSelect.tsx'
 import ProviderSelect from './ProviderSelect.tsx'
 import arrayBuffer_base64 from 'ikox/arraybuffer-base64'
 import base64_arrayBuffer from 'ikox/base64-arraybuffer'
@@ -61,11 +52,22 @@ const getState = (): State => {
 }
 
 const initialState: State = {
-  models: [],
+  models: [
+    'gpt-4o-2024-11-20',
+    'gemini-2.0-flash-001',
+    'o3-mini',
+    'claude-3-7-sonnet-20250219',
+    'deepseek-r1',
+    'command-a-03-2025',
+  ],
   providers: [],
-  yAxis: ['lmarena', 'text_overall'] as ValueTypeData,
+  yAxis: ['pricing', {
+    inputTokens: 32,
+    cachedInputTokens: 0,
+    outputTokens: 32,
+  }] as ValueTypeData,
   xAxis: ['lmarena', 'text_overall'] as ValueTypeData,
-  chartType: 'date' as const,
+  chartType: 'scatter' as const,
 }
 
 const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>(
@@ -169,9 +171,9 @@ function Settings(props: {
 
   return (
     <div class='w-full sm:w-32 p-2 flex flex-col h-full justify-between'>
-      <div>
+      <div class='flex flex-col gap-2'>
         <div>
-          <div class='font-bold'>Type</div>
+          <div class='font-bold text-slate-500 text-sm'>TYPE</div>
           <div class='flex justify-between'>
             <div class='w-30 sm:w-full'>
               <Select
@@ -197,15 +199,14 @@ function Settings(props: {
                 onChange={(v) => setChartType(v)}
               />
             </div>
-
             <div class='block sm:hidden'>
               <Toolbox getChart={props.getChart} />
             </div>
           </div>
         </div>
-        <div class='flex flex-row sm:flex-col w-full justify-between'>
+        <div class='flex flex-row gap-2 sm:flex-col w-full justify-between'>
           <div>
-            <div class='font-bold'>Models</div>
+            <div class='font-bold text-slate-500 text-sm'>Models</div>
             <ModelSelect
               onChange={(v) => {
                 setSelectedModelIds(v.map((m) => m.id))
@@ -216,7 +217,7 @@ function Settings(props: {
           </div>
           <Show when={getShouldAskProvider()}>
             <div>
-              <div class='font-bold'>Provider</div>
+              <div class='font-bold text-slate-500 text-sm'>Provider</div>
               <ProviderSelect
                 onChange={(v) => setSelectedProviderIds([...v])}
               />
@@ -224,12 +225,12 @@ function Settings(props: {
           </Show>
           <Show when={getChartType() === 'scatter'}>
             <div>
-              <div class='font-bold'>X Axis</div>
+              <div class='font-bold text-slate-500 text-sm'>X Axis</div>
               <ValueSelect value={getXAxis()} onChange={setXAxis} />
             </div>
           </Show>
           <div>
-            <div class='font-bold'>Y Axis</div>
+            <div class='font-bold text-slate-500 text-sm'>Y Axis</div>
             <ValueSelect value={getYAxis()} onChange={setYAxis} />
           </div>
         </div>
@@ -569,11 +570,22 @@ export default function ChartViewer() {
 
   return (
     <div class='h-dvh flex flex-col sm:flex-row'>
+      <div class='fixed top-0 left-0'>
+        <a href='/' class='flex items-center p-2'>
+          <span class='i-tabler-chevron-left w-6 h-6 shrink-0 bg-slate-500' />
+          <div class='text-slate-500'>Back to home</div>
+        </a>
+      </div>
       <div class='grow h-full overflow-hidden p-1'>
-        <Show when={getIsMounted()} fallback={<div class="w-full h-full flex justify-center items-center gap-2">
-          <Spinner class='w-8 h-8' />
-          <div class="text-slate-600">Loading JavaScript...</div>
-        </div>}>
+        <Show
+          when={getIsMounted()}
+          fallback={
+            <div class='w-full h-full flex justify-center items-center gap-2'>
+              <Spinner class='w-8 h-8' />
+              <div class='text-slate-600'>Loading JavaScript...</div>
+            </div>
+          }
+        >
           <canvas ref={setCanvas} />
         </Show>
       </div>

@@ -18,7 +18,7 @@ export default function ModelSelect(props: {
 }) {
   const [getModels, setModels] = createSignal<Record<string, Model>>()
   const [getSelectedModels, setSelectedModels] = createSignal<Set<string>>(
-    new Set(),
+    new Set(props.value)
   )
   const [getSearchQuery, setSearchQuery] = createSignal('')
 
@@ -48,13 +48,18 @@ export default function ModelSelect(props: {
   })
 
   createEffect(() => {
-    props.onChange([...getSelectedModels()].map((id) => getModels()![id]))
+    const selectedModels = getSelectedModels()
+    const models = getModels()
+    if (!models) {
+      return
+    }
+    props.onChange([...selectedModels].map((id) => models[id]).filter(Boolean))
   })
 
   return (
     <Dialog>
       <DialogOpener>
-        <div class='text-uchu-purple-6 dark:text-uchu-purple-2 dark:text-uchu-purple-2 font-bold'>
+        <div class='text-uchu-purple-6 dark:text-uchu-purple-2 font-bold'>
           {props.value.length} Selected
         </div>
       </DialogOpener>
@@ -90,7 +95,7 @@ export default function ModelSelect(props: {
                               class='i-tabler-circle-minus w-5 h-5 flex-none text-uchu-red-6 hover:text-uchu-red-7 transition-colors'
                             />
                             <div class='flex justify-between items-center gap-2 grow'>
-                              <div>{getModels()![model].name}</div>
+                              <div>{getModels()?.[model]?.name}</div>
                             </div>
                           </div>
                         </div>

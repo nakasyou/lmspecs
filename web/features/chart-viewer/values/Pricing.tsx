@@ -1,6 +1,10 @@
 import { createEffect } from 'solid-js'
 import { ValueType } from '../ValueSelect.tsx'
 import { formatTokenUnit } from '../../../lib/math.ts'
+import type pricingSchema from '../../../../schema/provided/pricing.ts'
+import { InferOutput } from 'valibot'
+
+type Pricing = InferOutput<typeof pricingSchema>
 
 export type PricingParams = {
   inputTokens: number
@@ -73,48 +77,6 @@ const MODEL_PRICING_IMPORTS = import.meta.glob(
   '../../../../models/*/providers/*/pricing.json',
 )
 
-interface Price {
-  cost: {
-    USD: number
-  }
-  cond?: {
-    maxInputTokens?: number
-    minInputTokens?: number
-  }
-}
-
-export interface Pricing {
-  pricing: {
-    [date: string]: {
-      input: Price[]
-      cachedInput: Price[]
-      output: Price[]
-    }
-  }
-}
-
-const calculateCost = (prices: Price[], opts: {
-  inputTokens: number
-}) => {
-  for (const price of prices) {
-    if (!price.cond) {
-      return price.cost
-    }
-    if (
-      price.cond.maxInputTokens && opts.inputTokens > price.cond.maxInputTokens
-    ) {
-      continue
-    }
-    if (
-      price.cond.minInputTokens && opts.inputTokens < price.cond.minInputTokens
-    ) {
-      continue
-    }
-    return price.cost
-  }
-  throw new Error('No price found')
-}
-
 export default {
   title: 'Pricing',
   image: <div class='i-tabler-coin w-full h-full' />,
@@ -143,36 +105,34 @@ export default {
             const imported =
               ((await MODEL_PRICING_IMPORTS[path]()) as { default: Pricing })
                 .default
+            if (!imported.pricing) {
+              return [
+                `${providerId}/${modelId}`,
+                []
+              ]
+            }
             let last = 0
             const value: [string, number | null][] = Object.entries(
               imported.pricing,
             ).map((
               [date, pricings],
             ) => {
-              const inputCost = pricings.input
-                ? calculateCost(pricings.input, {
-                  inputTokens: params.inputTokens,
-                }).USD * params.inputTokens / 1000000
-                : 0
-              const cachedInputCost = pricings.cachedInput
-                ? calculateCost(pricings.cachedInput, {
-                  inputTokens: params.inputTokens,
-                }).USD * params.cachedInputTokens / 1000000
-                : (pricings.input
-                  ? calculateCost(pricings.input, {
-                    inputTokens: params.inputTokens,
-                  }).USD * params.inputTokens / 1000000
-                  : 0)
-              const outputCost = pricings.output
-                ? calculateCost(pricings.output, {
-                  inputTokens: params.inputTokens,
-                }).USD * params.outputTokens / 1000000
-                : 0
-              last = inputCost + cachedInputCost + outputCost
-              return [
-                date,
-                last,
-              ]
+              for (const pricing of pricings.value) {
+                if (!pricing.cond || (
+                  (pricing.cond.maxInputTokens ? pricing.cond.maxInputTokens > params.inputTokens : true) && 
+                  (pricing.cond.minInputTokens ? pricing.cond.minInputTokens < params.inputTokens : true)
+                )) {
+                  last = 0
+                  last += pricing.input.USD * params.inputTokens
+                  last += (pricing.cachedInput?.USD ?? pricing.input.USD) * params.cachedInputTokens
+                  last += pricing.output.USD * params.outputTokens
+                  return [
+                    date,
+                    last,
+                  ]
+                }
+              }
+              throw new Error('No pricing found')
             })
             return [
               `${providerId}/${modelId}`,
