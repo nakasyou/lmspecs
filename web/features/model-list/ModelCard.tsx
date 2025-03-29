@@ -1,7 +1,7 @@
 import { InferOutput } from 'valibot'
 import type modelMeta from '../../../schema/models/meta.ts'
 import { createResource, Show, Suspense } from 'solid-js'
-import { Asset, Model } from '../../lib/lmspecs/new.ts'
+import { Asset, getModelLogo, loadModel, Model } from '../../lib/lmspecs/new.ts'
 import Spinner from '../../components/Spinner.tsx'
 import { formatter } from '../model-page/shared.ts'
 
@@ -9,7 +9,7 @@ function Logo(props: {
   model: Model
 }) {
   const [getImage] = createResource(async () => {
-    const logo = await props.model.getLogo()
+    const logo = await getModelLogo(props.model)
     if (!logo) {
       return null
     }
@@ -31,7 +31,7 @@ export default function ModelCard(props: {
   id: string
 }) {
   const [getModel] = createResource(() => {
-    return Model.load(props.id)
+    return loadModel(props.id)
   })
   return (
     <div class='border p-2 rounded border-gray-200 flex flex-col justify-between gap-2 w-full h-full'>

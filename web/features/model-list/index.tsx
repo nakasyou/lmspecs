@@ -1,5 +1,5 @@
 import Header from '../header/index.tsx'
-import { Model } from '../../lib/lmspecs/new.ts'
+import { listModelIds, loadModel, type Model } from '../../lib/lmspecs/new.ts'
 import {
   createMemo,
   createResource,
@@ -45,7 +45,7 @@ function SeatchBox(props: {
 }) {
   const [getModels] = createResource(async () => {
     const models = (await Promise.all(
-      Model.listModelIds().flatMap((id) => Model.load(id)),
+      listModelIds().flatMap((id) => loadModel(id)),
     )).filter((v) => !!v)
     advancedFuse = new Fuse(models, {
       keys: ['meta.name', 'meta.id', 'meta.creators', 'meta.published_at'],
@@ -64,7 +64,7 @@ function SeatchBox(props: {
   let fuse: Fuse<string>
   let advancedFuse: Fuse<Model> | null = null
   onMount(() => {
-    fuse = new Fuse(Model.listModelIds())
+    fuse = new Fuse(listModelIds())
   })
 
   const getFilteredModels = createMemo(() => {
@@ -76,7 +76,7 @@ function SeatchBox(props: {
       // fetching data
       // advanced filter is disabled
       if (!query) {
-        return Model.listModelIds()
+        return listModelIds()
       }
       return fuse.search(query).map((r) => r.item)
     }

@@ -1,6 +1,7 @@
 {
   "tasks": {
     "dev": "deno --unstable-detect-cjs -A npm:vite",
+    "build": "deno --unstable-detect-cjs -A npm:vite build",
     "sync:lmarena": "deno run -R=./ -W=./ -N=raw.githubusercontent.com scripts/lmarena-sync.ts",
     "sync:mmlu-pro": "deno run -A scripts/mmlu-pro-sync.ts",
     "build-schema": "deno run -R=./schema -W=./schema scripts/build-schema.ts"
@@ -37,5 +38,8 @@
       "deno.window",
       "dom"
     ]
-  }
+  },
+  "exclude": [
+    "dist/**/*"
+  ]
 }

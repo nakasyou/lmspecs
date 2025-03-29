@@ -19,6 +19,7 @@ import { ModelSpec } from './ModelSpec.tsx'
 import ProvidedContent from './PrividedContent.tsx'
 import { AbilityCard } from './AbilityCard.tsx'
 import Spinner from '../../components/Spinner.tsx'
+import Title from '../../components/Title.tsx'
 
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
@@ -618,6 +619,7 @@ export default function ModelCard() {
             </div>
           }
         >
+          <Title>{`${modelMeta()?.name} | LMSpecs`}</Title>
           <Show when={modelMeta()}>
             {(modelMeta) => <ModelContent modelMeta={modelMeta()} />}
           </Show>

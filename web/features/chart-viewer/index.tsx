@@ -1,29 +1,24 @@
 import { Chart, registerables } from 'chart.js'
-import 'chartjs-adapter-intl'
 import {
   createEffect,
   createMemo,
   createSignal,
-  Match,
   onMount,
   Show,
-  Switch,
 } from 'solid-js'
 import { Select } from '../../components/Select.tsx'
-import {
-  Dialog,
-  DialogContent,
-  DialogOpener,
-} from '../../components/Dialog.tsx'
 import ModelSelect from './ModelSelect.tsx'
 import ValueSelect, {
   VALUE_TYPES,
-  ValueType,
   ValueTypeData,
 } from './ValueSelect.tsx'
 import ProviderSelect from './ProviderSelect.tsx'
 import arrayBuffer_base64 from 'ikox/arraybuffer-base64'
 import base64_arrayBuffer from 'ikox/base64-arraybuffer'
+import Spinner from '../../components/Spinner.tsx'
+
+import { apply } from './chartjs-adapter-intl.ts'
+apply()
 
 type ChartType = 'bar' | 'date' | 'scatter'
 
@@ -65,16 +60,12 @@ const getState = (): State => {
   }
 }
 
-let initialState: State = {
+const initialState: State = {
   models: [],
   providers: [],
   yAxis: ['lmarena', 'text_overall'] as ValueTypeData,
   xAxis: ['lmarena', 'text_overall'] as ValueTypeData,
   chartType: 'date' as const,
-}
-if (location.hash.startsWith('#')) {
-  const hash = location.hash.slice(1)
-  initialState = await decodeState(hash)
 }
 
 const [getSelectedModelIds, setSelectedModelIds] = createSignal<string[]>(
@@ -89,9 +80,19 @@ const [getChartType, setChartType] = createSignal<ChartType>(
   initialState.chartType,
 )
 const [getIsDarkmode, setIsDarkmode] = createSignal(
-  window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches,
+  globalThis.document
+    ? (globalThis.matchMedia &&
+      matchMedia('(prefers-color-scheme: dark)').matches)
+    : false,
 )
+
+function loadState(state: State) {
+  setSelectedModelIds(state.models)
+  setSelectedProviderIds(state.providers)
+  setYAxis(state.yAxis)
+  setXAxis(state.xAxis)
+  setChartType(state.chartType)
+}
 
 function getAxisLabel(axis: ValueTypeData): string {
   const [type, value] = axis
@@ -248,13 +249,18 @@ type LMSpecsChart = Chart<'bar' | 'line' | 'scatter', (
   | never
 )[]>
 
-const [getIsSm, setIsSm] = createSignal(innerWidth < 640)
-addEventListener('resize', () => {
+const [getIsSm, setIsSm] = createSignal(false)
+
+if (globalThis.document) {
   setIsSm(innerWidth < 640)
-})
+  addEventListener('resize', () => {
+    setIsSm(innerWidth < 640)
+  })
+}
 
 export default function ChartViewer() {
-  let canvas!: HTMLCanvasElement
+  const [getCanvas, setCanvas] = createSignal<HTMLCanvasElement | null>(null)
+  const [getIsMounted, setIsMounted] = createSignal(false)
 
   let chart:
     | LMSpecsChart
@@ -263,12 +269,24 @@ export default function ChartViewer() {
   onMount(() => {
     Chart.register(...registerables)
   })
+  onMount(async () => {
+    if (location.hash.startsWith('#')) {
+      const hash = location.hash.slice(1)
+      loadState(await decodeState(hash))
+    }
+    setIsMounted(true)
+  })
 
   createEffect(() => {
     const chartType = getChartType()
     const xAxis = getXAxis()
     const yAxis = getYAxis()
     const isSm = getIsSm()
+    const canvas = getCanvas()
+    const isMounted = getIsMounted()
+    if (!isMounted || !canvas) {
+      return
+    }
 
     chart?.destroy()
     chart = new Chart(canvas, {
@@ -552,7 +570,12 @@ export default function ChartViewer() {
   return (
     <div class='h-dvh flex flex-col sm:flex-row'>
       <div class='grow h-full overflow-hidden p-1'>
-        <canvas ref={canvas} />
+        <Show when={getIsMounted()} fallback={<div class="w-full h-full flex justify-center items-center gap-2">
+          <Spinner class='w-8 h-8' />
+          <div class="text-slate-600">Loading JavaScript...</div>
+        </div>}>
+          <canvas ref={setCanvas} />
+        </Show>
       </div>
       <div class='h-auto sm:h-full'>
         <Settings getChart={() => chart!} />
