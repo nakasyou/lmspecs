@@ -1,0 +1,10 @@
+{
+  "$schema": "../../schema/_output/models/bench-hle.json",
+  "value": {
+    "overall": 11.1
+  },
+  "references": [{
+    "url": "https://huggingface.co/datasets/cais/hle",
+    "retrieved": "2025-03-30T11:45:40.597Z"
+  }]
+}

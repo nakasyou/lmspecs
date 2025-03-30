@@ -1,0 +1,10 @@
+{
+  "$schema": "../../schema/_output/models/bench-hle.json",
+  "value": {
+    "overall": 18.8
+  },
+  "references": [{
+    "url": "https://agi.safe.ai/",
+    "retrieved": "2025-03-30T11:45:40.597Z"
+  }]
+}

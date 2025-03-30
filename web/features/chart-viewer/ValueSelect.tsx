@@ -19,6 +19,7 @@ import { Dynamic } from 'solid-js/web'
 import lmarena, { LMArenaParams } from './values/Lmarena.tsx'
 import mmlu_pro, { MMLUProParams } from './values/MMLUPro.tsx'
 import pricing, { PricingParams } from './values/Pricing.tsx'
+import hle, { HLEParams } from './values/HLE.tsx'
 
 type GetValueFromKey<T extends [unknown, unknown], K> = T extends [K, infer V]
   ? V
@@ -60,12 +61,13 @@ export const VALUE_TYPES: {
   pricing,
   lmarena,
   mmlu_pro,
+  hle
 }
 
 export type ValueTypeData = ['lmarena', LMArenaParams] | [
   'mmlu_pro',
   MMLUProParams,
-] | ['pricing', PricingParams]
+] | ['pricing', PricingParams] | ['hle', HLEParams]
 
 function TypeCard(props: {
   value: ValueType<unknown>

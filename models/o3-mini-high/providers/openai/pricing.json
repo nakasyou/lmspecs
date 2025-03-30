@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../../schema/_output/provided/pricing.json",
+  "pricing": {
+    "2025-01-31": {
+      "references": [],
+      "value": [
+        {
+          "input": {
+            "USD": 1.1
+          },
+          "output": {
+            "USD": 4.4
+          },
+          "cachedInput": {
+            "USD": 0.55
+          }
+        }
+      ]
+    }
+  }
+}
