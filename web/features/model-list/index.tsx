@@ -15,6 +15,7 @@ import Fuse from 'fuse.js'
 import { createEffect } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { Select } from '../../components/Select.tsx'
+import { Dynamic } from 'solid-js/web'
 
 function FilterCheckBox(props: {
   children: string
@@ -44,6 +45,7 @@ type SortMode = 'A_TO_Z' | 'Z_TO_A' | 'NEW_TO_OLD' | 'OLD_TO_NEW' | 'MATCHED'
 
 function SeatchBox(props: {
   onResult: (results: string[]) => void
+  exclude?: string[]
 }) {
   const [getModels] = createResource(async () => {
     const models = (await Promise.all(
@@ -80,6 +82,7 @@ function SeatchBox(props: {
       }),
     )
   })
+  const getExclude = createMemo(() => new Set(props.exclude ?? []))
 
   const getFilteredModels = createMemo(() => {
     const models = getModels()
@@ -91,12 +94,12 @@ function SeatchBox(props: {
       // fetching data
       // advanced filter is disabled
       if (!query) {
-        return listModelIds()
+        return listModelIds().filter((id) => !getExclude().has(id))
       }
-      return fuse.search(query).map((r) => r.item)
+      return fuse.search(query).map((r) => r.item).filter((id) => !getExclude().has(id))
     }
     if (!advancedFuse) {
-      return listModelIds()
+      return listModelIds().filter((id) => !getExclude().has(id))
     }
     const filteredModels = new Set(
       models.filter((model) => {
@@ -164,6 +167,9 @@ function SeatchBox(props: {
     }
 
     return result.flatMap((r) => {
+      if (getExclude().has(r.meta.id)) {
+        return []
+      }
       if (filteredModels.has(r.meta.id)) {
         return r.meta.id
       }
@@ -177,34 +183,33 @@ function SeatchBox(props: {
 
   return (
     <div class='flex flex-col gap-2'>
-      <div class='flex gap-3 h-13'>
+      <div class='flex h-auto flex-col xs:h-13 xs:flex-row gap-3 min-w-0'>
         <div class='flex flex-col justify-between grow'>
           <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>
             SEARCH QUERY
           </div>
           <input
-            class='border p-1 rounded-lg border-uchu-gray-4'
+            class='border p-1 rounded-lg border-uchu-gray-4 min-w-0'
             placeholder='Search Models'
             value={getQuery()}
             onInput={(e) => setQuery(e.target.value)}
           />
         </div>
-
         <div class='shrink-0 flex flex-col justify-between'>
           <div class='text-xs font-bold text-gray-500 dark:text-gray-300'>
             SORT BY
           </div>
           <Select
             titles={{
-              A_TO_Z: 'name (A-Z)',
-              Z_TO_A: 'name (Z-A)',
+              A_TO_Z: 'A-Z',
+              Z_TO_A: 'Z-A',
               NEW_TO_OLD: 'Newest',
               OLD_TO_NEW: 'Oldest',
               MATCHED: 'Relevance',
             }}
             value='MATCHED'
             onChange={(v) => setSortMode(v)}
-            class='w-30'
+            class='w-25'
           />
         </div>
       </div>
@@ -248,21 +253,23 @@ function SeatchBox(props: {
     </div>
   )
 }
-export default function ModelList() {
+export default function ModelList(props: {
+  onClick?: (modelId: string) => void
+  exclude?: string[]
+}) {
   const [getFilteredModelIds, setFilteredModelIds] = createSignal<string[]>(
     listModelIds(),
   )
   return (
     <>
-      <div class='max-w-256 mx-auto flex flex-col gap-2'>
-        <div class='text-2xl text-slate-7000 font-bold'>Find models</div>
-        <SeatchBox onResult={setFilteredModelIds} />
-        <div class='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
+      <div class='flex flex-col gap-2'>
+        <SeatchBox exclude={props.exclude} onResult={setFilteredModelIds} />
+        <div class='shrink-0 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
           <For each={getFilteredModelIds()}>
             {(modelId) => (
-              <a href={`/model/${modelId}`}>
+              <Dynamic onClick={() => props.onClick?.(modelId)} component={props.onClick ? 'button' : 'a'} href={`/model/${modelId}`}>
                 <ModelCard id={modelId} />
-              </a>
+              </Dynamic>
             )}
           </For>
         </div>

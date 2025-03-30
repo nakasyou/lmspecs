@@ -1,8 +1,9 @@
 import { For } from 'solid-js'
-import { formatter } from './shared.ts'
+import { formatter, MODEL_PAGE_CONTEXT } from './shared.ts'
 import CopyButton from '../../components/CopyButton.tsx'
 import { Show } from 'solid-js'
 import { JSX } from 'solid-js'
+import { useContext } from 'solid-js'
 
 export function ModelSpec(props: {
   key: string
@@ -15,9 +16,13 @@ export function ModelSpec(props: {
   iconClass: string
   contentToCopy: string
 }) {
+  const [store] = useContext(MODEL_PAGE_CONTEXT)!
   return (
     <div class={'flex flex-col flex-1 ' + (props.class ?? '')}>
-      <div class='flex justify-between flex-col sm:flex-row gap-1'>
+      <div class='flex justify-between gap-1' classList={{
+        'flex-col sm:flex-row': !store.lineup,
+        'flex-col': store.lineup,
+      }}>
         <div class='flex gap-1 items-center'>
           <div
             class={'w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] ' +

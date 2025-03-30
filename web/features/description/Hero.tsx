@@ -19,12 +19,15 @@ export default function Hero() {
         <div class='flex items-center gap-2 flex-wrap justify-start'>
           <a
             href='/chart'
-            class='p-3 rounded-full bg-uchu-purple-5 hover:bg-uchu-purple-4 text-white font-bold'
+            class='flex items-center px-4 h-12 rounded-full bg-uchu-purple-5 hover:bg-uchu-purple-4 text-white font-bold'
           >
-            Open Chart Viewer
+            Open chart viewer
           </a>
-          <a href='/model' class='text-uchu-purple-5 hover:text-uchu-purple-4'>
-            or search models
+          <a
+            href='/model'
+            class='flex items-center border border-gray-300 px-4 h-12 hover:bg-gray-50 text-gray-700 rounded-full'
+          >
+            Search models
           </a>
         </div>
       </div>

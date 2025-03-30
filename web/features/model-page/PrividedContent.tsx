@@ -2,7 +2,7 @@ import type { ProviderData, Speed } from './index.tsx'
 import { createMemo, For, Show } from 'solid-js'
 import type { cond } from '../../../schema/provided/pricing.ts'
 import type { InferOutput } from 'valibot'
-import { formatter } from './shared.ts'
+import { formatter, MODEL_PAGE_CONTEXT } from './shared.ts'
 import { ModelSpec } from './ModelSpec.tsx'
 import { AbilityCard } from './AbilityCard.tsx'
 import { createResource } from 'solid-js'
@@ -11,6 +11,7 @@ import { onMount } from 'solid-js'
 import { createEffect } from 'solid-js'
 import { Switch } from 'solid-js'
 import { Match } from 'solid-js'
+import { useContext } from 'solid-js'
 
 function PricingCond(props: {
   cond: InferOutput<typeof cond>
@@ -137,7 +138,7 @@ const calcSpeedLevel = (tps: number): SpeedLevel => {
   return 'FASTEST'
 }
 
-function Speed(props: {
+function SpeedContent(props: {
   speed: Speed
 }) {
   const getTps = createMemo(() =>
@@ -176,16 +177,30 @@ function Speed(props: {
     step()
   })
 
+  const [store] = useContext(MODEL_PAGE_CONTEXT)!
+
   return (
     <>
       <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
-      <div class='flex flex-col sm:flex-row gap-2'>
+      <div
+        class='flex gap-2'
+        classList={{
+          'flex-col sm:flex-row': !store.lineup,
+          'flex-col h-95': store.lineup,
+        }}
+      >
         <div class='flex gap-1 w-60 shrink-0'>
           <div class='w-6 h-6 bg-slate-800 relative bottom-[2px] i-tabler-bolt' />
           <div class='font-bold text-slate-800'>Speed</div>
         </div>
-        <div class='grid grid-cols-2 grow'>
-          <div class='flex items-center'>
+        <div
+          class='grid grow gap-2'
+          classList={{
+            'grid-cols-1 md:grid-cols-2': !store.lineup,
+            'grid-cols-1': store.lineup,
+          }}
+        >
+          <div class='flex justify-center items-center'>
             <div class='flex flex-col items-center gap-1'>
               <div class='flex'>
                 <Switch>
@@ -241,6 +256,13 @@ function Speed(props: {
 export default function ProvidedContent(props: {
   data: ProviderData
 }) {
+  const [store] = useContext(MODEL_PAGE_CONTEXT)!
+  createEffect(() => {
+    store.setPricingCondLength?.(
+      Object.values(props.data.pricing?.pricing ?? {}).at(-1)?.value?.length ??
+        0,
+    )
+  })
   return (
     <div class='flex flex-col gap-4'>
       <ModelSpec
@@ -251,71 +273,19 @@ export default function ProvidedContent(props: {
       >
         {formatter.format(new Date(props.data.meta.provided_at.value))}
       </ModelSpec>
-      <Show when={Object.values(props.data.pricing?.pricing ?? {}).at(-1)}>
-        {(getPricing) => (
-          <>
-            <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
-            <div>
-              <div class='flex flex-col sm:flex-row gap-2'>
-                <div class='flex gap-1 w-60'>
-                  <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-moneybag' />
-                  <div class='font-bold text-slate-800 dark:text-slate-200'>Pricing</div>
-                </div>
-                <div class='grid grid-cols-1 md:grid-cols-2 gap-5 grow'>
-                  <Show when={getPricing().value.length === 1}>
-                    <div class='hidden md:block' />
-                  </Show>
-                  <For each={getPricing().value}>
-                    {(pricing) => (
-                      <div>
-                        <Show when={pricing.cond}>
-                          {(c) => (
-                            <div class='font-bold text-slate-700'>
-                              If <PricingCond cond={c()} />
-                            </div>
-                          )}
-                        </Show>
-
-                        <div class='flex gap-4'>
-                          <div class='flex flex-col'>
-                            <div class='text-sm text-slate-600 dark:text-slate-200'>Input</div>
-                            <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
-                              ${pricing.input.USD}
-                            </div>
-                          </div>
-                          <Show when={pricing.cachedInput?.USD}>
-                            <div class='h-6 w-[1px] bg-gray-300  hidden md:block self-center' />
-                            <div class='flex flex-col items-center'>
-                              <div class='text-sm text-slate-600 dark:text-slate-200'>
-                                Cache Read
-                              </div>
-                              <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
-                                ${pricing.cachedInput?.USD}
-                              </div>
-                            </div>
-                          </Show>
-                          <div class='h-6 w-[1px] bg-gray-300 hidden md:block self-center' />
-                          <div class='flex flex-col'>
-                            <div class='text-sm text-slate-600 dark:text-slate-200'>Output</div>
-                            <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
-                              ${pricing.output.USD}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </For>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </Show>
       <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
-      <div class='flex flex-col sm:flex-row gap-2'>
+      <div
+        class='flex gap-2'
+        classList={{
+          'flex-col sm:flex-row': !store.lineup,
+          'flex-col': store.lineup,
+        }}
+      >
         <div class='flex gap-1 w-60'>
           <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-sparkles' />
-          <div class='font-bold text-slate-800 dark:text-slate-200'>Features</div>
+          <div class='font-bold text-slate-800 dark:text-slate-200'>
+            Features
+          </div>
         </div>
         <div class='grow grid grid-cols-2 gap-2'>
           <AbilityCard
@@ -368,8 +338,98 @@ export default function ProvidedContent(props: {
           />
         </div>
       </div>
-      <Show when={props.data.speed}>
-        {(getSpeed) => <Speed speed={getSpeed()} />}
+      <Show
+        when={props.data.speed}
+        fallback={
+          <Show when={store.lineup}>
+      <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
+            <div class='h-95 grid place-items-center'>
+              <div class="text-slate-600 dark:text-slate-300 text-sm">
+                No speed data found for this model.
+              </div>
+            </div>
+          </Show>
+        }
+      >
+        {(getSpeed) => <SpeedContent speed={getSpeed()} />}
+      </Show>
+      <Show when={Object.values(props.data.pricing?.pricing ?? {}).at(-1)}>
+        {(getPricing) => (
+          <>
+            <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
+            <div>
+              <div
+                class='flex gap-2'
+                classList={{
+                  'flex-col sm:flex-row': !store.lineup,
+                  'flex-col': store.lineup,
+                }}
+              >
+                <div class='flex gap-1 w-60'>
+                  <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-moneybag' />
+                  <div class='font-bold text-slate-800 dark:text-slate-200'>
+                    Pricing
+                  </div>
+                </div>
+                <div
+                  class='grid gap-5 grow'
+                  classList={{
+                    'grid-cols-1 md:grid-cols-2': !store.lineup,
+                    'grid-cols-1': store.lineup,
+                  }}
+                >
+                  <Show when={getPricing().value.length === 1 && !store.lineup}>
+                    <div class='hidden md:block' />
+                  </Show>
+                  <For each={getPricing().value}>
+                    {(pricing) => (
+                      <div>
+                        <Show when={pricing.cond}>
+                          {(c) => (
+                            <div class='font-bold text-slate-700'>
+                              If <PricingCond cond={c()} />
+                            </div>
+                          )}
+                        </Show>
+
+                        <div class='flex gap-4'>
+                          <div class='flex flex-col'>
+                            <div class='text-sm text-slate-600 dark:text-slate-200'>
+                              Input
+                            </div>
+                            <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
+                              ${pricing.input.USD}
+                            </div>
+                          </div>
+                          <Show when={pricing.cachedInput?.USD}>
+                            <div class='h-6 w-[1px] bg-gray-300  hidden md:block self-center' />
+                            <div class='flex flex-col items-center'>
+                              <div class='text-sm text-slate-600 dark:text-slate-200'>
+                                Cache Read
+                              </div>
+                              <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
+                                ${pricing.cachedInput?.USD}
+                              </div>
+                            </div>
+                          </Show>
+                          <div class='h-6 w-[1px] bg-gray-300 hidden md:block self-center' />
+                          <div class='flex flex-col'>
+                            <div class='text-sm text-slate-600 dark:text-slate-200'>
+                              Output
+                            </div>
+                            <div class='text-lg font-mono font-bold text-slate-700 dark:text-slate-300'>
+                              ${pricing.output.USD}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </For>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </Show>
     </div>
   )

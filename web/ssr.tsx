@@ -11,6 +11,7 @@ export const paths = [
   '/',
   '/chart',
   '/model',
+  '/lineup',
   ...listModelIds().map(id => `/model/${id}`)
 ]
 

@@ -9,6 +9,7 @@ const Home = lazy(() => import('./pages/home/index.tsx'))
 const Chart = lazy(() => import('./pages/chart.tsx'))
 const Model = lazy(() => import('./pages/model/model-page.tsx'))
 const ModelList = lazy(() => import('./pages/model/index.tsx'))
+const Lineup = lazy(() => import('./pages/lineup.tsx'))
 
 function wrapPageForLoading(Component: () => JSX.Element) {
   return () => {
@@ -26,6 +27,7 @@ export default function App(props: {
       <Route path='/chart' component={wrapPageForLoading(Chart)} />
       <Route path='/model/:modelId' component={wrapPageForLoading(Model)} />
       <Route path='/model' component={wrapPageForLoading(ModelList)} />
+      <Route path='/lineup' component={wrapPageForLoading(Lineup)} />
     </Router>
   )
 }

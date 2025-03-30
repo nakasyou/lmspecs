@@ -14,7 +14,7 @@ import speedSchema from '../../../schema/provided/speed.ts'
 import CopyButton from '../../components/CopyButton.tsx'
 import { Select } from '../../components/Select.tsx'
 import { createEffect, createMemo, createSignal } from 'solid-js'
-import { formatter } from './shared.ts'
+import { formatter, type ModelPageStore, MODEL_PAGE_CONTEXT } from './shared.ts'
 import { ModelSpec } from './ModelSpec.tsx'
 import ProvidedContent from './PrividedContent.tsx'
 import { AbilityCard } from './AbilityCard.tsx'
@@ -22,11 +22,16 @@ import Spinner from '../../components/Spinner.tsx'
 import Title from '../../components/Title.tsx'
 import { getCompanyIcon, loadCompany } from '../../lib/lmspecs/new.ts'
 import huggingFaceIcon from '../../../assets/huggingface-icon/image.svg'
+import { createContext } from 'solid-js'
+import { createStore, SetStoreFunction, Store } from 'solid-js/store'
+import { useContext } from 'solid-js'
 
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
 export type Pricing = InferOutput<typeof pricingSchema>
 export type Speed = InferOutput<typeof speedSchema>
+
+
 
 const MODEL_INFO = import.meta.glob('../../../models/**/*')
 const ASSETS = import.meta.glob('../../../assets/*/*')
@@ -89,6 +94,50 @@ const fetchSpeed = async (
   return mod.default
 }
 
+const splitter = {
+  AlwaysX() {
+    return <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700' />
+  },
+  AlwaysY() {
+    return <div class='h-12 w-[1px] bg-gray-100 self-center dark:bg-gray-700' />
+  },
+  YOnlyMD() {
+    const [store] = useContext(MODEL_PAGE_CONTEXT)!
+    return (
+      <div
+        class='h-12 w-[1px] bg-gray-100 self-center dark:bg-gray-700'
+        classList={{
+          'hidden md:block': !store.lineup,
+          'hidden': store.lineup,
+        }}
+      />
+    )
+  },
+  YIfSMElseX() {
+    const [store] = useContext(MODEL_PAGE_CONTEXT)!
+    return (
+      <div
+        class='bg-gray-100 self-center dark:bg-gray-700'
+        classList={{
+          'h-[1px] w-full sm:h-12 sm:w-[1px]': !store.lineup,
+          'h-[1px] w-full': store.lineup,
+        }}
+      />
+    )
+  },
+  YIfMDElseX() {
+    const [store] = useContext(MODEL_PAGE_CONTEXT)!
+    return (
+      <div
+        class='bg-gray-100 self-center dark:bg-gray-700'
+        classList={{
+          'h-[1px] w-full md:h-12 md:w-[1px]': !store.lineup,
+          'h-[1px] w-full': store.lineup,
+        }}
+      />
+    )
+  },
+}
 function CreatedBy(props: {
   modelMeta: ModelMeta
 }) {
@@ -181,6 +230,27 @@ function Links(props: {
     </div>
   )
 }
+
+function Action(props: {
+  modelMeta: ModelMeta
+}) {
+  return (
+    <div class='flex h-full justify-center md:justify-end items-center gap-2'>
+      <a
+        href={`/lineup#${props.modelMeta.id}`}
+        class='grid place-items-center bg-uchu-purple-6 hover:bg-uchu-purple-5 text-gray-50 px-4 h-9 rounded-full'
+      >
+        Line up
+      </a>
+      <button
+        type='button'
+        class='border border-gray-300 px-4 h-9 hover:bg-gray-50 text-gray-700 rounded-full'
+      >
+        Plot
+      </button>
+    </div>
+  )
+}
 function ModelTitle(props: {
   modelMeta: ModelMeta
 }) {
@@ -189,11 +259,19 @@ function ModelTitle(props: {
     if (!id) return ''
     return getAssetURL(id)
   })
+  const [store] = useContext(MODEL_PAGE_CONTEXT)!
 
   return (
-    <div class='flex gap-4 flex-col sm:flex-row'>
-      <div class='flex flex-col gap-2'>
+    <div
+      class='flex gap-4'
+      classList={{
+        'flex-col sm:flex-row': !store.lineup,
+        'flex-col': store.lineup,
+      }}
+    >
+      <div class='flex flex-col gap-2 h-35'>
         <div>
+          <a href={`/model/${props.modelMeta.id}`}>
           <Suspense>
             <img
               crossorigin='anonymous'
@@ -201,6 +279,7 @@ function ModelTitle(props: {
               class='w-16 h-16'
             />
           </Suspense>
+          </a>
         </div>
         <div>
           <div class='flex gap-2 items-center justify-start'>
@@ -218,16 +297,18 @@ function ModelTitle(props: {
           </div>
         </div>
       </div>
-      <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
-      <div class='flex items-center'>
-        <CreatedBy modelMeta={props.modelMeta} />
-      </div>
-      <Show when={Object.keys(props.modelMeta.links ?? {}).length > 0}>
-        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
+      <splitter.YOnlyMD />
+      <div class='flex gap-4'>
         <div class='flex items-center'>
-          <Links modelMeta={props.modelMeta} />
+          <CreatedBy modelMeta={props.modelMeta} />
         </div>
-      </Show>
+        <Show when={Object.keys(props.modelMeta.links ?? {}).length > 0}>
+          <splitter.AlwaysY />
+          <div class='flex items-center'>
+            <Links modelMeta={props.modelMeta} />
+          </div>
+        </Show>
+      </div>
     </div>
   )
 }
@@ -288,8 +369,15 @@ function MultiModalitiesIcons(props: {
 function ModelSummary(props: {
   modelMeta: ModelMeta
 }) {
+  const [store] = useContext(MODEL_PAGE_CONTEXT)!
   return (
-    <div class='border justify-between border-uchu-gray-4 dark:border-uchu-gray-9 rounded-lg flex gap-2 p-3 flex-col sm:flex-row'>
+    <div
+      class='border justify-between border-uchu-gray-4 dark:border-uchu-gray-9 rounded-lg flex gap-2 p-3'
+      classList={{
+        'flex-col sm:flex-row': !store.lineup,
+        'flex-col h-60': store.lineup,
+      }}
+    >
       <div class='flex gap-2 flex-1'>
         <ModelSummaryCard
           title='CONTEXT WINDOW'
@@ -299,7 +387,7 @@ function ModelSummary(props: {
             {formatTokenUnit(props.modelMeta.token_limit?.input ?? 0)}
           </div>
         </ModelSummaryCard>
-        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
+        <splitter.YOnlyMD />
         <ModelSummaryCard
           title='LICENSE'
           shortDesc=''
@@ -309,7 +397,7 @@ function ModelSummary(props: {
           </div>
         </ModelSummaryCard>
       </div>
-      <div class='h-[1px] w-full sm:h-12 sm:w-[1px] bg-gray-100 self-center dark:bg-gray-700' />
+      <splitter.YIfSMElseX />
       <div class='flex gap-2 flex-1'>
         <ModelSummaryCard
           title='INPUT'
@@ -321,7 +409,7 @@ function ModelSummary(props: {
             />
           </div>
         </ModelSummaryCard>
-        <div class='h-12 w-[1px] bg-gray-100 hidden md:block self-center dark:bg-gray-700' />
+        <splitter.YOnlyMD />
         <ModelSummaryCard
           title='OUTPUT'
           shortDesc={props.modelMeta.multimodalities.output.join('・')}
@@ -372,10 +460,17 @@ function MultimodalityCard(props: {
 function ModelSpecs(props: {
   modelMeta: ModelMeta
 }) {
+  const [store] = useContext(MODEL_PAGE_CONTEXT)!
   return (
     <div class='flex flex-col gap-2'>
       <div class='flex flex-col gap-4'>
-        <div class='flex gap-4 flex-col md:flex-row'>
+        <div
+          class='flex gap-4'
+          classList={{
+            'flex-col md:flex-row': !store.lineup,
+            'flex-col': store.lineup,
+          }}
+        >
           <ModelSpec
             key='Published Date'
             iconClass='i-tabler-calendar-bolt'
@@ -384,11 +479,11 @@ function ModelSpecs(props: {
           >
             {formatter.format(new Date(props.modelMeta.published_at.value))}
           </ModelSpec>
-          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center dark:bg-gray-700' />
+          <splitter.YIfMDElseX />
           <ModelSpec
             key='Knowledge Cutoff'
             iconClass='i-tabler-database-off'
-            references={props.modelMeta.cutoff_date?.references}
+            references={props.modelMeta.cutoff_date?.references ?? []}
             contentToCopy={props.modelMeta.cutoff_date?.value ?? ''}
           >
             {props.modelMeta.cutoff_date
@@ -396,8 +491,14 @@ function ModelSpecs(props: {
               : 'Unknown'}
           </ModelSpec>
         </div>
-        <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
-        <div class='flex gap-4 flex-col md:flex-row'>
+        <splitter.AlwaysX />
+        <div
+          class='flex gap-4'
+          classList={{
+            'flex-col md:flex-row': !store.lineup,
+            'flex-col': store.lineup,
+          }}
+        >
           <ModelSpec
             iconClass='i-tabler-copyright'
             key='License'
@@ -406,7 +507,7 @@ function ModelSpecs(props: {
           >
             {props.modelMeta.license.value}
           </ModelSpec>
-          <div class='h-[1px] w-full md:h-12  md:w-[1px] bg-gray-300 self-center dark:bg-gray-700 ' />
+          <splitter.YIfMDElseX />
           <ModelSpec
             iconClass='i-tabler-weight'
             key='Model Size'
@@ -426,8 +527,14 @@ function ModelSpecs(props: {
             </Show>
           </ModelSpec>
         </div>
-        <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
-        <div class='flex gap-4 flex-col md:flex-row'>
+        <splitter.AlwaysX />
+        <div
+          class='flex gap-4'
+          classList={{
+            'flex-col md:flex-row': !store.lineup,
+            'flex-col': store.lineup,
+          }}
+        >
           <ModelSpec
             iconClass='i-tabler-book'
             key='Context Window'
@@ -438,7 +545,7 @@ function ModelSpecs(props: {
               {props.modelMeta.token_limit?.input} Tokens
             </div>
           </ModelSpec>
-          <div class='h-[1px] w-full md:h-12 md:w-[1px] bg-gray-300 self-center dark:bg-gray-700' />
+          <splitter.YIfMDElseX />
           <ModelSpec
             iconClass='i-tabler-pencil'
             key='Max Output Length'
@@ -454,16 +561,31 @@ function ModelSpecs(props: {
             </Show>
           </ModelSpec>
         </div>
-        <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
-        <div class='flex gap-4 flex-col md:flex-row'>
-          <div class='flex flex-col sm:flex-row gap-2 flex-1'>
+        <splitter.AlwaysX />
+        <div
+          class='flex gap-4'
+          classList={{
+            'flex-col md:flex-row': !store.lineup,
+            'flex-col': store.lineup,
+          }}
+        >
+          <div
+            class='flex gap-3 flex-1'
+            classList={{
+              'flex-col sm:flex-row': !store.lineup,
+              'flex-col': store.lineup,
+            }}
+          >
             <div class='flex gap-1 w-60'>
               <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-tournament' />
               <div class='font-bold text-slate-800 dark:text-slate-200'>
                 Multimodalities
               </div>
             </div>
-            <div class='grow grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2'>
+            <div class='grow grid gap-2' classList={{
+              'grid-cols-2 md:grid-cols-1 lg:grid-cols-2': !store.lineup,
+              'grid-cols-2': store.lineup,
+            }}>
               <MultimodalityCard
                 onIcon='i-tabler-notes'
                 offIcon='i-tabler-notes-off'
@@ -500,8 +622,14 @@ function ModelSpecs(props: {
               />
             </div>
           </div>
-          <div class='h-[1px] w-full md:h-12 md:w-[1px] bg-gray-300 self-center dark:bg-gray-700' />
-          <div class='flex flex-col sm:flex-row gap-2 flex-1'>
+          <splitter.YIfMDElseX />
+          <div
+            class='flex gap-3 flex-1'
+            classList={{
+              'flex-col sm:flex-row': !store.lineup,
+              'flex-col': store.lineup,
+            }}
+          >
             <div class='flex gap-1 w-60'>
               <div class='w-6 h-6 bg-slate-800 dark:bg-slate-200 relative bottom-[2px] i-tabler-sparkles' />
               <div class='font-bold text-slate-800 dark:text-slate-200'>
@@ -580,7 +708,7 @@ function ProvidedInfo(props: {
       when={getSelectedProvider()}
       fallback={
         <div class='flex flex-col gap-2'>
-          <div class='h-[1px] w-full bg-gray-200 dark:bg-gray-700 ' />
+          <splitter.AlwaysX />
           <div class='text-slate-600'>
             No providers which can provide this model was found in LMSpecs.
           </div>
@@ -610,16 +738,37 @@ function ProvidedInfo(props: {
   )
 }
 
-function ModelContent(props: {
+
+export function ModelContent(props: {
   modelMeta: ModelMeta
+  lineup?: boolean
+  setPricingCondLength?: (len: number) => void
 }) {
+  const store = createStore<ModelPageStore>({
+    lineup: !!props.lineup,
+    setPricingCondLength: props.setPricingCondLength, 
+  })
   return (
-    <div class='flex flex-col gap-4'>
-      <ModelTitle modelMeta={props.modelMeta} />
-      <ModelSummary modelMeta={props.modelMeta} />
-      <ModelSpecs modelMeta={props.modelMeta} />
-      <ProvidedInfo modelMeta={props.modelMeta} />
-    </div>
+    <MODEL_PAGE_CONTEXT.Provider value={store}>
+      <div class='flex flex-col gap-4'>
+        <div class='flex justify-between'>
+          <ModelTitle modelMeta={props.modelMeta} />
+          <Show when={!store[0].lineup}>
+            <div class='hidden md:block'>
+              <Action modelMeta={props.modelMeta} />
+            </div>
+          </Show>
+        </div>
+        <Show when={!store[0].lineup}>
+          <div class='block md:hidden'>
+            <Action modelMeta={props.modelMeta} />
+          </div>
+        </Show>
+        <ModelSummary modelMeta={props.modelMeta} />
+        <ModelSpecs modelMeta={props.modelMeta} />
+        <ProvidedInfo modelMeta={props.modelMeta} />
+      </div>
+    </MODEL_PAGE_CONTEXT.Provider>
   )
 }
 
