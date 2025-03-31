@@ -1,13 +1,13 @@
 import { ValueType } from '../ValueSelect.tsx'
 import { InferOutput } from 'valibot'
-import benchHle from '../../../../schema/models/bench-hle.ts'
-import hleLogo from '../../../../assets/hle-icon/image.svg'
+import mmmuProIcon from '../../../../assets/mmmu-pro-icon/image.png'
+import benchMmmuPro from '../../../../schema/models/bench-mmmu-pro.ts'
 
-export type HLEParams = undefined
+export type MMMUProParams = undefined
 
 function Setting(props: {
-  value?: HLEParams
-  onChange(id: HLEParams): void
+  value?: MMMUProParams
+  onChange(id: MMMUProParams): void
 }) {
   return (
     <>
@@ -16,21 +16,21 @@ function Setting(props: {
 }
 
 const IMPORTS = import.meta.glob(
-  '../../../../models/*/bench-hle.json',
+  '../../../../models/*/bench-mmmu-pro.json',
 )
 
-export type BenchHLE = InferOutput<typeof benchHle>
+export type BenchMMMUPro = InferOutput<typeof benchMmmuPro>
 
 export default {
-  title: "Humanity's Last Exam",
+  title: "MMMU Pro",
   image: (
     <img
-      src={hleLogo}
-      alt="Humanity's Last Exam"
+      src={mmmuProIcon}
+      alt="MMMU Pro"
     />
   ),
   description:
-    'A tough multimodal benchmark with 3,000 questions testing AI in math, humanities, and science. It challenges AI beyond standard benchmarks like MMLU as a final test of human-like reasoning.',
+    'MMMU-Pro is an enhanced MMMU benchmark that tests multimodal AI models\' reasoning with a three-step process and vision-only inputs. It reveals lower performance, with accuracies from 16.8% to 26.9%.',
   Setting,
   initParams: () => undefined,
   formatParams: (p) => 'overall',
@@ -39,12 +39,12 @@ export default {
       [modelId: string, [date: string, val: number | null][]] | null
     >[] = []
     for (const modelId of modelIds) {
-      const path = `../../../../models/${modelId}/bench-hle.json`
+      const path = `../../../../models/${modelId}/bench-mmmu-pro.json`
 
       if (path in IMPORTS) {
         promises.push((async () => {
           const imported = ((await IMPORTS[path]()) as {
-            default: BenchHLE
+            default: BenchMMMUPro
           }).default
 
           return [
@@ -61,4 +61,4 @@ export default {
     }
     return Object.fromEntries((await Promise.all(promises)).filter((v) => !!v))
   },
-} satisfies ValueType<HLEParams>
+} satisfies ValueType<MMMUProParams>
