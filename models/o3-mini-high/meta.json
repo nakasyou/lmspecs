@@ -1,7 +1,7 @@
 {
   "$schema": "../../schema/_output/models/meta.json",
-  "id": "o3-mini (high)",
-  "name": "o3-mini-high",
+  "id": "o3-mini-high",
+  "name": "o3-mini (high)",
   "creators": [
     "openai"
   ],

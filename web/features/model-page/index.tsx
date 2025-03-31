@@ -25,6 +25,7 @@ import huggingFaceIcon from '../../../assets/huggingface-icon/image.svg'
 import { createContext } from 'solid-js'
 import { createStore, SetStoreFunction, Store } from 'solid-js/store'
 import { useContext } from 'solid-js'
+import { encodeState } from '../chart-viewer/index.tsx'
 
 export type ModelMeta = InferOutput<typeof modelMetaSchema>
 export type ProvidedMeta = InferOutput<typeof providedMetaSchema>
@@ -243,8 +244,17 @@ function Action(props: {
         Line up
       </a>
       <button
+        onClick={async () => {
+          location.href = `/chart#${await encodeState({
+          yAxis: ['lmarena', 'text_overall'],
+          xAxis: ['mmlu_pro', 'overall'],
+          models: [props.modelMeta.id],
+          chartType: 'bar',
+          providers: []
+        })}`
+        }}
         type='button'
-        class='border border-gray-300 px-4 h-9 hover:bg-gray-50 text-gray-700 rounded-full'
+        class='border border-gray-300 px-4 h-9 dark:hover:bg-gray-800 dark:text-white hover:bg-gray-50 text-gray-700 rounded-full'
       >
         Plot
       </button>

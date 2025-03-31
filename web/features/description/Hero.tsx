@@ -25,7 +25,7 @@ export default function Hero() {
           </a>
           <a
             href='/model'
-            class='flex items-center border border-gray-300 px-4 h-12 hover:bg-gray-50 text-gray-700 rounded-full'
+            class='flex items-center border border-gray-300 px-4 h-12 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-white rounded-full'
           >
             Search models
           </a>
