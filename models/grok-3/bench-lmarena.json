@@ -300,6 +300,36 @@
       "text_no_tie": 1556.4930929912528,
       "text_no_short": 1404.3926705588892,
       "text_no_refusal": 1405.5065925868616
+    },
+    "2025-03-30": {
+      "text_french": 1391.1098341516995,
+      "text_overall_style_control": 1331.6816407854944,
+      "text_overall": 1401.6671073649845,
+      "text_creative_writing": 1413.1144522493607,
+      "text_creative_writing_style_control": 1354.1009127285963,
+      "text_coding": 1404.389137674466,
+      "text_coding_style_control": 1339.8664249760805,
+      "text_if": 1402.7377839372423,
+      "text_if_style_control": 1349.428818458528,
+      "text_math": 1346.3205732717765,
+      "text_math_style_control": 1309.170695003779,
+      "text_hard_6_style_control": 1329.3067379857982,
+      "text_hard_6": 1399.9135574843876,
+      "text_hard_english_6": 1385.980246629812,
+      "text_english": 1378.8813878527967,
+      "text_chinese": 1501.838507678865,
+      "text_multiturn": 1412.9903398739582,
+      "text_multiturn_style_control": 1351.4717802834361,
+      "text_long_user": 1422.497588348125,
+      "text_long_user_style_control": 1352.675578903529,
+      "text_german": 1393.6497678112955,
+      "text_spanish": 1426.1413933913898,
+      "text_russian": 1410.970466297711,
+      "text_japanese": 1494.3672177025953,
+      "text_korean": 1517.293816419169,
+      "text_no_tie": 1556.5651900885946,
+      "text_no_short": 1404.41560293385,
+      "text_no_refusal": 1405.469813695207
     }
   }
 }
