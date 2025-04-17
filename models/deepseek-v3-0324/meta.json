@@ -1,0 +1,52 @@
+{
+  "$schema": "../../schema/_output/models/meta.json",
+  "id": "deepseek-v3-0324",
+  "name": "DeepSeek V3 0324",
+  "creators": [
+    "deepseek"
+  ],
+  "published_at": {
+    "value": "2025-03-25",
+    "references": []
+  },
+  "states": {
+    "2025-03-25": [
+      "STABLE"
+    ]
+  },
+  "identifiers": {
+    "lmarena": "deepseek-v3-0324"
+  },
+  "logos": [
+    "deepseek-icon/image.svg"
+  ],
+  "license": {
+    "value": "MIT",
+    "references": []
+  },
+  "multimodalities": {
+    "input": [
+      "text"
+    ],
+    "output": [
+      "text"
+    ],
+    "references": []
+  },
+  "cutoff_date": {
+    "value": "2024-10",
+    "references": []
+  },
+  "token_limit": {
+    "input": 128000,
+    "output": null,
+    "references": []
+  },
+  "features": {
+    "value": [],
+    "references": []
+  },
+  "links": {
+    "huggingface": "https://huggingface.co/deepseek-ai/DeepSeek-V3-0324"
+  }
+}

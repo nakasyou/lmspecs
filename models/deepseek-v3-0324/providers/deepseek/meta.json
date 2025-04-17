@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../schema/_output/provided/meta.json",
+  "provider": "deepseek",
+  "provided_at": {
+    "value": "2024-03-25",
+    "references": []
+  },
+  "token_limit": {
+    "output": 64000,
+    "references": []
+  },
+  "features": {
+    "value": {
+      "fine_tuning": false,
+      "free_plan": false,
+      "function_calling": false,
+      "json_mode": false,
+      "prompt_caching": true,
+      "streaming": true
+    },
+    "references": [
+      {
+        "url": "https://api-docs.deepseek.com/quick_start/pricing",
+        "retrieved": "2025-03-28T01:54:04.548Z"
+      }
+    ]
+  }
+}
