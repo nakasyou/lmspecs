@@ -1,0 +1,34 @@
+name: Sync
+
+on:
+  schedule: 
+    - cron: '50 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2.0.2
+
+      - name: Sync
+        run: deno task sync:lmarena
+
+      - name: Push
+        run: |
+          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "65916846+actions-user@users.noreply.github.com"
+          if (git diff --shortstat | grep '[0-9]'); then \
+            git add .; \
+            git commit -m "Auto sync"; \
+            git push origin HEAD:${GITHUB_REF}; \
+          fi
